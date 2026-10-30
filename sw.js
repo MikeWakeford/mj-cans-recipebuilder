@@ -4,7 +4,7 @@
 // Strategy: the app's own files (same site) are fetched from the network first, so a new build shows up as soon as the
 // device is online, and the last copy is kept to open from when it isn't. Everything else (the Firebase database, fonts)
 // is not touched here. The recipes themselves are kept offline by the database's own cache, not by this file.
-const VERSION = '2026-10-30.094604';
+const VERSION = '2026-10-30.101130';
 const CACHE = 'mj-cans-' + VERSION;
 const CORE = ['./', 'index.html', 'manifest.webmanifest', 'icons/icon-192.png', 'icons/icon-512.png', 'icons/apple-touch-icon.png'];
 const NETWORK_WAIT_MS = 5000;  // on a poor connection, open the saved copy rather than wait longer than this
