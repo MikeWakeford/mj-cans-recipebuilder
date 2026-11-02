@@ -678,7 +678,7 @@ table.data tbody tr:hover { background: var(--surface-2); }
 
 /* Must come after the .print-sheet base rules above so these overrides win. */
 @media print {
-  .site-header, .site-footer, .no-print, .ro-bar, .ro-detail, .ro-pop, .ro-m, .ro-back, .toast, .modal-back, .db-banner, .install-banner, .auth-wrap, .btn { display: none !important; }
+  .site-header, .site-footer, .no-print, .ro-bar, .ro-detail, .ro-pop, .ro-m, .ro-back, .picker-back, .toast, .modal-back, .db-banner, .install-banner, .auth-wrap, .btn { display: none !important; }
   .screen-only { display: none !important; }
   body { background: #fff; color: #000; min-height: 0; font-size: 10pt; }
   main { padding: 0; max-width: none; }
@@ -841,6 +841,75 @@ table.data tbody tr:hover { background: var(--surface-2); }
 .ps-spirit-grid small { font-size: .78em; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; }
 .ps-spirit-grid span { font-variant-numeric: tabular-nums; }
 .ps-spirit p { margin: .4em 0 0; font-size: .82em; font-style: italic; color: #555; }
+
+/* ============ Ingredient pop-up (js/ui/ingredient-picker.js) ============ */
+/* the Add button under each section of the builder */
+.add-pick { display: flex; align-items: center; gap: 12px; width: 100%; margin-top: 10px; padding: 11px 14px; font: inherit; color: var(--text-2); text-align: left; cursor: pointer; background: transparent; border: 1.5px dashed var(--border-strong); border-radius: var(--radius-sm); transition: border-color .12s, background .12s, color .12s; }
+.add-pick:hover { border-color: var(--primary); background: var(--primary-soft); color: var(--text); }
+.add-pick:focus-visible { outline: 2px solid var(--primary); outline-offset: 2px; }
+.ap-icon { display: grid; place-items: center; flex: none; width: 30px; height: 30px; border-radius: 50%; color: var(--on-primary); background: var(--primary); }
+.ap-text { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.ap-text b { font: 600 14px var(--font-body); }
+.ap-text small { font-size: 12.5px; color: var(--muted); }
+.add-pick.empty { margin-top: 0; padding: 20px 16px; justify-content: center; text-align: left; }
+.add-pick.empty .ap-icon { width: 38px; height: 38px; }
+.add-pick.empty .ap-text b { font-size: 15px; color: var(--text); }
+.line-list:empty { display: none; }
+.line-list:not(:empty) + .add-pick { margin-top: 10px; }
+
+/* the pop-up: a centred dialog on desktop, a bottom sheet on a phone */
+.picker-back { display: flex; align-items: center; justify-content: center; padding: 24px 16px; animation: pk-fade .16s ease-out; }
+.modal-picker { display: flex; flex-direction: column; width: 100%; max-width: 780px; max-height: calc(100vh - 48px); padding: 0; overflow: hidden; outline: none; animation: pk-in .18s ease-out; }
+.modal-picker.wide { max-width: 1040px; }
+.pk-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; padding: 18px 22px 12px; flex: none; }
+.pk-head h3 { margin: 0; text-transform: uppercase; letter-spacing: .04em; }
+.pk-head small { display: block; margin-top: 3px; color: var(--muted); font-size: 13px; }
+.pk-body { flex: 1; min-height: 0; overflow-y: auto; padding: 4px 22px 18px; overscroll-behavior: contain; }
+.pk-foot { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex: none; padding: 12px 22px; background: var(--surface-2); border-top: 1px solid var(--border); }
+.pk-status { display: inline-flex; align-items: center; gap: 6px; min-height: 20px; font-size: 13.5px; color: var(--muted); }
+.pk-status.flash { color: var(--green); font-weight: 600; }
+.modal-picker .can-picker { margin-top: 0; grid-template-columns: repeat(auto-fill, minmax(108px, 1fr)); gap: 12px; }
+.modal-picker .can-tile { padding: 14px 8px 12px; gap: 8px; }
+.can-tile-sub { font-size: 11.5px; line-height: 1.3; color: var(--muted); text-align: center; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.modal-picker .yeast-picker { margin-top: 0; }
+/* the yeast filters and search stay put while the list scrolls under them */
+.modal-picker .yp-bar { position: sticky; top: -4px; z-index: 3; margin: 0 -22px; padding: 6px 22px 8px; background: var(--surface); box-shadow: 0 6px 8px -8px rgba(0,0,0,.25); }
+.addition-picker { display: flex; flex-direction: column; gap: 10px; }
+.ap-bar { position: sticky; top: -4px; z-index: 3; display: flex; gap: 10px; align-items: center; margin: 0 -22px; padding: 6px 22px 8px; background: var(--surface); box-shadow: 0 6px 8px -8px rgba(0,0,0,.25); }
+.ap-bar .search { flex: 1; min-width: 0; }
+.ap-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 340px), 1fr)); gap: 8px; }
+.ap-row { position: relative; display: grid; grid-template-columns: minmax(0, 1fr) auto auto; gap: 12px; align-items: center; padding: 10px 12px; text-align: left; font: inherit; color: var(--text); cursor: pointer; background: var(--surface); border: 1.5px solid var(--border); border-radius: var(--radius-sm); transition: border-color .12s, background .12s, transform .12s; }
+.ap-row:hover { border-color: var(--primary); transform: translateY(-1px); }
+.ap-row:focus-visible { outline: 2px solid var(--primary); outline-offset: 2px; }
+.ap-row.added { background: var(--primary-soft); border-color: var(--primary); }
+.ap-main b { display: block; font-size: 14px; }
+.ap-main small { display: -webkit-box; margin-top: 2px; font-size: 12px; line-height: 1.35; color: var(--muted); -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.ap-meta { font-size: 12px; line-height: 1.4; text-align: right; color: var(--text-2); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.ap-add { display: inline-flex; align-items: center; gap: 6px; color: var(--primary-strong); }
+.ap-add em { font: 700 11px/1 var(--font-body); font-style: normal; padding: 3px 6px; background: var(--surface); border: 1px solid var(--primary); border-radius: 99px; }
+@keyframes pk-fade { from { opacity: 0; } to { opacity: 1; } }
+@keyframes pk-in { from { opacity: 0; transform: translateY(10px) scale(.985); } to { opacity: 1; transform: none; } }
+@keyframes pk-up { from { transform: translateY(40px); opacity: .6; } to { transform: none; opacity: 1; } }
+@media (max-width: 720px) {
+  .picker-back { align-items: flex-end; padding: 0; }
+  .modal-picker, .modal-picker.wide { max-width: none; height: 92vh; max-height: 92vh; border-radius: 18px 18px 0 0; animation: pk-up .22s ease-out; }
+  .pk-head, .pk-body, .pk-foot { padding-left: 16px; padding-right: 16px; }
+  .modal-picker .yp-bar, .ap-bar { margin: 0 -16px; padding-left: 16px; padding-right: 16px; }
+  .modal-picker .can-picker { grid-template-columns: repeat(auto-fill, minmax(104px, 1fr)); gap: 10px; }
+  /* the yeast filters become one row you can swipe, so the list gets the room */
+  .modal-picker .yp-bar { flex-direction: column; flex-wrap: nowrap; align-items: stretch; gap: 8px; }
+  .modal-picker .yp-chips { flex-wrap: nowrap; overflow-x: auto; margin: 0 -16px; padding: 2px 16px; scrollbar-width: none; }
+  .modal-picker .yp-chips::-webkit-scrollbar { display: none; }
+  .modal-picker .yp-chip { flex: none; }
+  .modal-picker .yp-bar .search { max-width: none; flex: none; }
+  .pk-foot { padding-bottom: calc(12px + env(safe-area-inset-bottom)); }
+  .pk-done { min-width: 110px; }
+  .ap-bar { flex-wrap: wrap; }
+  .ap-row { grid-template-columns: minmax(0, 1fr) auto; }
+  .ap-meta { grid-column: 1 / 2; grid-row: 2; text-align: left; white-space: normal; }
+  .ap-add { grid-column: 2; grid-row: 1 / 3; }
+}
+@media (prefers-reduced-motion: reduce) { .picker-back, .modal-picker { animation: none; } }
 
 </style>
   <script>
@@ -2213,6 +2282,11 @@ window.MJ = window.MJ || {};
 (function () {
   const D = MJ.data;
   const K = D.constants;
+
+  // The cans are shown in this order everywhere (builder pop-up, Ingredients, filters), whatever order the workbook lists them in.
+  const CAN_ORDER = ['Lager', 'Pale Ale', 'IPA', 'Wheat', 'Brown Ale', 'Stout'];
+  const canRank = (c) => { const i = CAN_ORDER.indexOf(c.style); return i === -1 ? CAN_ORDER.length : i; };
+  D.cans.sort((a, b) => canRank(a) - canRank(b));
 
   const byKey = (list, key) => Object.fromEntries(list.map((x) => [x[key], x]));
   const cansByStyle = byKey(D.cans, 'style');
@@ -3927,6 +4001,119 @@ window.MJ = window.MJ || {};
 
 </script>
   <script>
+// The Recipe Builder's ingredient pop-up. Each section of the builder shows only what the recipe already has, with an
+// Add button under it (AddButton). The button opens a PickerDialog holding that section's choices (cans, enhancers, hops,
+// yeast, or the AdditionPicker list). The dialog stays open so several things can be added; each pick appears on the
+// page behind it straight away, and Done (or Escape, or a click outside) closes it.
+//   Desktop: a centred pop-up, wider for yeast.   Phone: a bottom sheet that fills most of the screen.
+// The builder renders the dialog itself (so the counts on the tiles follow the recipe live), see builder.js.
+window.MJ = window.MJ || {};
+
+(function () {
+  const { html, useState, useEffect, useRef, useMemo } = htmPreact;
+  const { Icon, SearchInput } = MJ.ui;
+
+  let dialogSeq = 0;
+  const FOCUSABLE = 'button:not([disabled]), input:not([disabled]), select, textarea, a[href], [tabindex]:not([tabindex="-1"])';
+
+  // ---------- the button under each section ----------
+  // Empty section: a large dashed block that says what to do. With items: a slim "add another" row.
+  function AddButton({ label, hint, empty, onClick }) {
+    return html`<button type="button" class=${'add-pick' + (empty ? ' empty' : '')} aria-haspopup="dialog" onClick=${onClick}>
+      <span class="ap-icon"><${Icon} name="plus" size=${empty ? 20 : 16} /></span>
+      <span class="ap-text"><b>${label}</b>${empty && hint && html`<small>${hint}</small>`}</span>
+    </button>`;
+  }
+
+  // ---------- the pop-up ----------
+  // title, hint: the heading. wide: more room (yeast). summary: what the footer says when nothing was just added.
+  // flash: { text } shows briefly in the footer after each pick. Focus moves in, is kept in, and returns to the button
+  // that opened it; the page behind doesn't scroll.
+  function PickerDialog({ title, hint, wide, summary, flash, onClose, children }) {
+    const rootRef = useRef(null);
+    const closeRef = useRef(onClose);
+    closeRef.current = onClose;
+    const id = useMemo(() => `pk-title-${++dialogSeq}`, []);
+
+    useEffect(() => {
+      const before = document.activeElement;
+      const overflow = document.body.style.overflow;
+      document.body.style.overflow = 'hidden';
+      const root = rootRef.current;
+      // Mouse and keyboard users start in the search box (or the first choice); on a touch screen that would open the
+      // keyboard over the list, so focus just goes to the dialog itself.
+      const touch = window.matchMedia && window.matchMedia('(pointer: coarse)').matches;
+      const first = !touch && (root.querySelector('.pk-body input[type="search"]') || root.querySelector('.pk-body button:not([disabled])'));
+      (first || root).focus({ preventScroll: true });
+      const onKey = (e) => {
+        // A pop-up on top of this one (custom addition, yeast details) gets the key first.
+        if (document.querySelector('.modal-back:not(.picker-back)')) return;
+        if (e.key === 'Escape') { e.preventDefault(); closeRef.current(); return; }
+        if (e.key !== 'Tab') return;
+        const items = [...root.querySelectorAll(FOCUSABLE)].filter((el) => el.offsetParent !== null);
+        if (!items.length) return;
+        const at = items.indexOf(document.activeElement);
+        if (e.shiftKey && (at <= 0)) { e.preventDefault(); items[items.length - 1].focus(); }
+        else if (!e.shiftKey && (at === -1 || at === items.length - 1)) { e.preventDefault(); items[0].focus(); }
+      };
+      document.addEventListener('keydown', onKey);
+      return () => {
+        document.removeEventListener('keydown', onKey);
+        document.body.style.overflow = overflow;
+        if (before && before.focus && document.contains(before)) before.focus({ preventScroll: true });
+      };
+    }, []);
+
+    return html`<div class="modal-back picker-back" onClick=${(e) => e.target === e.currentTarget && onClose()}>
+      <div class=${'modal modal-picker' + (wide ? ' wide' : '')} role="dialog" aria-modal="true" aria-labelledby=${id} ref=${rootRef} tabindex="-1">
+        <div class="pk-head">
+          <div><h3 id=${id}>${title}</h3>${hint && html`<small>${hint}</small>`}</div>
+          <button type="button" class="btn btn-ghost btn-icon pk-close" aria-label="Close" title="Close" onClick=${() => onClose()}><${Icon} name="x" /></button>
+        </div>
+        <div class="pk-body">${children}</div>
+        <div class="pk-foot">
+          <span class=${'pk-status' + (flash ? ' flash' : '')} role="status" aria-live="polite">${flash ? html`<${Icon} name="check" size=${14} /> ${flash.text}` : summary}</span>
+          <button type="button" class="btn btn-primary pk-done" onClick=${() => onClose()}>Done</button>
+        </div>
+      </div></div>`;
+  }
+
+  // ---------- additions: a searchable list ----------
+  const ADDITION_GROUPS = ['Simple sugar', 'Malt extract', 'Non-fermentable', 'Fruit', 'Other', 'Custom'];
+
+  // rows: [{ name, category, ppg, fermentability, notes }]; counts: { name: how many lines the recipe has }.
+  function AdditionPicker({ rows, counts, onAdd, onCustom }) {
+    const [query, setQuery] = useState('');
+    const words = query.toLowerCase().split(/\s+/).filter(Boolean);
+    const shown = rows.filter((r) => words.every((w) => `${r.name} ${r.category} ${r.notes}`.toLowerCase().includes(w)));
+    const cats = ADDITION_GROUPS.concat(rows.map((r) => r.category).filter((c) => !ADDITION_GROUPS.includes(c)));
+    const groups = [...new Set(cats)].map((c) => ({ c, list: shown.filter((r) => r.category === c) })).filter((g) => g.list.length);
+    return html`<div class="addition-picker">
+      <div class="ap-bar">
+        <${SearchInput} value=${query} onInput=${setQuery} placeholder="Search additions, e.g. honey" />
+        <button type="button" class="btn" onClick=${onCustom}><${Icon} name="plus" /> Custom addition</button>
+      </div>
+      <p class="yp-count muted" aria-live="polite">${shown.length} of ${rows.length} additions${query.trim() ? ` match “${query.trim()}”` : ''}</p>
+      ${groups.map((g) => html`<section class="yp-group" aria-label=${g.c}>
+        <h4 class="yp-heading">${g.c}</h4>
+        <div class="ap-list">${g.list.map((r) => html`<button type="button" class=${'ap-row' + (counts[r.name] ? ' added' : '')} aria-label=${`Add ${r.name}`} onClick=${() => onAdd(r)}>
+          <span class="ap-main"><b>${r.name}</b><small>${r.notes || r.category}</small></span>
+          <span class="ap-meta">${r.ppg > 0 ? html`${r.ppg} PPG<br />${Math.round(r.fermentability * 100)}% ferments` : 'no gravity'}</span>
+          <span class="ap-add">${counts[r.name] > 0 ? html`<em>×${counts[r.name]}</em>` : ''}<${Icon} name="plus" size=${14} /></span>
+        </button>`)}</div>
+      </section>`)}
+      ${shown.length === 0 && html`<div class="line-empty">No addition matches${query.trim() ? ` “${query.trim()}”` : ''}.
+        <button type="button" class="btn btn-sm" style="margin-left:8px" onClick=${onCustom}>Make it a custom addition</button></div>`}
+    </div>`;
+  }
+
+  MJ.ui.AddButton = AddButton;
+  MJ.ui.PickerDialog = PickerDialog;
+  MJ.ui.AdditionPicker = AdditionPicker;
+})();
+
+</script>
+  <script>
 // Install the app on a phone or desktop: registers the service worker (sw.js) and shows a "put it on your device"
 // banner the first time the site is opened, and again after a week if it still isn't installed.
 //
@@ -4689,7 +4876,7 @@ window.MJ = window.MJ || {};
 
 (function () {
   const { html, useState, useEffect, useMemo, useRef } = htmPreact;
-  const { Icon, Glass, Combobox, NumberInput, Stepper, Warnings, SearchInput, Readout, CanPicture, EnhancerPicture, HopPicture, YeastPicture, fmt } = MJ.ui;
+  const { Icon, Glass, Combobox, NumberInput, Stepper, Warnings, SearchInput, Readout, AddButton, PickerDialog, AdditionPicker, CanPicture, EnhancerPicture, HopPicture, YeastPicture, fmt } = MJ.ui;
   const D = MJ.data;
   const K = D.constants;
   const { compute, lookup, fmtRange } = MJ.calc;
@@ -4782,6 +4969,7 @@ window.MJ = window.MJ || {};
     ${items.map((it) => html`<button type="button" class=${'can-tile' + (it.count ? ' added' : '')} title=${`Add ${article(it.label)} ${it.label} ${noun}${it.hint ? ': ' + it.hint : ''}`} aria-label=${`Add ${article(it.label)} ${it.label} ${noun}`} onClick=${() => onAdd(it.value)}>
       ${picture(it)}
       <span class="can-tile-name">${it.label}</span>
+      ${it.sub && html`<span class="can-tile-sub">${it.sub}</span>`}
       ${it.count > 0 && html`<span class="can-tile-count">×${fmt.qty(it.count)}</span>`}</button>`)}
   </div>`;
   // ---------- yeast picker ----------
@@ -4903,6 +5091,14 @@ window.MJ = window.MJ || {};
     const [nameError, setNameError] = useState(false);
     const nameRef = useRef(null);
     const leaving = useRef(false);
+    // Which section's ingredient pop-up is open (null = none), and what it just added (shown briefly in its footer).
+    const [picker, setPicker] = useState(null);
+    const [flash, setFlash] = useState(null);
+    useEffect(() => {
+      if (!flash) return undefined;
+      const t = setTimeout(() => setFlash(null), 2200);
+      return () => clearTimeout(t);
+    }, [flash]);
 
     const dirty = !!(editingId && recipe && base && sameRecipe(recipe, base) === false);
     const dirtyRef = useRef(dirty);
@@ -4969,6 +5165,8 @@ window.MJ = window.MJ || {};
       });
     };
     const add = (kind, value) => setRecipe((r) => addLine(r, kind, value));
+    // From the pop-up: add it, and say so in the pop-up's footer.
+    const pick = (kind, value, label) => { add(kind, value); setFlash({ text: `Added ${label}`, n: Date.now() }); };
     const setFermTemp = (end, v) => setRecipe((r) => ({ ...r, fermTempAuto: false, fermTemp: { ...r.fermTemp, [end]: v } }));
     const lineFor = (kind, i) => {
       // result lines skip zero/invalid entries, so match by identity
@@ -5024,12 +5222,21 @@ window.MJ = window.MJ || {};
     const canItems = D.cans.map((c) => ({ value: c.style, label: c.style }));
     const enhItems = D.enhancers.map((e) => ({ value: e.code, label: e.name }));
     const hopItems = D.hops.map((h) => ({ value: h.name, label: h.name, hint: `${h.flavour} (${h.components.map((c) => c.hop).join(', ')})` }));
-    const sharedByName = new Map(sharedAdditions.map((a) => [a.name, a]));
-    const addOptions = [{ value: '__custom', label: '＋ Custom addition…', hint: 'not listed' }]
-      .concat(D.additions.map((a) => ({ value: a.name, label: a.name, hint: (sharedByName.get(a.name) || a).category })))
-      .concat(sharedAdditions.slice().sort((x, y) => x.name.localeCompare(y.name)).filter((a) => !D.additions.some((d) => d.name === a.name))
-        .map((a) => ({ value: a.name, label: a.name, hint: `${a.category} · added` })));
-    // "Custom" and the dropdown's custom entry: a pop-up with a Save addition tick box (ticked = shared with everyone).
+    // The additions list in the pop-up: the workbook's, then the team's own, each with its gravity figures.
+    const additionRows = D.additions.map((a) => a.name).concat(sharedAdditions.map((a) => a.name).filter((n) => !D.additions.some((d) => d.name === n)))
+      .map((name) => { const sp = MJ.calc.additionSpec({ name }); return sp && { name, category: sp.category || 'Other', ppg: sp.ppg, fermentability: sp.fermentability, notes: sp.notes || '' }; }).filter(Boolean);
+    const additionCounts = recipe.additions.reduce((o, a) => { o[a.name] = (o[a.name] || 0) + 1; return o; }, {});
+    const PICKS = {
+      cans: { title: 'Add a malt extract can', hint: `${K.canKg} kg hopped malt extract per can · pick as many as you like`, noun: 'can', n: () => recipe.cans.reduce((t, c) => t + (Number(c.qty) || 0), 0) },
+      enhancers: { title: 'Add a beer enhancer', hint: `${K.enhKg} kg per sachet · malt extract + dextrose`, noun: 'enhancer sachet', n: () => recipe.enhancers.reduce((t, c) => t + (Number(c.qty) || 0), 0) },
+      hops: { title: 'Add a dry hop blend', hint: `${K.hopSachetG} g blend per sachet · aroma only, negligible IBU`, noun: 'hop sachet', n: () => recipe.hops.reduce((t, c) => t + (Number(c.qty) || 0), 0) },
+      yeasts: { title: 'Choose a yeast', hint: '10 g sachets · add more than one strain if you like', wide: true, noun: 'yeast sachet', n: () => recipe.yeasts.reduce((t, c) => t + (Number(c.qty) || 0), 0) },
+      additions: { title: 'Add an addition', hint: 'Sugars, extracts, fruit, spices · pick from the list or add your own', noun: 'addition', n: () => recipe.additions.length },
+    };
+    const pickInfo = picker ? PICKS[picker] : null;
+    const pickCount = pickInfo ? pickInfo.n() : 0;
+    const pickSummary = pickInfo ? (pickCount > 0 ? `${fmt.qty(pickCount)} ${pickInfo.noun}${pickCount === 1 ? '' : 's'} in your recipe` : 'Nothing added yet') : '';
+    // "Custom addition": a pop-up with a Save addition tick box (ticked = shared with everyone).
     const openCustom = async () => {
       const res = await MJ.additionDialog({ builder: true });
       if (!res) return;
@@ -5140,7 +5347,6 @@ window.MJ = window.MJ || {};
 
           <${Section} title="Malt extract cans" hint=${`${K.canKg} kg hopped malt extract per can`}>
             <div class="line-list">
-              ${recipe.cans.length === 0 && html`<div class="line-empty">No cans yet. Pick a base below.</div>`}
               ${recipe.cans.map((c, i) => {
                 const l = lineFor('cans', i);
                 return html`<${Line} key=${'c' + i} title=${`${c.style} can`} thumb=${html`<${CanPicture} style=${c.style} width=${34} />`} onRemove=${() => removeLine('cans', i, `${c.style} can`)}
@@ -5148,13 +5354,11 @@ window.MJ = window.MJ || {};
                   qty=${html`<${Stepper} label=${`${c.style} cans`} value=${c.qty} step=${1} onChange=${(v) => setLine('cans', i, { qty: v })} />`} />`;
               })}
             </div>
-            <${PicturePicker} items=${canItems.map((it) => ({ ...it, count: countOf(recipe.cans, 'style', it.value) }))} onAdd=${(v) => add('cans', v)}
-              noun="can" groupLabel="Add a can" picture=${(it) => html`<${CanPicture} style=${it.value} width=${46} />`} />
+            <${AddButton} empty=${recipe.cans.length === 0} label=${recipe.cans.length ? 'Add another can' : 'Add a can'} hint="Pick a base for your beer" onClick=${() => setPicker('cans')} />
           </${Section}>
 
           <${Section} title="Beer enhancer sachets" hint=${`${K.enhKg} kg per sachet · malt extract + dextrose`}>
             <div class="line-list">
-              ${recipe.enhancers.length === 0 && html`<div class="line-empty">No enhancer sachets. Optional, but they lift gravity and body.</div>`}
               ${recipe.enhancers.map((e, i) => {
                 const l = lineFor('enhancers', i);
                 const name = lookup.enhByCode[e.type] ? lookup.enhByCode[e.type].name : e.type;
@@ -5163,13 +5367,11 @@ window.MJ = window.MJ || {};
                   qty=${html`<${Stepper} label="sachets" value=${e.qty} step=${1} onChange=${(v) => setLine('enhancers', i, { qty: v })} />`} />`;
               })}
             </div>
-            <${PicturePicker} items=${enhItems.map((it) => ({ ...it, count: countOf(recipe.enhancers, 'type', it.value) }))} onAdd=${(v) => add('enhancers', v)}
-              noun="enhancer sachet" groupLabel="Add an enhancer sachet" picture=${(it) => html`<${EnhancerPicture} code=${it.value} width=${52} />`} />
+            <${AddButton} empty=${recipe.enhancers.length === 0} label=${recipe.enhancers.length ? 'Add another enhancer' : 'Add an enhancer'} hint="Optional, but they lift gravity and body" onClick=${() => setPicker('enhancers')} />
           </${Section}>
 
           <${Section} title="Hop sachets (dry hop)" hint=${`${K.hopSachetG} g blend per sachet · aroma only, negligible IBU`}>
             <div class="line-list">
-              ${recipe.hops.length === 0 && html`<div class="line-empty">No dry hops. Add a blend for aroma.</div>`}
               ${recipe.hops.map((h, i) => {
                 const spec = lookup.hopByName[h.blend];
                 const comps = MJ.calc.hopBreakdown(h.blend, h.qty);
@@ -5179,13 +5381,11 @@ window.MJ = window.MJ || {};
                   ${spec && html`<small class="muted" style="display:block">${spec.flavour}</small>`}</${Line}>`;
               })}
             </div>
-            <${PicturePicker} items=${hopItems.map((it) => ({ ...it, count: countOf(recipe.hops, 'blend', it.value) }))} onAdd=${(v) => add('hops', v)}
-              noun="hop blend" groupLabel="Add a hop blend" picture=${(it) => html`<${HopPicture} blend=${it.value} width=${46} />`} />
+            <${AddButton} empty=${recipe.hops.length === 0} label=${recipe.hops.length ? 'Add another hop blend' : 'Add a hop blend'} hint="Dry hop for aroma" onClick=${() => setPicker('hops')} />
           </${Section}>
 
           <${Section} title="Yeast" hint="10 g sachets · add more than one strain if you like">
             <div class="line-list">
-              ${recipe.yeasts.length === 0 && html`<div class="line-empty">No yeast yet. FG and ABV need at least one strain.</div>`}
               ${recipe.yeasts.map((y, i) => {
                 const spec = lookup.yeastByCode[y.code];
                 const name = spec ? `${spec.code} ${spec.name}` : y.code;
@@ -5194,23 +5394,16 @@ window.MJ = window.MJ || {};
                   qty=${html`<${Stepper} label="sachets" value=${y.qty} step=${1} onChange=${(v) => setLine('yeasts', i, { qty: v })} />`} />`;
               })}
             </div>
-            <${YeastPicker} yeasts=${D.yeasts} counts=${Object.fromEntries(D.yeasts.map((y) => [y.code, countOf(recipe.yeasts, 'code', y.code)]))} onAdd=${(code) => add('yeasts', code)} />
+            <${AddButton} empty=${recipe.yeasts.length === 0} label=${recipe.yeasts.length ? 'Add another yeast' : 'Add a yeast'} hint="FG and ABV need at least one strain" onClick=${() => setPicker('yeasts')} />
           </${Section}>
 
           <${Section} title="Additions" hint="Sugars, extracts, fruit, spices. Pick from the list or add your own">
             <div class="line-list">
-              ${recipe.additions.length === 0 && html`<div class="line-empty">No additions. Try dextrose for a drier, stronger beer, or add a custom ingredient.</div>`}
               ${recipe.additions.map((a, i) => html`<${AdditionLine} key=${'a' + i + a.name} a=${a}
                 line=${result.lines.additions.find((l) => l.label === (a.name || 'Custom addition') && Math.abs(l.kg - a.kg) < 1e-9)}
                 onChange=${(next) => replaceLine('additions', i, next)} onRemove=${() => removeLine('additions', i, a.name || 'addition')} />`)}
             </div>
-            <div class="picker"><span>Add an addition</span>
-              <div class="add-row" style="margin-top:0">
-                <${Combobox} options=${addOptions} clearOnSelect placeholder="Select an addition…"
-                  onChange=${(v) => (v === '__custom' ? openCustom() : add('additions', v))} />
-                <button class="btn" onClick=${openCustom}><${Icon} name="plus" /> Custom</button>
-              </div>
-            </div>
+            <${AddButton} empty=${recipe.additions.length === 0} label=${recipe.additions.length ? 'Add another addition' : 'Add an addition'} hint="Try dextrose for a drier, stronger beer, or add your own" onClick=${() => setPicker('additions')} />
           </${Section}>
 
           <${Section} title="Fermentation & conditioning"
@@ -5247,6 +5440,17 @@ window.MJ = window.MJ || {};
           </div>
         </div>
       </div>
+      ${picker && html`<${PickerDialog} key=${picker} title=${pickInfo.title} hint=${pickInfo.hint} wide=${pickInfo.wide} summary=${pickSummary} flash=${flash} onClose=${() => { setPicker(null); setFlash(null); }}>
+        ${picker === 'cans' && html`<${PicturePicker} items=${canItems.map((it) => ({ ...it, sub: lookup.cansByStyle[it.value] ? `${lookup.cansByStyle[it.value].ibuMid} IBU · ${lookup.cansByStyle[it.value].ebcMid} EBC` : '', count: countOf(recipe.cans, 'style', it.value) }))}
+          onAdd=${(v) => pick('cans', v, `${v} can`)} noun="can" groupLabel="Choose a can" picture=${(it) => html`<${CanPicture} style=${it.value} width=${68} />`} />`}
+        ${picker === 'enhancers' && html`<${PicturePicker} items=${enhItems.map((it) => ({ ...it, count: countOf(recipe.enhancers, 'type', it.value) }))}
+          onAdd=${(v) => pick('enhancers', v, (lookup.enhByCode[v] || {}).name || v)} noun="enhancer sachet" groupLabel="Choose an enhancer sachet" picture=${(it) => html`<${EnhancerPicture} code=${it.value} width=${72} />`} />`}
+        ${picker === 'hops' && html`<${PicturePicker} items=${hopItems.map((it) => ({ ...it, sub: (lookup.hopByName[it.value] || {}).flavour || '', count: countOf(recipe.hops, 'blend', it.value) }))}
+          onAdd=${(v) => pick('hops', v, `${v} hops`)} noun="hop blend" groupLabel="Choose a hop blend" picture=${(it) => html`<${HopPicture} blend=${it.value} width=${64} />`} />`}
+        ${picker === 'yeasts' && html`<${YeastPicker} yeasts=${D.yeasts} counts=${Object.fromEntries(D.yeasts.map((y) => [y.code, countOf(recipe.yeasts, 'code', y.code)]))}
+          onAdd=${(code) => pick('yeasts', code, `${code} ${(lookup.yeastByCode[code] || {}).name || ''}`.trim())} />`}
+        ${picker === 'additions' && html`<${AdditionPicker} rows=${additionRows} counts=${additionCounts} onAdd=${(r) => pick('additions', r.name, r.name)} onCustom=${openCustom} />`}
+      </${PickerDialog}>`}
     </div>`;
   }
 
