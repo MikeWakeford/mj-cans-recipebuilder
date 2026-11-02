@@ -393,7 +393,7 @@ table.data tbody tr:hover { background: var(--surface-2); }
 .chips { display: flex; flex-wrap: wrap; gap: 6px; }
 
 /* ============ Builder ============ */
-.builder { display: grid; grid-template-columns: minmax(0, 1fr) 360px; gap: 22px; align-items: start; }
+.builder { display: grid; grid-template-columns: minmax(0, 1fr); gap: 22px; align-items: start; }
 .builder-form > .card + .card { margin-top: 16px; }
 .form-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 220px), 1fr)); gap: 14px; }
 .form-grid .wide { grid-column: 1 / -1; }
@@ -418,25 +418,13 @@ table.data tbody tr:hover { background: var(--surface-2); }
 .unit-toggle button.on { background: var(--primary); color: var(--on-primary); }
 
 /* Stats panel */
-.stats-panel { position: sticky; top: 84px; }
-.stats-hero { display: flex; gap: 16px; align-items: center; padding: 18px 20px; background: linear-gradient(160deg, var(--header-2), var(--header)); color: var(--header-text); border-radius: var(--radius) var(--radius) 0 0; }
-.stats-hero h3 { font-size: 1.15rem; text-transform: uppercase; letter-spacing: .06em; }
-.stats-hero small { color: #b4ad9f; }
 .glass { width: 62px; flex-shrink: 0; }
-.stats-section { padding: 14px 18px; border-bottom: 1px solid var(--border); }
-.stats-section:last-child { border-bottom: 0; }
-.stats-section h4 { font: 600 11.5px/1 var(--font-body); letter-spacing: .12em; text-transform: uppercase; color: var(--muted); margin-bottom: 10px; }
-.breakdown { display: flex; height: 10px; border-radius: 99px; overflow: hidden; background: var(--surface-3); margin-bottom: 8px; }
-.breakdown span { display: block; height: 100%; }
-.legend { display: flex; flex-wrap: wrap; gap: 4px 12px; font-size: 12px; color: var(--text-2); }
-.legend i { display: inline-block; width: 9px; height: 9px; border-radius: 3px; margin-right: 5px; vertical-align: -1px; }
 .warnings { display: flex; flex-direction: column; gap: 6px; }
 .warn-item { font-size: 12.8px; padding: 8px 10px; border-radius: 8px; display: flex; gap: 8px; align-items: flex-start; line-height: 1.4; }
 .warn-item.warn { background: var(--copper-soft); color: var(--copper); }
 .warn-item.info { background: var(--blue-soft); color: var(--blue); }
 .warn-item.error { background: var(--surface-2); color: var(--muted); }
 .warn-item svg { flex-shrink: 0; margin-top: 1px; }
-.mobile-stats { display: none; }
 
 /* ============ Recipes ============ */
 .filters { display: grid; grid-template-columns: minmax(220px, 2fr) repeat(4, minmax(150px, 1fr)); gap: 10px; margin-bottom: 18px; }
@@ -454,7 +442,7 @@ table.data tbody tr:hover { background: var(--surface-2); }
 .empty-state .glass { width: 90px; margin: 0 auto 18px; }
 .empty-state h2 { margin-bottom: 8px; }
 .empty-state p { color: var(--text-2); max-width: 460px; margin: 0 auto 20px; }
-.detail { display: grid; grid-template-columns: minmax(0, 1fr) 340px; gap: 22px; align-items: start; }
+.detail { display: grid; grid-template-columns: minmax(0, 1fr); gap: 22px; align-items: start; }
 .detail-hero { display: flex; gap: 22px; align-items: center; padding: 26px; background: linear-gradient(160deg, var(--header-2), var(--header)); color: var(--header-text); border-radius: var(--radius); margin-bottom: 18px; flex-wrap: wrap; }
 .detail-hero h1 { color: #fff; }
 .detail-hero .glass { width: 74px; }
@@ -531,24 +519,14 @@ table.data tbody tr:hover { background: var(--surface-2); }
 .db-status.err { color: var(--red); }
 .spinner { width: 34px; height: 34px; margin: 0 auto 14px; border-radius: 50%; border: 3px solid var(--surface-3); border-top-color: var(--primary); animation: spin .8s linear infinite; }
 @keyframes spin { to { transform: rotate(360deg); } }
-.site-footer { max-width: 1320px; margin: 0 auto; padding: 0 20px 40px; color: var(--muted); font-size: 12.5px; display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+.site-footer { max-width: 1320px; margin: 0 auto; padding: 0 20px 40px; color: var(--muted); font-size: 12.5px; display: flex; justify-content: flex-end; gap: 12px; flex-wrap: wrap; }
 
 /* ============ Responsive ============ */
 @media (max-width: 1080px) {
   .builder, .detail { grid-template-columns: minmax(0, 1fr); }
-  .stats-panel { position: static; }
   .filters { grid-template-columns: 1fr 1fr; }
   .filters > :first-child { grid-column: 1 / -1; }
-  .mobile-stats {
-    display: flex; position: fixed; left: 0; right: 0; bottom: 0; z-index: 35; gap: 4px; align-items: center;
-    background: var(--header); color: var(--header-text); padding: 10px 16px; border-top: 3px solid var(--primary);
-    justify-content: space-between; font-variant-numeric: tabular-nums;
-  }
-  .mobile-stats div { text-align: center; flex: 1; min-width: 0; }
-  .mobile-stats b { display: block; font: 600 16px/1 var(--font-display); }
-  .mobile-stats small { font-size: 9.5px; letter-spacing: .1em; color: #b4ad9f; }
-  .mobile-stats .dot { width: 26px; height: 26px; border-radius: 50%; border: 2px solid rgba(255,255,255,.3); }
-  main.has-mobile-stats { padding-bottom: 110px; }
+  main.has-mobile-stats { padding-bottom: 120px; }
 }
 @media (max-width: 720px) {
   .header-inner { flex-wrap: wrap; padding: 8px 16px 0; gap: 10px; }
@@ -568,9 +546,6 @@ table.data tbody tr:hover { background: var(--surface-2); }
   .detail-hero { padding: 18px; }
   .page-actions { align-items: stretch; width: 100%; }
   .page-actions .row { justify-content: flex-end; }
-  .mobile-stats { padding: 10px 10px; }
-  .mobile-stats b { font-size: 14px; }
-  .mobile-stats .dot { width: 20px; height: 20px; flex-shrink: 0; }
 }
 /* The longer name needs the room on tablet widths, so its small second line gives way to the menu first. */
 @media (max-width: 860px) { .brand-text span { display: none; } }
@@ -580,15 +555,8 @@ table.data tbody tr:hover { background: var(--surface-2); }
   .nav { order: 3; width: 100%; margin: 0 -4px; padding-bottom: 6px; }
   .theme-slot { margin-left: auto; }
 }
-@media (max-width: 420px) {
-  .mobile-stats .opt { display: none; }
-}
 
-/* Recipe detail: batch volume strip + EBC colour bar inside the stats card */
-.batch-strip { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; padding: 14px 20px; border-bottom: 1px solid var(--border); background: var(--primary-soft); }
-.batch-strip span { font: 600 11.5px/1 var(--font-body); letter-spacing: .12em; text-transform: uppercase; color: var(--text-2); }
-.batch-strip b { font: 600 38px/1 var(--font-display); letter-spacing: .01em; font-variant-numeric: tabular-nums; color: var(--text); }
-.batch-strip em { font: 600 13px var(--font-body); font-style: normal; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); margin-left: 6px; }
+/* EBC colour bar */
 .colour-bar { font-size: 12px; }
 .cb-head { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 12px; }
 .cb-head span { font: 600 11.5px/1 var(--font-body); letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
@@ -651,45 +619,6 @@ table.data tbody tr:hover { background: var(--surface-2); }
 .ps-kv small { font-size: .8em; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; }
 .ps-foot { display: flex; justify-content: space-between; gap: 1em; margin-top: 1.1em; padding-top: .5em; border-top: .06em solid #bbb; font-size: .78em; color: #666; }
 
-/* ============ Recipe stats bars ============ */
-.recipe-stats { padding-top: 18px; }
-.rs-head { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
-.recipe-stats .rs-head h4 { margin: 0; font: 600 23px/1 var(--font-display); letter-spacing: .03em; text-transform: uppercase; color: var(--primary-strong); }
-.rs-info { display: grid; color: var(--muted); cursor: help; }
-.rs-sub { margin-top: 6px; font: 600 12.5px/1.25 var(--font-body); letter-spacing: .08em; text-transform: uppercase; color: var(--text-2); }
-.stat-bars { display: flex; flex-direction: column; gap: 17px; margin-top: 16px; }
-.sb-head { display: flex; align-items: baseline; gap: 9px; min-width: 0; }
-.sb-label { font: 600 15px/1 var(--font-display); letter-spacing: .08em; text-transform: uppercase; }
-.sb-ref { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 11.5px; color: var(--muted); font-variant-numeric: tabular-nums; }
-.sb-right { display: flex; align-items: center; gap: 8px; margin-left: auto; }
-.sb-chip { padding: 3px 7px; border-radius: 99px; font: 700 11px/1 var(--font-body); white-space: nowrap; color: var(--tone); background: var(--tone-soft); font-variant-numeric: tabular-nums; }
-.sb-val { font: 600 21px/1 var(--font-display); letter-spacing: .02em; font-variant-numeric: tabular-nums; }
-.sb-track { position: relative; height: 10px; margin-top: 11px; border-radius: 99px; background: var(--surface-3); }
-.sb-band, .lg-band { background: #4f9bbd; }
-.sb-band { position: absolute; top: 0; bottom: 0; border-radius: 99px; }
-.sb-target { position: absolute; top: -4px; bottom: -4px; width: 2px; margin-left: -1px; border-radius: 1px; background: var(--text); opacity: .8; }
-.sb-marker {
-  position: absolute; top: -5px; width: 7px; height: 20px; margin-left: -3.5px; border-radius: 4px; background: var(--mk);
-  box-shadow: 0 0 0 2px var(--surface), 0 1px 4px rgba(0,0,0,.25); transition: left .3s cubic-bezier(.3,.7,.3,1), background .2s;
-}
-.rs-extra { display: grid; grid-template-columns: auto 1fr; gap: 9px 14px; margin-top: 20px; font-size: 14px; }
-.rs-extra span { font-weight: 600; }
-.rs-extra b { text-align: right; font-weight: 500; font-variant-numeric: tabular-nums; }
-.rs-legend { display: flex; flex-wrap: wrap; gap: 6px 16px; margin-top: 16px; font-size: 11.5px; color: var(--muted); }
-.rs-legend span { display: inline-flex; align-items: center; gap: 6px; }
-.lg-band { display: inline-block; width: 20px; height: 8px; border-radius: 99px; }
-.lg-mark { display: inline-block; width: 6px; height: 13px; border-radius: 3px; background: var(--green); }
-.lg-tick { display: inline-block; width: 2px; height: 13px; background: var(--text); opacity: .8; }
-.rs-hint { margin: 14px 0 0; font-size: 12.5px; color: var(--muted); }
-
-/* The EBC bar is the real beer-colour spectrum: the style range is an outlined bracket, the target (clones) a light tick. */
-.sb-track.spectrum { height: 13px; background-color: var(--surface-3); box-shadow: inset 0 0 0 1px rgba(0,0,0,.18); }
-.spectrum .sb-band { top: -2px; bottom: -2px; border-radius: 5px; background: rgba(255,255,255,.3); border: 2px solid #4f9bbd; box-shadow: 0 0 0 1px rgba(255,255,255,.75); }
-.spectrum .sb-target { background: #fff; box-shadow: 0 0 0 1.5px #151515; opacity: 1; }
-.sb-scale { position: relative; height: 15px; margin: 8px 0 -2px; font-size: 11px; color: var(--muted); font-variant-numeric: tabular-nums; }
-.sb-scale span { position: absolute; transform: translateX(-50%); }
-.sb-scale span::before { content: ''; position: absolute; left: 50%; top: -5px; width: 1px; height: 4px; background: var(--border-strong); }
-
 /* ============ Commercial clone ============ */
 .switch { position: relative; display: inline-flex; align-items: center; gap: 10px; cursor: pointer; user-select: none; font: 600 13px var(--font-body); color: var(--text-2); }
 .switch input { position: absolute; opacity: 0; width: 1px; height: 1px; }
@@ -701,10 +630,6 @@ table.data tbody tr:hover { background: var(--surface-2); }
 .switch input:checked ~ .switch-label { color: var(--text); }
 .tip { margin: 12px 0 0; font-size: 12.5px; }
 .tip.warn { color: var(--copper); }
-.tone-good { --tone: var(--green); --mk: var(--green); --tone-soft: var(--green-soft); }
-.tone-near { --tone: var(--primary-strong); --mk: var(--primary); --tone-soft: var(--primary-soft); }
-.tone-far { --tone: var(--red); --mk: var(--red); --tone-soft: var(--red-soft); }
-.tone-none { --tone: var(--muted); --mk: var(--text-2); --tone-soft: var(--surface-3); }
 .cb-marker.target { top: -2px; bottom: -2px; width: 3px; margin-left: -1.5px; background: var(--blue); box-shadow: 0 0 0 2px #fff; }
 .cb-key { display: flex; flex-wrap: wrap; gap: 4px 16px; margin-top: 8px; color: var(--muted); }
 .cb-key i { display: inline-block; width: 8px; height: 13px; margin-right: 6px; border-radius: 2px; vertical-align: -3px; }
@@ -753,13 +678,169 @@ table.data tbody tr:hover { background: var(--surface-2); }
 
 /* Must come after the .print-sheet base rules above so these overrides win. */
 @media print {
-  .site-header, .site-footer, .no-print, .mobile-stats, .toast, .modal-back, .db-banner, .install-banner, .auth-wrap, .btn { display: none !important; }
+  .site-header, .site-footer, .no-print, .ro-bar, .ro-detail, .ro-pop, .ro-m, .ro-back, .toast, .modal-back, .db-banner, .install-banner, .auth-wrap, .btn { display: none !important; }
   .screen-only { display: none !important; }
   body { background: #fff; color: #000; min-height: 0; font-size: 10pt; }
   main { padding: 0; max-width: none; }
   .card { box-shadow: none; break-inside: avoid; }
   .print-sheet { position: static; visibility: visible; }
 }
+
+/* ============ Recipe Builder readout (js/ui/readout.js) ============ */
+/* Always dark, like the site header: it is the instrument panel, in light or dark mode. */
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.ro-sentinel { height: 0; }
+.ro-bar, .ro-detail, .ro-pop, .ro-m {
+  --ro-text: #f3ede2; --ro-muted: #b4ad9f; --ro-faint: #8f897d; --ro-line: rgba(255,255,255,.08); --ro-tile: rgba(255,255,255,.045);
+  --ro-good: #6fd4a0; --ro-near: #f2b53a; --ro-far: #ff8f80;
+  background: linear-gradient(160deg, #1f2224, #141617); color: var(--ro-text);
+}
+.ro-bar .tone-good, .ro-detail .tone-good, .ro-pop .tone-good, .ro-m .tone-good { --tone: var(--ro-good); --mk: var(--ro-good); --tone-soft: rgba(111,212,160,.16); }
+.ro-bar .tone-near, .ro-detail .tone-near, .ro-pop .tone-near, .ro-m .tone-near { --tone: var(--ro-near); --mk: var(--ro-near); --tone-soft: rgba(242,181,58,.18); }
+.ro-bar .tone-far, .ro-detail .tone-far, .ro-pop .tone-far, .ro-m .tone-far { --tone: var(--ro-far); --mk: var(--ro-far); --tone-soft: rgba(255,143,128,.18); }
+.ro-bar .tone-none, .ro-detail .tone-none, .ro-pop .tone-none, .ro-m .tone-none { --tone: var(--ro-muted); --mk: #d9d3c6; --tone-soft: rgba(255,255,255,.08); }
+
+/* the sticky row */
+.ro-bar {
+  --ro-range-h: 24px; --mb: 0px;
+  position: sticky; z-index: 30; display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: 16px; align-items: stretch;
+  padding: 14px 16px; border: 1px solid var(--ro-line); border-radius: var(--radius) var(--radius) 0 0;
+  margin-bottom: var(--mb); transition: box-shadow .2s;
+}
+.ro-bar.solo { --mb: 22px; border-radius: var(--radius); }
+.ro-bar.stuck { border-radius: var(--radius); box-shadow: 0 12px 28px rgba(10,8,4,.35); margin-bottom: calc(var(--mb) + var(--ro-range-h) - 10px); }
+/* page-coloured strip over the small gap between the site header and the stuck row, so nothing scrolls through it */
+.ro-bar.stuck::before { content: ''; position: absolute; left: -1px; right: -1px; top: -9px; height: 9px; background: var(--bg); pointer-events: none; }
+.ro-fit { display: flex; align-items: center; gap: 14px; padding-right: 6px; min-width: 0; }
+.ro-glass .glass { width: 42px; color: var(--ro-text); }
+.ro-h { font: 600 11.5px/1 var(--font-body); letter-spacing: .14em; text-transform: uppercase; color: var(--ro-muted); }
+.ro-dots { display: flex; gap: 5px; margin: 8px 0 6px; }
+.ro-dots i { width: 11px; height: 11px; border-radius: 50%; box-sizing: border-box; border: 2px solid #5b6063; }
+.ro-dots i.d-good { background: var(--ro-good); border-color: var(--ro-good); }
+.ro-dots i.d-near { border-color: var(--ro-near); }
+.ro-dots i.d-far { border-color: var(--ro-far); }
+.ro-fit-sub { font: 500 13px/1.25 var(--font-body); color: var(--ro-text); }
+.ro-tiles { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 10px; min-width: 0; }
+.ro-tile { background: var(--ro-tile); border: 1px solid var(--ro-line); border-radius: 12px; padding: 10px 12px 0; min-width: 0; }
+.ro-th { display: flex; align-items: center; justify-content: space-between; gap: 6px; height: 20px; }
+.ro-label { font: 600 13px/1 var(--font-display); letter-spacing: .14em; color: var(--ro-muted); text-transform: uppercase; }
+.ro-ok { display: grid; place-items: center; width: 20px; height: 20px; border-radius: 50%; color: var(--tone); background: var(--tone-soft); border: 1.5px solid var(--tone); }
+.ro-chip { padding: 3px 7px; border-radius: 99px; font: 700 11px/1 var(--font-body); white-space: nowrap; color: var(--tone); background: var(--tone-soft); font-variant-numeric: tabular-nums; }
+.ro-val { margin: 2px 0 9px; font: 600 34px/1.05 var(--font-display); letter-spacing: .01em; font-variant-numeric: tabular-nums; }
+.ro-val small { margin-left: 2px; font-size: 55%; color: var(--ro-muted); }
+.ro-track { position: relative; height: 8px; border-radius: 99px; background: rgba(255,255,255,.14); }
+.ro-track.spectrum { height: 10px; box-shadow: inset 0 0 0 1px rgba(0,0,0,.3); }
+.ro-band { position: absolute; top: 0; bottom: 0; border-radius: 99px; background: #4f9bbd; }
+.spectrum .ro-band { top: -2px; bottom: -2px; border-radius: 5px; background: rgba(255,255,255,.28); border: 2px solid #4f9bbd; box-shadow: 0 0 0 1px rgba(255,255,255,.6); }
+.ro-target { position: absolute; top: -4px; bottom: -4px; width: 2px; margin-left: -1px; border-radius: 1px; background: #fff; opacity: .85; }
+.ro-marker { position: absolute; top: 50%; width: 14px; height: 14px; margin: -7px 0 0 -7px; border-radius: 50%; background: var(--mk); box-shadow: 0 0 0 2.5px #1b1e20; transition: left .3s cubic-bezier(.3,.7,.3,1), background .2s; }
+/* The line under each bar goes when the row sticks; the bar's bottom margin grows by the same amount, so nothing below moves. */
+.ro-range { box-sizing: border-box; height: var(--ro-range-h); padding-top: 8px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; font-size: 11.5px; line-height: 14px; color: var(--ro-faint); font-variant-numeric: tabular-nums; transition: opacity .15s; }
+.ro-bar.stuck .ro-range { height: 0; padding: 0; opacity: 0; }
+/* the tile gains 10px of padding where it loses the range line, so the bar's margin grows by the line's height minus those 10px */
+.ro-bar.stuck .ro-tile { padding-bottom: 10px; }
+.ro-ctl { display: flex; align-items: center; gap: 8px; }
+.ro-btn { display: inline-flex; align-items: center; gap: 6px; padding: 9px 13px; border-radius: 10px; font: 600 13px var(--font-body); color: var(--ro-text); background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.2); cursor: pointer; white-space: nowrap; }
+.ro-btn:hover { background: rgba(255,255,255,.1); }
+.ro-btn:focus-visible, .ro-warnpill:focus-visible, .ro-dock:focus-visible, .ro-handle:focus-visible, .ro-close:focus-visible { outline: 2px solid var(--primary); outline-offset: 2px; }
+.ro-warnpill { display: inline-flex; align-items: center; gap: 4px; padding: 6px 9px; border-radius: 99px; font: 700 12px/1 var(--font-body); color: var(--ro-near); background: rgba(242,181,58,.14); border: 1px solid rgba(242,181,58,.5); cursor: pointer; }
+
+/* the detail panels, below the row (or dropping from it) */
+.ro-detail { padding: 14px 16px 16px; border: 1px solid var(--ro-line); border-top-color: rgba(255,255,255,.12); border-radius: 0 0 var(--radius) var(--radius); margin-bottom: 22px; }
+.ro-pop { position: absolute; top: 100%; left: 0; right: 0; margin-top: 8px; padding: 14px 16px 16px; border: 1px solid var(--ro-line); border-radius: var(--radius); box-shadow: 0 18px 40px rgba(10,8,4,.45); max-height: calc(100vh - 220px); overflow-y: auto; }
+.ro-panels { display: grid; grid-template-columns: repeat(auto-fit, minmax(235px, 1fr)); gap: 12px; }
+.ro-panel { background: var(--ro-tile); border: 1px solid var(--ro-line); border-radius: 12px; padding: 16px; min-width: 0; }
+.ro-fit-panel, .ro-grav-panel { display: flex; align-items: center; gap: 16px; }
+.ro-fit-text { min-width: 0; flex: 1; }
+.ro-fit-name { margin: 8px 0 6px; font: 600 15px/1.25 var(--font-body); }
+.ro-note { margin: 6px 0 0; font-size: 12.5px; line-height: 1.4; color: var(--ro-muted); }
+.ro-msg { margin: 2px 0 0; font-size: 12.5px; line-height: 1.35; font-weight: 600; color: var(--tone); }
+.ro-donut { position: relative; flex: none; }
+.ro-donut svg { display: block; width: 100%; height: 100%; }
+.ro-donut-c { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; line-height: 1; }
+.ro-donut-c b { font: 600 22px/1 var(--font-display); font-variant-numeric: tabular-nums; }
+.ro-donut-c small { margin-top: 3px; font: 600 9.5px/1 var(--font-body); letter-spacing: .12em; color: var(--ro-muted); }
+.ro-legend { list-style: none; margin: 10px 0 0; padding: 0; display: flex; flex-direction: column; gap: 6px; font-size: 13px; }
+.ro-legend li { display: flex; align-items: center; gap: 8px; }
+.ro-legend i { width: 10px; height: 10px; border-radius: 3px; flex: none; }
+.ro-legend span { flex: 1; }
+.ro-legend b { font-weight: 600; font-variant-numeric: tabular-nums; }
+.ro-temp { margin: 10px 0 12px; font: 600 30px/1 var(--font-display); font-variant-numeric: tabular-nums; }
+.ro-temp small { font-size: 55%; color: var(--ro-muted); }
+.ro-dim { color: var(--ro-faint); }
+.ro-trackbox { margin-bottom: 4px; }
+.ro-yband { position: absolute; top: 0; bottom: 0; border-radius: 99px; background: rgba(79,155,189,.55); }
+.ro-tband { position: absolute; top: 0; bottom: 0; border-radius: 99px; background: var(--primary); }
+.ro-scale { position: relative; height: 16px; margin-top: 6px; font-size: 11px; color: var(--ro-faint); font-variant-numeric: tabular-nums; }
+.ro-scale span { position: absolute; transform: translateX(-50%); }
+.ro-pitch { margin: 8px 0 0; font-size: 13px; }
+.ro-totals { display: grid; grid-template-columns: 1fr 1fr; gap: 14px 12px; margin-top: 12px; }
+.ro-totals small { display: block; font: 500 12px/1.2 var(--font-body); color: var(--ro-muted); }
+.ro-totals b { display: block; margin-top: 3px; font: 600 21px/1.1 var(--font-display); font-variant-numeric: tabular-nums; }
+.ro-warnings { display: flex; flex-direction: column; gap: 6px; margin-top: 12px; }
+.ro-warn { display: flex; gap: 8px; align-items: flex-start; padding: 9px 12px; border-radius: 10px; font-size: 12.8px; line-height: 1.4; }
+.ro-warn svg { flex: none; margin-top: 1px; }
+.ro-warn.warn { background: rgba(242,181,58,.12); color: #f5c76a; border: 1px solid rgba(242,181,58,.3); }
+.ro-warn.info { background: rgba(120,170,210,.12); color: #a9cde8; border: 1px solid rgba(120,170,210,.25); }
+.ro-warn.error { background: rgba(255,255,255,.05); color: var(--ro-muted); border: 1px solid var(--ro-line); }
+
+/* phone and tablet: a bar fixed to the bottom that opens into a sheet */
+.ro-m { position: fixed; left: 0; right: 0; bottom: 0; z-index: 60; border-radius: 20px 20px 0 0; border-top: 1px solid rgba(255,255,255,.12); box-shadow: 0 -10px 30px rgba(10,8,4,.35); padding-bottom: env(safe-area-inset-bottom); }
+.ro-m.open { top: 56px; display: flex; flex-direction: column; z-index: 95; }
+.ro-back { position: fixed; inset: 0; z-index: 90; background: rgba(10,10,10,.55); }
+.ro-handle { display: flex; justify-content: center; width: 100%; padding: 9px 0 4px; background: none; border: 0; cursor: pointer; }
+.ro-handle i { width: 38px; height: 4px; border-radius: 3px; background: rgba(255,255,255,.3); }
+.ro-dock { display: flex; align-items: center; gap: 4px; width: 100%; padding: 4px 12px 12px; background: none; border: 0; color: inherit; font: inherit; text-align: center; cursor: pointer; position: relative; }
+.ro-dock .ro-glass .glass { width: 26px; }
+.ro-dock .ro-glass { flex: none; margin-right: 6px; }
+.ro-dcol { flex: 1; min-width: 0; display: flex; flex-direction: column; align-items: center; gap: 3px; }
+.ro-dcol small { font: 600 10px/1 var(--font-display); letter-spacing: .14em; color: var(--ro-muted); }
+.ro-dcol b { font: 600 19px/1 var(--font-display); font-variant-numeric: tabular-nums; }
+.ro-dcol b i { font-style: normal; font-size: 60%; margin-left: 1px; color: var(--ro-muted); }
+.ro-dcol em { font: 700 10.5px/1 var(--font-body); font-style: normal; height: 11px; color: var(--tone); display: inline-flex; align-items: center; gap: 2px; white-space: nowrap; }
+.ro-dwarn { position: absolute; top: 2px; left: 12px; display: grid; place-items: center; width: 18px; height: 18px; border-radius: 50%; color: #1b1405; background: var(--ro-near); }
+.ro-sheet { display: flex; flex-direction: column; min-height: 0; flex: 1; }
+.ro-sheet-head { display: flex; align-items: center; gap: 12px; padding: 4px 16px 12px; }
+.ro-sheet-title { font: 600 20px/1.1 var(--font-display); letter-spacing: .08em; text-transform: uppercase; }
+.ro-sheet-head .ro-dots { display: inline-flex; margin: 0 6px 0 0; vertical-align: middle; }
+.ro-sheet-head .ro-fit-sub { margin-top: 6px; color: var(--ro-muted); font-size: 12.5px; }
+.ro-close { flex: none; display: grid; place-items: center; width: 40px; height: 40px; border-radius: 12px; color: var(--ro-text); background: rgba(255,255,255,.07); border: 1px solid var(--ro-line); cursor: pointer; }
+.ro-sheet-body { flex: 1; min-height: 0; overflow-y: auto; padding: 0 14px 22px; display: flex; flex-direction: column; gap: 10px; }
+.ro-mrows { display: flex; flex-direction: column; gap: 8px; }
+.ro-mrow { display: grid; grid-template-columns: 38px minmax(0, 1fr) auto; gap: 12px; align-items: center; padding: 12px; background: var(--ro-tile); border: 1px solid var(--ro-line); border-radius: 12px; }
+.ro-mrow .ro-range { height: auto; padding-top: 7px; }
+.ro-mval { text-align: right; min-width: 74px; }
+.ro-mval b { display: block; font: 600 26px/1 var(--font-display); font-variant-numeric: tabular-nums; }
+.ro-mval b small { font-size: 55%; margin-left: 1px; color: var(--ro-muted); }
+.ro-mstat { display: inline-flex; align-items: center; gap: 3px; margin-top: 5px; font: 600 11.5px/1 var(--font-body); color: var(--tone); white-space: nowrap; }
+.ro-sheet-body .ro-panels { grid-template-columns: 1fr; }
+.ro-sheet-body .ro-warnings { margin-top: 0; }
+@media (max-width: 480px) { .ro-fit-panel, .ro-grav-panel { gap: 12px; } }
+@media (max-width: 1240px) and (min-width: 1081px) { .ro-fit .ro-glass { display: none; } .ro-val { font-size: 30px; } }
+@media (prefers-reduced-motion: reduce) { .ro-marker, .ro-bar, .ro-range { transition: none; } }
+
+/* Spirit addition: amount, unit and strength on its line; the finished ABV under the beer's ABV in the readout */
+.line .spirit-row { flex-wrap: wrap; justify-content: flex-end; gap: 6px; }
+.spirit-abv { display: inline-flex; align-items: center; gap: 6px; }
+.spirit-abv .input { width: 84px; text-align: right; }
+.spirit-abv em { font-style: normal; font-size: 12.5px; color: var(--muted); white-space: nowrap; }
+.ro-spirit { padding: 8px 0 10px; border-top: 1px dashed rgba(255,255,255,.18); }
+.ro-spirit span { display: block; font: 600 10.5px/1.25 var(--font-body); letter-spacing: .02em; color: var(--ro-near); }
+.ro-spirit b { display: block; margin-top: 4px; font: 600 24px/1 var(--font-display); font-variant-numeric: tabular-nums; }
+.ro-spirit small { margin-left: 2px; font-size: 55%; color: var(--ro-muted); }
+.ro-bar.stuck .ro-spirit { padding-bottom: 10px; }
+.ro-mrow .ro-spirit { grid-column: 1 / -1; display: flex; align-items: baseline; justify-content: space-between; gap: 12px; padding: 10px 0 0; }
+.ro-mrow .ro-spirit b { margin: 0; font-size: 22px; }
+
+/* Printed sheet: spirit added at bottling, a note under the stats (the stats themselves are the beer before the spirit) */
+.ps-spirit { margin-top: .8em; padding: .45em .7em .5em; border: .08em dashed #444; border-radius: .4em; font-size: .95em; }
+.ps-spirit-head { display: flex; justify-content: space-between; gap: 1em; align-items: baseline; margin-bottom: .35em; }
+.ps-spirit-head b { font: 600 1em var(--font-display); letter-spacing: .1em; text-transform: uppercase; }
+.ps-spirit-head span { font-size: .85em; color: #555; }
+.ps-spirit-grid { display: grid; grid-template-columns: 1.2fr 1fr 1fr; gap: .4em 1.5em; }
+.ps-spirit-grid small { font-size: .78em; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; }
+.ps-spirit-grid span { font-variant-numeric: tabular-nums; }
+.ps-spirit p { margin: .4em 0 0; font-size: .82em; font-style: italic; color: #555; }
 
 </style>
   <script>
@@ -1279,7 +1360,7 @@ MJ.data = {
    "yieldMetric": 0,
    "fermentability": 0,
    "ebcPer20L": 0,
-   "notes": "⚠ Adds ABV directly, not gravity — NOT modelled by the calculator. Blended in at bottling; note the uplift manually in the recipe notes."
+   "notes": "Added at bottling, so it raises the ABV but not the gravity, colour or calories. Enter the spirit's strength (% ABV) and the amount (ml or L): the readout shows the post-fermentation ABV."
   },
   {
    "name": "Spices / herbs / zest / oak",
@@ -2223,6 +2304,8 @@ window.MJ = window.MJ || {};
   }
 
   // ---------- spec helpers ----------
+  const isSpirit = (a) => /^Spirit/.test((a && a.name) || '');
+  const fmtNum = (x) => String(Math.round(x * 100) / 100);
   function additionSpec(a) {
     if (a.custom) {
       return {
@@ -2279,7 +2362,7 @@ window.MJ = window.MJ || {};
       kitPts: 0, canPts: 0, enhPts: 0, addPts: 0, unfermentedAddPts: 0,
       og: null, fg: null, fgRange: null, abv: null, abvRange: null, buGu: null, calories: null,
       ibu: 0, ebc: 0, ebcLinear: 0, srm: 0, hex: SRM_HEX[0],
-      attenuation: null, yeast: null, tolerance: null,
+      attenuation: null, yeast: null, tolerance: null, spirit: null,
       lines: { cans: [], enhancers: [], additions: [], hops: [], yeasts: [] },
       totals: { canKg: 0, enhKg: 0, additionKg: 0, hopG: 0, yeastSachets: 0, fermentablesKg: 0 },
       temp: null, pitch: [], warnings: [],
@@ -2324,8 +2407,18 @@ window.MJ = window.MJ || {};
     }
 
     // Additions: yield (pts·L/kg) × kg / V; EBC per kg in 20L scaled to batch.
-    let spirit = false;
+    // Spirit is added at bottling: no gravity, colour or fermentation. It takes an amount (ml) and a strength (% ABV) and
+    // lifts the finished ABV, worked out further down.
+    let spiritMl = 0, spiritAlcoholMl = 0;
     for (const a of recipe.additions || []) {
+      if (isSpirit(a)) {
+        const ml = Math.max(0, num(a.ml)), strength = Math.min(100, Math.max(0, num(a.abv)));
+        if (ml > 0) {
+          spiritMl += ml; spiritAlcoholMl += (ml * strength) / 100;
+          out.lines.additions.push({ label: a.name, kg: 0, pts: 0, ebc: 0, spec: additionSpec(a), spirit: { ml, abv: strength } });
+        }
+        continue;
+      }
       const spec = additionSpec(a);
       const kg = num(a.kg);
       if (!spec || kg <= 0) continue;
@@ -2336,9 +2429,7 @@ window.MJ = window.MJ || {};
       out.ebcLinear += ebc;
       out.totals.additionKg += kg;
       out.lines.additions.push({ label: spec.name, kg, pts, ebc, spec, custom: !!spec.custom });
-      if (/^Spirit/.test(spec.name)) spirit = true;
     }
-    if (spirit) warn('warn', 'Spirit additions add ABV directly at bottling — not modelled. Note the uplift in your recipe notes.');
 
     for (const h of recipe.hops || []) {
       const qty = num(h.qty);
@@ -2413,6 +2504,13 @@ window.MJ = window.MJ || {};
         warn('warn', `${yeastLines.filter((y) => y.spec.needsHeating).map((y) => y.code).join(', ')} needs active heating to reach ${fmtRange(out.temp.min, out.temp.max)}.`);
       }
 
+      // Spirit added at bottling is not fermented, so the yeast's tolerance doesn't limit it. The new ABV is the alcohol in
+      // the beer plus the alcohol in the spirit, over the combined volume (the small shrinkage when they mix is ignored).
+      if (spiritMl > 0) {
+        const beerMl = V * 1000, totalMl = beerMl + spiritMl;
+        out.spirit = { ml: spiritMl, alcoholMl: spiritAlcoholMl, abvBefore: out.abv, abv: ((beerMl * out.abv) / 100 + spiritAlcoholMl) / totalMl * 100, totalL: totalMl / 1000 };
+        warn('info', `Spirit added at bottling (${Math.round(spiritMl)} ml): ABV goes from ${out.abv.toFixed(1)}% to ${out.spirit.abv.toFixed(1)}% in ${fmtNum(out.spirit.totalL)} L. Gravity, colour and calories are for the beer before the spirit.`);
+      }
       if (out.tolerance) {
         const t = out.tolerance;
         warn('warn', `Yeast alcohol tolerance reached: ${t.yeast.join(' / ')} stops at ${t.limit}% ABV, so ABV is held at ${t.limit}% and FG finishes higher, at ${out.fg.toFixed(3)} (the sugars alone would give ${t.uncappedAbv.toFixed(1)}% and ${t.uncappedFg.toFixed(3)}). For a drier, stronger beer choose a more tolerant yeast or lower the gravity.`);
@@ -2609,7 +2707,7 @@ window.MJ = window.MJ || {};
   }
 
   MJ.calc = {
-    compute, conv, tempSuggestion, pitchAdvice, additionSpec, setSharedAdditions, hopBreakdown, fmtRange, cloneMatch, resolveClone, statBars, bjcpStyle, rangeStatus,
+    SPIRIT_NOTE: "Added at bottling, so it raises the ABV but not the gravity, colour or calories. Enter the spirit's strength (% ABV) and the amount (ml or L): the readout shows the post-fermentation ABV.", isSpirit, compute, conv, tempSuggestion, pitchAdvice, additionSpec, setSharedAdditions, hopBreakdown, fmtRange, cloneMatch, resolveClone, statBars, bjcpStyle, rangeStatus,
     lookup: { cansByStyle, enhByCode, addByName, sharedByName, hopByName, yeastByCode },
     SRM_HEX,
   };
@@ -3474,6 +3572,361 @@ window.MJ = window.MJ || {};
 
 </script>
   <script>
+// The Recipe Builder's live readout: OG, FG, ABV, IBU and EBC against the chosen style (or the clone's target), plus
+// style fit, gravity points, fermentation and totals. It replaces the old side panel and phone bar (the Recipe detail
+// page uses it too).
+//
+// Desktop: sits above the form. The row of five numbers sticks under the site header as the page scrolls, and the
+// detail panels scroll away beneath it, so it reads as collapsing. "Hide" / "Details" shows or hides the panels; while
+// the row is stuck, "Details" opens them as a drop-down instead (nothing on the page moves).
+// Phone and tablet (up to 1080 px): a bar fixed to the bottom that opens into a sheet with everything in it.
+// <Readout result style styleId clone fermTemp /> renders the right one. It returns several elements that must sit
+// directly in the page's own container (the sticky row needs the whole page as its range).
+window.MJ = window.MJ || {};
+
+(function () {
+  const { html, useState, useEffect, useRef } = htmPreact;
+  const { Icon, Glass, fmt } = MJ.ui;
+  const { fmtRange } = MJ.calc;
+
+  const PREF_KEY = 'mj-cans.readout.hidden.v1';
+  const BREAK_COLOURS = { cans: '#b57d10', enhancers: '#e8c063', additions: '#2c6a4d' };
+  const TONE_COLOURS = { good: '#6fd4a0', near: '#f2b53a', far: '#ff8f80', none: '#5b6063' };
+  const DIGITS = { og: 3, fg: 3, abv: 1, ibu: 0, ebc: 1 };      // shown value
+  const DELTA_DIGITS = { og: 3, fg: 3, abv: 1, ibu: 1, ebc: 1 }; // how far off
+  const NAMES = { og: 'OG', fg: 'FG', abv: 'ABV', ibu: 'Bitterness', ebc: 'Colour' };
+  const UNITS = { og: '', fg: '', abv: '%', ibu: ' IBU', ebc: ' EBC' };
+  const MOBILE_QUERY = '(max-width: 1080px)';
+
+  // The panels start hidden; Details opens them, and that choice is remembered on this device.
+  const readPref = () => { try { return localStorage.getItem(PREF_KEY) !== '0'; } catch (e) { return true; } };
+  const writePref = (v) => { try { localStorage.setItem(PREF_KEY, v ? '1' : '0'); } catch (e) { /* ignore */ } };
+
+  // ---------- numbers ----------
+  const valueText = (b) => (b.value == null ? '—' : b.value.toFixed(DIGITS[b.key]));
+  const deltaText = (b) => `${b.delta > 0 ? '▲' : '▼'} ${Math.abs(b.delta).toFixed(DELTA_DIGITS[b.key])}`;
+  const rangeText = (b) => {
+    const f = (x) => x.toFixed(DIGITS[b.key] === 0 ? 0 : DIGITS[b.key]);
+    if (b.mode === 'style') return `BJCP ${f(b.band[0])}–${f(b.band[1])}${b.unit}`;
+    if (b.mode === 'clone') return `Target ${b.derived ? '≈ ' : ''}${f(b.target)}${b.unit}`;
+    return '';
+  };
+  const statusWord = (b) => {
+    const clone = b.mode === 'clone';
+    if (b.status === 'good') return clone ? 'On target' : 'In range';
+    if (b.status && b.delta) return `${Math.abs(b.delta).toFixed(DELTA_DIGITS[b.key])}${UNITS[b.key]} ${b.delta > 0 ? 'above' : 'below'}`;
+    return '';
+  };
+  const ariaFor = (b) => {
+    const ref = rangeText(b), word = statusWord(b);
+    return `${b.label} ${b.value == null ? 'not yet known' : valueText(b) + b.unit}${ref ? `, ${ref}` : ''}${word ? `, ${word}` : ''}`;
+  };
+
+  // Everything the panels show, worked out once per render.
+  function model({ result: s, style, styleId, clone, fermTemp }) {
+    const totalPts = s.canPts + s.enhPts + s.addPts;
+    const ok = s.valid && totalPts > 0;
+    const bars = MJ.calc.statBars(s, { style, clone });
+    const banded = bars.filter((b) => b.mode !== 'none');
+    const scored = banded.filter((b) => b.value != null && b.status);
+    const rank = { good: 0, near: 1, far: 2 };
+    const sorted = scored.slice().sort((a, b) => rank[a.status] - rank[b.status]);
+    const off = scored.filter((b) => b.status !== 'good' && b.delta);
+    const good = scored.filter((b) => b.status === 'good').length;
+    const match = clone ? MJ.calc.cloneMatch(s, clone) : null;
+    const cloneName = clone && (clone.name || '').trim();
+    const parts = [['cans', 'Cans', s.canPts], ['enhancers', 'Enhancers', s.enhPts], ['additions', 'Additions', s.addPts]].filter((p) => p[2] > 0);
+    return {
+      s, ok, bars, banded, scored, sorted, off, good, total: banded.length, match, clone, style, fermTemp, parts, totalPts,
+      title: clone ? 'Clone match' : 'Style fit',
+      name: clone ? (cloneName || 'Commercial beer') : style ? `${style.id} ${style.name}` : 'No style selected',
+      word: clone ? 'on target' : 'in range',
+      hint: clone ? (banded.length ? '' : 'Enter the specs of the beer you are cloning to see how close your recipe gets.')
+        : !styleId ? 'Pick a BJCP style to see where your recipe sits in its range.'
+        : !banded.length ? 'No BJCP range data for this style.' : '',
+      warnCount: s.warnings.filter((w) => w.level === 'warn').length,
+    };
+  }
+
+  // ---------- small pieces ----------
+  function useMedia(query) {
+    const [on, setOn] = useState(() => !!(window.matchMedia && window.matchMedia(query).matches));
+    useEffect(() => {
+      if (!window.matchMedia) return undefined;
+      const mq = window.matchMedia(query);
+      const change = () => setOn(mq.matches);
+      change();
+      if (mq.addEventListener) mq.addEventListener('change', change); else mq.addListener(change);
+      return () => { if (mq.removeEventListener) mq.removeEventListener('change', change); else mq.removeListener(change); };
+    }, [query]);
+    return on;
+  }
+
+  const Chevron = ({ up }) => html`<svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d=${up ? 'M7.4 15.4 12 10.8l4.6 4.6L18 14l-6-6-6 6z' : 'M7.4 8.6 12 13.2l4.6-4.6L18 10l-6 6-6-6z'} /></svg>`;
+
+  function Donut({ segs, size = 84, stroke = 10, children }) {
+    const r = 50 - stroke / 2 - 1, C = 2 * Math.PI * r;
+    const total = segs.reduce((a, x) => a + x.v, 0) || 1;
+    const gap = segs.length > 1 ? 2.4 : 0;
+    let used = 0;
+    return html`<div class="ro-donut" style=${`width:${size}px;height:${size}px`}>
+      <svg viewBox="0 0 100 100" aria-hidden="true">
+        <circle cx="50" cy="50" r=${r} fill="none" stroke="rgba(255,255,255,.1)" stroke-width=${stroke} />
+        ${segs.map((seg) => {
+          const full = (seg.v / total) * C, len = Math.max(0, full - gap), at = used;
+          used += full;
+          return html`<circle cx="50" cy="50" r=${r} fill="none" stroke=${seg.c} stroke-width=${stroke} stroke-dasharray=${`${len} ${C - len}`} stroke-dashoffset=${-at} transform="rotate(-90 50 50)" />`;
+        })}
+      </svg>
+      <div class="ro-donut-c">${children}</div></div>`;
+  }
+
+  function Dots({ m }) {
+    const dots = m.banded.length ? m.sorted.concat(m.banded.filter((b) => !m.sorted.includes(b))) : Array.from({ length: 5 }, () => ({ status: 'none' }));
+    return html`<span class="ro-dots" aria-hidden="true">${dots.map((b) => html`<i class=${'d-' + (b.status || 'none')}></i>`)}</span>`;
+  }
+
+  // The bar behind each number: the style range (or the clone tolerance) as a band, and a marker for the recipe.
+  function Track({ b }) {
+    const bg = b.spectrum ? `background:linear-gradient(90deg,${b.stops.map(([hex, pos]) => `${hex} ${pos.toFixed(2)}%`).join(',')})` : undefined;
+    return html`<div class=${'ro-track' + (b.spectrum ? ' spectrum' : '')} style=${bg} aria-hidden="true">
+      ${b.bandPos && html`<i class="ro-band" style=${`left:${b.bandPos[0]}%;width:${Math.max(b.spectrum ? 3 : 2, b.bandPos[1] - b.bandPos[0])}%`}></i>`}
+      ${b.targetPos != null && html`<i class="ro-target" style=${`left:${b.targetPos}%`}></i>`}
+      ${b.pos != null && html`<i class="ro-marker" style=${`left:${b.pos}%`}></i>`}
+    </div>`;
+  }
+
+  // Spirit added at bottling: the finished ABV, shown under the beer's own ABV.
+  const SPIRIT_LABEL = 'Post fermentation ABV with spirit addition';
+  const SpiritNote = ({ s }) => html`<div class="ro-spirit" data-spirit><span>${SPIRIT_LABEL}</span><b>${s.abv.toFixed(1)}<small>%</small></b></div>`;
+
+  function Tile({ b, spirit }) {
+    const word = statusWord(b);
+    const chip = b.status === 'good' ? html`<span class="ro-ok" title=${word}><${Icon} name="check" size=${12} /></span>`
+      : b.status && b.delta ? html`<span class="ro-chip" title=${word}>${deltaText(b)}</span>` : null;
+    return html`<div class=${'ro-tile tone-' + (b.status || 'none')} role="group" aria-label=${ariaFor(b)} data-key=${b.key}>
+      <div class="ro-th"><span class="ro-label">${b.label}</span>${chip}</div>
+      <div class="ro-val">${valueText(b)}${b.unit && b.value != null && html`<small>${b.unit}</small>`}</div>
+      <${Track} b=${b} />
+      <div class="ro-range">${rangeText(b)}</div>
+      ${spirit && b.key === 'abv' && html`<${SpiritNote} s=${spirit} />`}
+    </div>`;
+  }
+
+  // ---------- the four panels (also the phone sheet's extra detail) ----------
+  function FitPanel({ m }) {
+    const ring = m.banded.length ? m.sorted.concat(m.banded.filter((b) => !m.sorted.includes(b))).map((b) => ({ v: 1, c: TONE_COLOURS[b.status || 'none'] })) : Array.from({ length: 5 }, () => ({ v: 1, c: TONE_COLOURS.none }));
+    const worst = m.off.some((b) => b.status === 'far') ? 'far' : m.off.length ? 'near' : 'good';
+    const lines = m.off.slice(0, 2).map((b) => `${NAMES[b.key]} is ${Math.abs(b.delta).toFixed(DELTA_DIGITS[b.key])}${UNITS[b.key]} ${b.delta > 0 ? 'above' : 'below'} the ${m.clone ? 'target' : 'range'}`);
+    if (m.off.length > 2) lines.push(`and ${m.off.length - 2} more`);
+    const verdict = m.match && m.match.label ? `${m.match.label} · ${m.match.percent}% match` : '';
+    return html`<div class="ro-panel ro-fit-panel">
+      <${Donut} segs=${ring}><b>${m.banded.length ? `${m.good}/${m.total}` : '—'}</b><//>
+      <div class="ro-fit-text">
+        <div class="ro-h">${m.title}</div>
+        <div class="ro-fit-name">${m.name}</div>
+        ${m.hint ? html`<p class="ro-note">${m.hint}</p>`
+          : !m.scored.length ? html`<p class="ro-note">Add ingredients to see how it compares.</p>`
+          : html`${verdict && html`<p class=${'ro-msg tone-' + (m.match.tone || worst)}>${verdict}</p>`}
+            ${lines.length ? lines.map((l) => html`<p class=${'ro-msg tone-' + worst}>${l}</p>`) : !verdict && html`<p class="ro-msg tone-good">Everything is ${m.word}</p>`}`}
+      </div></div>`;
+  }
+
+  function GravityPanel({ m }) {
+    return html`<div class="ro-panel ro-grav-panel">
+      <${Donut} segs=${m.ok ? m.parts.map(([k, , v]) => ({ v, c: BREAK_COLOURS[k] })) : []}><b>${m.ok ? fmt.n0(m.totalPts) : '0'}</b><small>PTS</small><//>
+      <div class="ro-fit-text">
+        <div class="ro-h">Gravity points</div>
+        <ul class="ro-legend">${m.ok ? m.parts.map(([k, label, v]) => html`<li><i style=${`background:${BREAK_COLOURS[k]}`}></i><span>${label}</span><b>${fmt.n1(v)}</b></li>`) : html`<li class="ro-note">Add a can, enhancer or fermentable addition.</li>`}</ul>
+      </div></div>`;
+  }
+
+  function FermPanel({ m }) {
+    const { s } = m;
+    const SCALE = [0, 40];
+    const at = (x) => Math.max(0, Math.min(100, ((x - SCALE[0]) / (SCALE[1] - SCALE[0])) * 100));
+    const ft = m.fermTemp || {};
+    const mine = Number.isFinite(ft.min) || Number.isFinite(ft.max) ? [Number.isFinite(ft.min) ? ft.min : ft.max, Number.isFinite(ft.max) ? ft.max : ft.min] : null;
+    const yeast = s.temp && s.temp.overlap ? [s.temp.min, s.temp.max] : null;
+    const shown = mine || yeast;
+    const attText = s.yeast ? (s.tolerance
+      ? `FG is held by the ${s.tolerance.limit}% alcohol tolerance of ${s.tolerance.yeast.join(' / ')}: the yeast finishes at ${s.attenuation.effective.toFixed(1)}% attenuation, not the usual ${s.attenuation.mid}%.`
+      : `FG uses ${s.yeast.code} at ${s.attenuation.mid}% attenuation (range ${s.yeast.attenuation}).`) : '';
+    return html`<div class="ro-panel">
+      <div class="ro-h">Fermentation</div>
+      ${shown ? html`<div class="ro-temp">${shown[0] === shown[1] ? shown[0] : `${shown[0]}–${shown[1]}`}<small> °C</small></div>`
+        : html`<div class="ro-temp ro-dim">—</div>`}
+      <div class="ro-trackbox">
+        <div class="ro-track" aria-hidden="true">
+          ${yeast && html`<i class="ro-yband" style=${`left:${at(yeast[0])}%;width:${Math.max(2, at(yeast[1]) - at(yeast[0]))}%`}></i>`}
+          ${shown && html`<i class="ro-tband" style=${`left:${at(shown[0])}%;width:${Math.max(2.5, at(shown[1]) - at(shown[0]))}%`}></i>`}
+        </div>
+        <div class="ro-scale" aria-hidden="true">${[10, 20, 30].map((t) => html`<span style=${`left:${at(t)}%`}>${t}</span>`)}</div>
+      </div>
+      ${s.temp && !s.temp.overlap && html`<p class="ro-msg tone-far">No overlapping temperature range</p>`}
+      ${s.pitch.map((p) => html`<p class="ro-pitch"><b>${p.code}: ${p.recommended} sachet${p.recommended > 1 ? 's' : ''} recommended</b></p>`)}
+      ${attText && html`<p class="ro-note">${attText}</p>`}
+      ${!s.yeast && html`<p class="ro-note">Add a yeast to see fermentation advice.</p>`}
+    </div>`;
+  }
+
+  function TotalsPanel({ m }) {
+    const { s, ok } = m;
+    const cell = (label, value) => html`<div><small>${label}</small><b>${value}</b></div>`;
+    return html`<div class="ro-panel">
+      <div class="ro-h">Totals</div>
+      <div class="ro-totals">
+        ${cell('Fermentables', ok ? fmt.kg(s.totals.fermentablesKg) : '—')}
+        ${cell('Hops', ok ? fmt.g(s.totals.hopG) : '—')}
+        ${cell('Yeast', ok ? `${s.totals.yeastSachets} sachet${s.totals.yeastSachets === 1 ? '' : 's'}` : '—')}
+        ${cell('Batch', s.valid ? `${fmt.qty(s.volumeL)} L` : '—')}
+        ${cell('BU:GU', ok && s.buGu != null ? s.buGu.toFixed(2) : '—')}
+        ${cell('Per 100 ml (estimated)', s.calories != null ? `${Math.round(s.calories)} kcal` : '—')}
+      </div></div>`;
+  }
+
+  function WarningList({ m }) {
+    if (!m.s.warnings.length) return null;
+    return html`<div class="ro-warnings" role="list">${m.s.warnings.map((w) => html`<div class=${'ro-warn ' + w.level} role="listitem">
+      <${Icon} name=${w.level === 'warn' ? 'warn' : 'info'} size=${14} /><span>${w.text}</span></div>`)}</div>`;
+  }
+
+  const Panels = ({ m }) => html`<div class="ro-panels">
+    <${FitPanel} m=${m} /><${GravityPanel} m=${m} /><${FermPanel} m=${m} /><${TotalsPanel} m=${m} /></div>
+    <${WarningList} m=${m} />`;
+
+  // ---------- desktop ----------
+  function DesktopReadout({ m }) {
+    const [hidden, setHidden] = useState(readPref);
+    const [peek, setPeek] = useState(false);
+    const [stuck, setStuck] = useState(false);
+    const [top, setTop] = useState(75);
+    const sentinel = useRef(null);
+    const bar = useRef(null);
+
+    // Where the row sticks: just under the site header (which can change height).
+    useEffect(() => {
+      const measure = () => { const h = document.querySelector('.site-header'); setTop((h ? h.offsetHeight : 67) + 8); };
+      measure();
+      window.addEventListener('resize', measure);
+      return () => window.removeEventListener('resize', measure);
+    }, []);
+    // Stuck = the row has reached that line (its natural place, marked by the sentinel, is above it).
+    useEffect(() => {
+      const check = () => { if (sentinel.current) setStuck(sentinel.current.getBoundingClientRect().top < top - 0.5); };
+      window.addEventListener('scroll', check, { passive: true });
+      window.addEventListener('resize', check);
+      check();
+      return () => { window.removeEventListener('scroll', check); window.removeEventListener('resize', check); };
+    }, [top]);
+    useEffect(() => { if (!stuck) setPeek(false); }, [stuck]);
+    // The drop-down closes on Escape or a click anywhere else.
+    useEffect(() => {
+      if (!peek) return undefined;
+      const key = (e) => { if (e.key === 'Escape') setPeek(false); };
+      const click = (e) => { if (bar.current && !bar.current.contains(e.target)) setPeek(false); };
+      document.addEventListener('keydown', key);
+      document.addEventListener('mousedown', click);
+      return () => { document.removeEventListener('keydown', key); document.removeEventListener('mousedown', click); };
+    }, [peek]);
+
+    const open = stuck ? peek : !hidden;
+    const toggle = () => { if (stuck) setPeek(!peek); else { setHidden(!hidden); writePref(!hidden); } };
+    const showDetail = !hidden;
+    return html`
+      <div class="ro-sentinel" ref=${sentinel} aria-hidden="true"></div>
+      <section class=${'ro-bar' + (stuck ? ' stuck' : '') + (showDetail ? ' joined' : ' solo')} ref=${bar} style=${`top:${top}px`} aria-label="Recipe readout">
+        <div class="ro-fit">
+          <div class="ro-glass"><${Glass} hex=${m.s.hex} empty=${!m.ok} /></div>
+          <div class="ro-fit-text">
+            <div class="ro-h">${m.title}</div>
+            <${Dots} m=${m} />
+            <div class="ro-fit-sub">${m.banded.length && m.scored.length ? `${m.good} of ${m.total} ${m.word}` : m.banded.length ? 'Add ingredients' : m.clone ? 'Enter the specs' : 'No style selected'}</div>
+          </div>
+        </div>
+        <div class="ro-tiles">${m.bars.map((b) => html`<${Tile} key=${b.key} b=${b} spirit=${m.s.spirit} />`)}</div>
+        <div class="ro-ctl">
+          ${m.warnCount > 0 && html`<button type="button" class="ro-warnpill" title=${m.s.warnings.filter((w) => w.level === 'warn').map((w) => w.text).join('\n')}
+            onClick=${() => { if (stuck) setPeek(true); else if (hidden) { setHidden(false); writePref(false); } }}><${Icon} name="warn" size=${13} />${m.warnCount}<span class="sr-only"> warning${m.warnCount > 1 ? 's' : ''}</span></button>`}
+          <button type="button" class="ro-btn" aria-expanded=${open} aria-controls=${stuck ? 'ro-pop' : 'ro-detail'} onClick=${toggle}>
+            ${open ? 'Hide' : 'Details'} <${Chevron} up=${open} /></button>
+        </div>
+        ${stuck && peek && html`<div class="ro-pop" id="ro-pop"><${Panels} m=${m} /></div>`}
+      </section>
+      ${showDetail && html`<div class="ro-detail" id="ro-detail"><${Panels} m=${m} /></div>`}`;
+  }
+
+  // ---------- phone and tablet ----------
+  function Row({ b, spirit }) {
+    const word = statusWord(b);
+    return html`<div class=${'ro-mrow tone-' + (b.status || 'none')} role="group" aria-label=${ariaFor(b)} data-key=${b.key}>
+      <span class="ro-label">${b.label}</span>
+      <div class="ro-mbar"><${Track} b=${b} /><div class="ro-range">${rangeText(b)}</div></div>
+      <div class="ro-mval"><b>${valueText(b)}${b.unit && b.value != null && html`<small>${b.unit}</small>`}</b>
+        <span class="ro-mstat">${b.status === 'good' ? html`<${Icon} name="check" size=${11} /> ${word}` : b.status && b.delta ? html`${b.delta > 0 ? '▲' : '▼'} ${word}` : ''}</span></div>
+      ${spirit && b.key === 'abv' && html`<${SpiritNote} s=${spirit} />`}
+    </div>`;
+  }
+
+  function MobileReadout({ m }) {
+    const [open, setOpen] = useState(false);
+    const closeBtn = useRef(null);
+    const dockBtn = useRef(null);
+    const wasOpen = useRef(false);
+    // When the sheet closes, focus goes back to the bar (a new element: the sheet replaced the old one).
+    useEffect(() => {
+      if (!open && wasOpen.current && dockBtn.current) dockBtn.current.focus();
+      wasOpen.current = open;
+    }, [open]);
+    useEffect(() => {
+      if (!open) return undefined;
+      const overflow = document.body.style.overflow;
+      document.body.style.overflow = 'hidden';
+      if (closeBtn.current) closeBtn.current.focus();
+      const key = (e) => { if (e.key === 'Escape') setOpen(false); };
+      document.addEventListener('keydown', key);
+      return () => {
+        document.removeEventListener('keydown', key);
+        document.body.style.overflow = overflow;
+      };
+    }, [open]);
+    const dock = html`<button type="button" class="ro-dock" ref=${dockBtn} aria-expanded="false" aria-label="Open the live readout" onClick=${() => setOpen(true)}>
+      <span class="ro-glass"><${Glass} hex=${m.s.hex} empty=${!m.ok} /></span>
+      ${m.bars.map((b) => html`<span class=${'ro-dcol tone-' + (b.status || 'none')} data-key=${b.key}>
+        <small>${b.label}</small><b>${valueText(b)}${b.unit && b.value != null && html`<i>${b.unit}</i>`}</b>
+        <em>${b.status === 'good' ? html`<${Icon} name="check" size=${11} />` : b.status && b.delta ? deltaText(b) : ''}</em></span>`)}
+      ${m.warnCount > 0 && html`<span class="ro-dwarn" aria-label=${`${m.warnCount} warning${m.warnCount > 1 ? 's' : ''}`}><${Icon} name="warn" size=${13} /></span>`}
+    </button>`;
+    return html`
+      ${open && html`<div class="ro-back" onClick=${() => setOpen(false)}></div>`}
+      <section class=${'ro-m' + (open ? ' open' : '')} role=${open ? 'dialog' : 'region'} aria-modal=${open ? 'true' : undefined} aria-label="Live readout">
+        <button type="button" class="ro-handle" aria-label=${open ? 'Collapse the readout' : 'Expand the readout'} onClick=${() => setOpen(!open)}><i></i></button>
+        ${open ? html`<div class="ro-sheet">
+          <div class="ro-sheet-head">
+            <div class="ro-glass"><${Glass} hex=${m.s.hex} empty=${!m.ok} /></div>
+            <div class="ro-fit-text"><div class="ro-sheet-title">Live readout</div>
+              <div class="ro-fit-sub"><${Dots} m=${m} /> ${m.banded.length && m.scored.length ? `${m.good} of ${m.total} ${m.word}` : m.hint || 'Add ingredients'}${m.style && !m.clone ? ` · ${m.style.id}` : ''}</div></div>
+            <button type="button" class="ro-close" ref=${closeBtn} aria-label="Close the readout" onClick=${() => setOpen(false)}><${Icon} name="x" size=${18} /></button>
+          </div>
+          <div class="ro-sheet-body">
+            <div class="ro-mrows">${m.bars.map((b) => html`<${Row} key=${b.key} b=${b} spirit=${m.s.spirit} />`)}</div>
+            <${Panels} m=${m} />
+          </div></div>` : dock}
+      </section>`;
+  }
+
+  // ---------- entry point ----------
+  function Readout(props) {
+    const mobile = useMedia(MOBILE_QUERY);
+    const m = model(props);
+    return mobile ? html`<${MobileReadout} m=${m} />` : html`<${DesktopReadout} m=${m} />`;
+  }
+
+  MJ.ui.Readout = Readout;
+})();
+
+</script>
+  <script>
 // Install the app on a phone or desktop: registers the service worker (sw.js) and shows a "put it on your device"
 // banner the first time the site is opened, and again after a week if it still isn't installed.
 //
@@ -4089,7 +4542,6 @@ window.MJ = window.MJ || {};
           <div class="chips" style="margin-top:8px">
             <span class=${'badge ' + fam.cls}>${fam.label}</span>
             <span class="badge">${y.alcoholTolerance} tol.</span>
-            ${y.needsHeating && html`<span class="badge badge-copper">Heating required</span>`}
           </div>
         </div>
       </div>
@@ -4131,7 +4583,7 @@ window.MJ = window.MJ || {};
         <td><span class=${'badge ' + (CAT_BADGE[a.category] || '')}>${a.category}</span></td>
         <td class="num">${a.ppg}</td><td class="num">${fmt.n1(a.yieldMetric)}</td>
         <td class="num">${Math.round(a.fermentability * 100)}%</td><td class="num">${a.ebcPer20L}</td>
-        <td style="min-width:280px"><small style="color:var(--text-2)">${a.notes}</small></td>
+        <td style="min-width:280px"><small style="color:var(--text-2)">${/^Spirit/.test(a.name) && /not modelled/i.test(a.notes || '') ? MJ.calc.SPIRIT_NOTE : a.notes}</small></td>
         <td><div class="row" style="flex-wrap:nowrap;gap:6px"><${AddButton} kind="additions" value=${a.name} label=${a.name} />
           <button class="btn btn-ghost btn-icon" title=${`Edit ${a.name}`} aria-label=${`Edit ${a.name}`} onClick=${() => onEdit(a)}><${Icon} name="edit" /></button>
           ${!a.builtIn && html`<button class="btn btn-ghost btn-icon" title=${`Delete ${a.name}`} aria-label=${`Delete ${a.name}`} onClick=${() => onDelete(a)}><${Icon} name="trash" /></button>`}</div></td>
@@ -4194,39 +4646,29 @@ window.MJ = window.MJ || {};
 
     return html`<div>
       <div class="page-head">
-        <div><div class="eyebrow">Master reference</div><h1>Ingredients</h1>
-          <p>Full specifications for the Mangrove Jack's can range: malt extract cans, beer enhancers, hop blends, Craft Series yeasts and common additions.</p></div>
+        <div><h1>Ingredients</h1></div>
         <div style="min-width:min(100%,320px)"><${SearchInput} value=${q} onInput=${setQ} placeholder="Search all ingredients…" /></div>
       </div>
       <${Tabs} tabs=${tabs} active=${tab} onChange=${(t) => { setTab(t); MJ.router.replaceQuery({ tab: t }); }} />
 
       ${tab === 'cans' && html`
-        <div class="note info" style="margin-bottom:16px">${D.canNotes.header}</div>
-        ${empty || html`<div class="grid grid-2">${list.map((c) => html`<${CanCard} key=${c.sku} c=${c} />`)}</div>`}
-        <div class="note warn" style="margin-top:16px">${D.canNotes.footnote}</div>`}
+        ${empty || html`<div class="grid grid-2">${list.map((c) => html`<${CanCard} key=${c.sku} c=${c} />`)}</div>`}`}
 
       ${tab === 'enhancers' && html`
         ${empty || html`<div class="grid grid-2">${list.map((e) => html`<${EnhancerCard} key=${e.sku} e=${e} />`)}</div>`}
         <div class="grid grid-2" style="margin-top:16px">
           <div class="card"><div class="card-head"><h3>Microbiological spec (per gram, all variants)</h3></div>
             <table class="data"><tbody>${D.enhancerNotes.micro.map((m) => html`<tr><td>${m.parameter}</td><td class="num"><b>${m.limit}</b></td></tr>`)}</tbody></table></div>
-          <div class="stack">
-            <div class="note">${D.enhancerNotes.e4Guide}</div>
-            <div class="note warn">${D.enhancerNotes.ebcNote}</div>
-          </div>
         </div>`}
 
       ${tab === 'hops' && html`
-        <div class="note info" style="margin-bottom:16px">Blended ${K.hopSachetG} g sachets for dry hopping. Component weights are per sachet. Dry hops add aroma but negligible measured IBU, so they don't count towards the IBU estimate.</div>
         ${empty || html`<div class="grid grid-3">${list.map((h) => html`<${HopCard} key=${h.sku} h=${h} />`)}</div>`}`}
 
       ${tab === 'yeasts' && html`
-        <div class="note" style="margin-bottom:12px;white-space:pre-line">${D.yeastNotes}</div>
         <div class="chips" style="margin-bottom:16px">${Object.entries(FAMILY).map(([k, f]) => html`<span class=${'badge fam-' + k} style="color:var(--text)">${f.label} yeasts</span>`)}</div>
         ${empty || html`<div class="grid grid-2">${list.map((y) => html`<${YeastCard} key=${y.code} y=${y} />`)}</div>`}`}
 
       ${tab === 'additions' && html`
-        <div class="note info" style="margin-bottom:16px">${D.additionNotes}</div>
         ${addStatus.error && html`<div class="note warn" style="margin-bottom:16px">The shared additions can't be loaded or saved right now (${addStatus.error}). The values from the master reference are being used.
           ${/permission/i.test(addStatus.error) && ' The database rules need the mjAdditions block from firebase/firestore.rules.mjRecipes.txt.'}</div>`}
         <div class="row" style="margin-bottom:16px"><button class="btn btn-primary" onClick=${() => openDialog(null)}><${Icon} name="plus" /> Add an addition</button>
@@ -4242,12 +4684,12 @@ window.MJ = window.MJ || {};
 
 </script>
   <script>
-// Recipe builder with live stats, plus the shared StatsPanel and the new-recipe draft.
+// Recipe builder (the live stats are the readout, js/ui/readout.js) and the new-recipe draft.
 window.MJ = window.MJ || {};
 
 (function () {
   const { html, useState, useEffect, useMemo, useRef } = htmPreact;
-  const { Icon, Glass, Combobox, NumberInput, Stepper, Warnings, SearchInput, CanPicture, EnhancerPicture, HopPicture, YeastPicture, fmt } = MJ.ui;
+  const { Icon, Glass, Combobox, NumberInput, Stepper, Warnings, SearchInput, Readout, CanPicture, EnhancerPicture, HopPicture, YeastPicture, fmt } = MJ.ui;
   const D = MJ.data;
   const K = D.constants;
   const { compute, lookup, fmtRange } = MJ.calc;
@@ -4276,7 +4718,8 @@ window.MJ = window.MJ || {};
   function addLine(recipe, kind, value) {
     const r = { ...recipe };
     if (kind === 'additions') {
-      r.additions = r.additions.concat({ name: value, kg: 0.5, unit: 'kg' });
+      // a spirit is an amount (ml) and a strength (% ABV) rather than a weight
+      r.additions = r.additions.concat(/^Spirit/.test(value) ? { name: value, kg: 0, unit: 'ml', ml: 100, abv: 40 } : { name: value, kg: 0.5, unit: 'kg' });
       return r;
     }
     const key = LIST_KEY[kind];
@@ -4313,128 +4756,6 @@ window.MJ = window.MJ || {};
     const text = Math.abs(r.diff).toFixed(d);
     return `${r.status === 'good' ? '✓' : r.diff > 0 ? '▲' : '▼'} ${Number(text) === 0 ? text : `${r.diff > 0 ? '+' : '−'}${text}`}${r.unit}`;
   };
-
-  // ---------- Recipe stats: one bar per number, against the BJCP style range or a clone's target ----------
-  const barNum = (x, digits, unit = '') => (Number.isFinite(x) ? `${x.toFixed(digits)}${unit}` : '—');
-
-  function StatBar({ b }) {
-    const ref = b.mode === 'style' ? `${barNum(b.band[0], b.digits)}–${barNum(b.band[1], b.digits, b.unit)}`
-      : b.mode === 'clone' ? `target ${b.derived ? '≈ ' : ''}${barNum(b.target, b.digits, b.unit)}` : '';
-    const off = b.status && b.status !== 'good' && b.delta;
-    const chip = off ? `${b.delta > 0 ? '▲' : '▼'} ${barNum(Math.abs(b.delta), b.digits, b.unit)}` : b.status === 'good' ? '✓' : '';
-    const word = b.status === 'good' ? (b.mode === 'clone' ? 'within tolerance' : 'in range')
-      : off ? `${barNum(Math.abs(b.delta), b.digits, b.unit)} ${b.delta > 0 ? 'above' : 'below'} ${b.mode === 'clone' ? 'target' : 'range'}` : '';
-    return html`<div class=${'stat-bar tone-' + (b.status || 'none') + ' mode-' + b.mode} role="img"
-      aria-label=${`${b.label} ${b.value == null ? 'not yet known' : barNum(b.value, b.digits, b.unit)}${ref ? `, ${ref}` : ''}${word ? `, ${word}` : ''}`}>
-      <div class="sb-head">
-        <span class="sb-label">${b.label}</span>
-        ${ref && html`<span class="sb-ref" title=${b.derived ? 'Calculated from the other specs' : undefined}>${ref}</span>`}
-        <span class="sb-right">
-          ${chip && html`<span class="sb-chip" title=${word}>${chip}</span>`}
-          <span class="sb-val">${b.value == null ? '—' : barNum(b.value, b.digits, b.unit)}</span>
-        </span>
-      </div>
-      <div class=${'sb-track' + (b.spectrum ? ' spectrum' : '')} style=${b.spectrum ? `background:linear-gradient(90deg,${b.stops.map(([hex, pos]) => `${hex} ${pos.toFixed(2)}%`).join(',')})` : undefined}>
-        ${b.bandPos && html`<i class="sb-band" style=${`left:${b.bandPos[0]}%;width:${Math.max(b.spectrum ? 2.5 : 1.5, b.bandPos[1] - b.bandPos[0])}%`}></i>`}
-        ${b.targetPos != null && html`<i class="sb-target" style=${`left:${b.targetPos}%`}></i>`}
-        ${b.pos != null && html`<i class=${'sb-marker' + (b.clamped ? ' clamped' : '')} style=${`left:${b.pos}%`}></i>`}
-      </div>
-      ${b.ticks && html`<div class="sb-scale" aria-hidden="true">${b.ticks.map((t) => html`<span style=${`left:${t.pos}%`}>${t.v}</span>`)}</div>`}
-    </div>`;
-  }
-
-  function RecipeStats({ s, style, styleId, clone, ok }) {
-    const bars = MJ.calc.statBars(s, { style, clone });
-    const banded = bars.some((b) => b.mode !== 'none');
-    const cloneName = clone && (clone.name || '').trim();
-    const sub = clone ? (cloneName ? `Compared with ${cloneName}` : 'Compared with the commercial beer')
-      : style ? `${style.id} · ${style.name}` : '';
-    const tip = clone
-      ? 'Each band is the tolerance around the commercial beer\'s spec and the line is its target. Green is within tolerance, amber slightly off, red well off.'
-      : 'Bars compare the recipe with the BJCP 2021 range for the chosen style. Green is inside the range, amber slightly outside, red well outside.';
-    const hint = clone ? (banded ? '' : 'Enter the specs of the beer you are cloning to see how close your recipe gets.')
-      : !styleId ? 'Pick a BJCP style to see where your recipe sits in its range.'
-      : !banded ? 'No BJCP range data for this style.' : '';
-    return html`<div class="stats-section recipe-stats">
-      <div class="rs-head"><h4>Recipe stats</h4><span class="rs-info" title=${tip} aria-label=${tip}><${Icon} name="info" size=${15} /></span></div>
-      ${sub && html`<div class="rs-sub">${sub}</div>`}
-      <div class="stat-bars">${bars.map((b) => html`<${StatBar} key=${b.key} b=${b} />`)}</div>
-      <div class="rs-extra">
-        <span>BU:GU</span><b>${ok && s.buGu != null ? s.buGu.toFixed(2) : '—'}</b>
-        <span>Calories</span><b>${s.calories != null ? `${Math.round(s.calories)} per 100 ml` : '—'}</b>
-      </div>
-      ${banded && html`<div class="rs-legend">
-        <span><i class="lg-band"></i>${clone ? 'Tolerance' : 'BJCP range'}</span>
-        <span><i class="lg-mark"></i>Recipe</span>
-        ${clone && html`<span><i class="lg-tick"></i>Target</span>`}
-      </div>`}
-      ${hint && html`<p class="rs-hint">${hint}</p>`}
-    </div>`;
-  }
-
-  // ---------- Stats panel (also used on the recipe detail page) ----------
-  const BREAK_COLOURS = { cans: '#b57d10', enhancers: '#e8c063', additions: '#2c6a4d' };
-
-  // showVolume is used on the recipe detail page for a large batch volume strip.
-  // clone: the commercial beer's specs when the recipe is a clone; the bars then compare against them.
-  // style / styleId: the chosen BJCP style (object from MJ.calc.bjcpStyle, and the raw id) for the range bands.
-  function StatsPanel({ result: s, title, subtitle, showPitch = true, showVolume = false, clone = null, style = null, styleId = '' }) {
-    const totalPts = s.canPts + s.enhPts + s.addPts;
-    const ok = s.valid && totalPts > 0;
-    const parts = [['cans', 'Cans', s.canPts], ['enhancers', 'Enhancers', s.enhPts], ['additions', 'Additions', s.addPts]].filter((p) => p[2] > 0);
-    return html`<div class="card" style="overflow:hidden">
-      <div class="stats-hero">
-        <${Glass} hex=${s.hex} empty=${!ok} />
-        <div style="min-width:0">
-          <h3 style="overflow:hidden;text-overflow:ellipsis">${title || 'Live estimate'}</h3>
-          <small>${subtitle || 'Updates as you build'}</small>
-          ${ok && html`<div style="margin-top:6px"><span class="badge" style="background:rgba(255,255,255,.1);color:#f3ede2">
-            <span style=${`display:inline-block;width:10px;height:10px;border-radius:50%;background:${s.hex}`}></span>
-            ${fmt.n1(s.srm)} SRM · ${fmt.n1(s.ebc)} EBC</span></div>`}
-        </div>
-      </div>
-      ${showVolume && s.valid && html`<div class="batch-strip"><span>Batch volume</span><b>${fmt.qty(s.volumeL)}<em>litres</em></b></div>`}
-      <${RecipeStats} s=${s} style=${style} styleId=${styleId} clone=${clone} ok=${ok} />
-      ${ok && html`<div class="stats-section">
-        <h4>Gravity points</h4>
-        <div class="breakdown">${parts.map(([k, , v]) => html`<span title=${k} style=${`width:${(v / totalPts) * 100}%;background:${BREAK_COLOURS[k]}`}></span>`)}</div>
-        <div class="legend">${parts.map(([k, label, v]) => html`<span><i style=${`background:${BREAK_COLOURS[k]}`}></i>${label} ${fmt.n1(v)}</span>`)}</div>
-        ${s.yeast && html`<p style="margin:10px 0 0;font-size:12.5px" class="muted">${s.tolerance
-          ? `FG is held by the ${s.tolerance.limit}% alcohol tolerance of ${s.tolerance.yeast.join(' / ')}: the yeast finishes at ${s.attenuation.effective.toFixed(1)}% attenuation, not the usual ${s.attenuation.mid}%.`
-          : `FG uses ${s.yeast.code} ${s.yeast.name} at ${s.attenuation.mid}% attenuation (range ${s.yeast.attenuation}).`}</p>`}
-      </div>`}
-      ${(s.temp || (showPitch && s.pitch.length > 0)) && html`<div class="stats-section">
-        <h4>Fermentation</h4>
-        ${s.temp && (s.temp.overlap
-          ? html`<p style="margin:0 0 6px"><b>${fmtRange(s.temp.min, s.temp.max)}</b> <small class="muted">suggested from yeast specs${s.temp.optimal ? ` · optimal ${fmtRange(...s.temp.optimal)}` : ''}</small></p>`
-          : html`<p style="margin:0 0 6px;color:var(--copper)">No overlapping temperature range</p>`)}
-        ${showPitch && s.pitch.map((p) => html`<p style="margin:0;font-size:12.5px"><b>${p.code}:</b> ${p.recommended} sachet${p.recommended > 1 ? 's' : ''} recommended. <span class="muted">${p.reason}</span></p>`)}
-      </div>`}
-      ${ok && html`<div class="stats-section">
-        <h4>Totals</h4>
-        <div class="legend" style="gap:4px 16px">
-          <span>Fermentables <b>${fmt.kg(s.totals.fermentablesKg)}</b></span>
-          <span>Hops <b>${fmt.g(s.totals.hopG)}</b></span>
-          <span>Yeast <b>${s.totals.yeastSachets} sachet${s.totals.yeastSachets === 1 ? '' : 's'}</b></span>
-          ${!showVolume && html`<span>Batch <b>${s.volumeL} L</b></span>`}
-        </div>
-      </div>`}
-      ${s.warnings.length > 0 && html`<div class="stats-section"><${Warnings} items=${s.warnings} /></div>`}
-    </div>`;
-  }
-
-  function MobileStats({ result: s }) {
-    const ok = s.valid && s.og > 1;
-    return html`<div class="mobile-stats">
-      <span class="dot" style=${`background:${s.hex}`}></span>
-      <div><b>${ok ? fmt.sg(s.og) : '—'}</b><small>OG</small></div>
-      <div><b>${ok && s.fg ? fmt.sg(s.fg) : '—'}</b><small>FG</small></div>
-      <div><b>${ok && s.abv != null ? fmt.n1(s.abv) : '—'}</b><small>ABV%</small></div>
-      <div><b>${ok ? fmt.n0(s.ibu) : '—'}</b><small>IBU</small></div>
-      <div><b>${ok ? fmt.n0(s.ebc) : '—'}</b><small>EBC</small></div>
-      <div class="opt"><b>${ok ? fmt.n0(s.srm) : '—'}</b><small>SRM</small></div>
-    </div>`;
-  }
 
   // ---------- section helpers ----------
   function Section({ title, hint, children, action }) {
@@ -4510,7 +4831,6 @@ window.MJ = window.MJ || {};
                 <span class="yc-meta">${shortTemp(y)} · ${y.attenuation.replace(/\s*–\s*/, '–')} att.</span>
                 <span class="yc-meta">Tolerates ${y.alcoholTolerance}</span>
                 <span class="yc-styles">${y.styles}</span>
-                ${y.needsHeating && html`<span class="badge badge-copper yc-heat">Needs heating</span>`}
               </span>
               ${counts[y.code] > 0 && html`<span class="yc-count">×${fmt.qty(counts[y.code])}</span>`}
             </button>
@@ -4525,7 +4845,23 @@ window.MJ = window.MJ || {};
 
   const countOf = (lines, key, value) => lines.reduce((n, l) => n + (l[key] === value ? Number(l.qty) || 0 : 0), 0);
 
+  // A spirit has no weight or gravity: it is an amount (ml or L) and a strength (% ABV), added at bottling.
+  function SpiritLine({ a, onChange, onRemove }) {
+    const ml = Number(a.ml) || 0;
+    const litres = a.unit === 'l';
+    const strength = a.abv == null ? 40 : Number(a.abv) || 0;
+    return html`<${Line} title=${a.name} sub=${`${fmt.n0((ml * strength) / 100)} ml of pure alcohol · added at bottling, no gravity or colour`} onRemove=${onRemove}
+      qty=${html`<div class="row spirit-row">
+        <${Stepper} label=${`${a.name} amount`} value=${litres ? Math.round(ml) / 1000 : ml} step=${litres ? 0.05 : 25} max=${litres ? 20 : 20000}
+          onChange=${(v) => onChange({ ...a, ml: litres ? Math.round((Number(v) || 0) * 1000) : Number(v) || 0 })} />
+        <div class="unit-toggle">${[['ml', 'ml'], ['l', 'L']].map(([u, label]) => html`<button type="button" class=${(litres ? 'l' : 'ml') === u ? 'on' : ''} onClick=${() => onChange({ ...a, unit: u })}>${label}</button>`)}</div>
+        <label class="spirit-abv"><${NumberInput} value=${strength} min=${0} max=${100} step=${0.5} decimals=${1} aria-label=${`${a.name} strength, % ABV`}
+          onChange=${(v) => onChange({ ...a, abv: Number(v) || 0 })} /><em>% ABV</em></label>
+      </div>`} />`;
+  }
+
   function AdditionLine({ a, line, onChange, onRemove }) {
+    if (/^Spirit/.test(a.name || '')) return html`<${SpiritLine} a=${a} onChange=${onChange} onRemove=${onRemove} />`;
     const unit = a.unit || (a.kg < 1 ? 'g' : 'kg');
     const shown = unit === 'g' ? Math.round(a.kg * 1e6) / 1e3 : Math.round(a.kg * 1e6) / 1e6;
     const spec = MJ.calc.additionSpec(a);
@@ -4725,7 +5061,7 @@ window.MJ = window.MJ || {};
       : rc.impliedAttenuation != null ? `OG and FG imply ${Math.round(rc.impliedAttenuation)}%` : 'used if OG or FG is missing';
     const cloneNote = rc.issue ? { warn: true, text: "These specs can't all be right (the ABV is too high for that gravity, or FG is above OG), so the missing value can't be worked out." }
       : rc.mismatch != null ? { warn: true, text: `The ABV you entered (${clone.abv}%) doesn't match OG and FG, which give ${rc.mismatch.toFixed(1)}%. All three are used as entered.` }
-      : { warn: false, text: hasSpecs(clone) ? 'The panel on the right shows how close your recipe is to each spec as you build it.' : 'Once you add specs, the panel on the right shows how close your recipe is to each one as you build it.' };
+      : { warn: false, text: hasSpecs(clone) ? 'The readout at the top shows how close your recipe is to each spec as you build it.' : 'Once you add specs, the readout at the top shows how close your recipe is to each one as you build it.' };
     const cloneSwitch = html`<label class="switch" title="Compare this recipe with a commercial beer">
       <input type="checkbox" role="switch" checked=${!!recipe.isClone} onChange=${(e) => update(e.target.checked ? { isClone: true } : leaveClone())} />
       <span class="switch-track"></span><span class="switch-label">Commercial clone</span></label>`;
@@ -4743,8 +5079,7 @@ window.MJ = window.MJ || {};
 
     return html`<div>
       <div class="page-head">
-        <div><div class="eyebrow">${editingId ? 'Editing recipe' : 'New recipe'}</div><h1>Recipe Builder</h1>
-          <p>Combine cans, enhancer sachets, hops, yeast and additions. OG, FG, ABV, IBU, EBC and SRM update live using the master reference formulas.</p></div>
+        <div><div class="eyebrow">${editingId ? 'Editing recipe' : 'New recipe'}</div><h1>Recipe Builder</h1></div>
         <div class="page-actions no-print">
           <div class="row">
             <button class="btn btn-ghost" onClick=${reset}><${Icon} name=${editingId ? 'plus' : 'x'} /> ${editingId ? 'New recipe' : 'Clear'}</button>
@@ -4763,6 +5098,8 @@ window.MJ = window.MJ || {};
         <${Icon} name="warn" />
         <span><b>This recipe was deleted by someone else.</b> Saving will put it back.</span>
       </div>`}
+
+      <${Readout} result=${result} style=${MJ.calc.bjcpStyle(recipe.bjcp)} styleId=${recipe.bjcp} clone=${cloneSpecs} fermTemp=${recipe.fermTemp} />
 
       <div class="builder">
         <div class="builder-form">
@@ -4909,20 +5246,12 @@ window.MJ = window.MJ || {};
             ${saveButtons}
           </div>
         </div>
-
-        <aside class="stats-panel">
-          <${StatsPanel} result=${result} title=${recipe.name || (recipe.isClone && clone.name.trim() ? `${clone.name.trim()} clone` : 'Untitled recipe')}
-            subtitle=${recipe.isClone && clone.name.trim() ? `Clone of ${clone.name.trim()}` : recipe.category || 'No style selected'}
-            clone=${cloneSpecs} style=${MJ.calc.bjcpStyle(recipe.bjcp)} styleId=${recipe.bjcp} />
-        </aside>
       </div>
-      <${MobileStats} result=${result} />
     </div>`;
   }
 
   MJ.pages = MJ.pages || {};
   MJ.pages.Builder = BuilderPage;
-  MJ.ui.StatsPanel = StatsPanel;
   MJ.ui.cloneFmt = { num: num3, diff: diffText };
   MJ.ui.hasCloneSpecs = hasSpecs;
   MJ.recipeDefaults = emptyRecipe;
@@ -4935,7 +5264,7 @@ window.MJ = window.MJ || {};
 
 (function () {
   const { html, useState, useMemo, useEffect, useRef } = htmPreact;
-  const { Icon, Glass, SearchInput, Combobox, CanPicture, EnhancerPicture, YeastPicture, fmt, useRecipes } = MJ.ui;
+  const { Icon, Glass, SearchInput, Combobox, CanPicture, EnhancerPicture, HopPicture, YeastPicture, fmt, useRecipes } = MJ.ui;
   const D = MJ.data;
   const K = D.constants;
   const { compute, lookup, fmtRange } = MJ.calc;
@@ -5082,8 +5411,7 @@ window.MJ = window.MJ || {};
 
     return html`<div>
       <div class="page-head">
-        <div><div class="eyebrow">Shared library</div><h1>Recipes</h1>
-          <p>Every recipe built with the tool, with ingredients, volumes, stats and instructions.</p></div>
+        <div><h1>Recipes</h1></div>
         <a class="btn btn-primary" href="#/builder"><${Icon} name="plus" /> New recipe</a>
       </div>
       ${!ready ? html`<${MJ.ui.Loading} text="Loading recipes…" />`
@@ -5147,6 +5475,9 @@ window.MJ = window.MJ || {};
     }, deps);
   }
 
+  const mlText = (ml) => (ml >= 1000 ? `${fmt.qty(ml / 1000)} L` : `${Math.round(ml)} ml`);
+  const tidy = (x) => String(Math.round(x * 10) / 10);
+
   function PrintSheet({ r, s, groups, fermentation, clone }) {
     const ref = useRef(null);
     useFitToPage(ref, [r, s, clone]);
@@ -5154,7 +5485,7 @@ window.MJ = window.MJ || {};
     const ok = s.valid && s.og > 1;
     const stats = [['OG', ok ? fmt.sg(s.og) : '—'], ['Exp. FG', ok && s.fg ? fmt.sg(s.fg) : '—'], ['ABV', ok && s.abv != null ? fmt.pct(s.abv) : '—'],
       ['IBU', ok ? fmt.n0(s.ibu) : '—'], ['EBC', ok ? fmt.n0(s.ebc) : '—'], ['SRM', ok ? fmt.n0(s.srm) : '—']];
-    const rows = groups.flatMap(([label, items]) => items.map((it, i) => ({ ...it, sub: label === 'Hops' ? it.sub : '', label: i === 0 ? label : '' })));
+    const rows = groups.flatMap(([label, items]) => items.map((it, i) => ({ ...it, sub: label === 'Hops' || it.keepSub ? it.sub : '', label: i === 0 ? label : '' })));
     return html`<div class="print-sheet" ref=${ref} aria-hidden="true">
       <div class="ps-head">
         <${Glass} hex=${s.hex} empty=${!ok} />
@@ -5174,6 +5505,14 @@ window.MJ = window.MJ || {};
             <tr><th>Recipe</th>${match.rows.map((x) => html`<td>${x.actual == null ? '—' : MJ.ui.cloneFmt.num(x.actual, x.digits, x.unit)}</td>`)}</tr>
             <tr><th>Diff</th>${match.rows.map((x) => html`<td class=${'st-' + x.status}>${x.diff == null ? '—' : MJ.ui.cloneFmt.diff(x)}</td>`)}</tr>
           </tbody></table></div>`}
+        ${s.spirit && html`<div class="ps-spirit">
+          <div class="ps-spirit-head"><b>Note: spirit addition</b><span>added at bottling, after fermentation</span></div>
+          <div class="ps-spirit-grid">
+            <div><small>Spirit</small><span>${mlText(s.spirit.ml)} at ${tidy((s.spirit.alcoholMl / s.spirit.ml) * 100)}% ABV</span></div>
+            <div><small>Batch size</small><span>${fmt.qty(Number(r.volumeL))} L → ${fmt.qty(s.spirit.totalL)} L</span></div>
+            <div><small>ABV</small><span>${fmt.pct(s.spirit.abvBefore)} → ${fmt.pct(s.spirit.abv)}</span></div>
+          </div>
+          <p>The batch size and stats above are for the beer before the spirit is added.</p></div>`}
       </div>
       <div class="ps-section"><h2>Ingredients</h2>
         ${rows.length
@@ -5237,6 +5576,7 @@ window.MJ = window.MJ || {};
       return { thumb: html`<${EnhancerPicture} code=${e.type} width=${42} />`, name: spec ? spec.name : e.type, sub: spec ? `SKU ${spec.sku}` : '', qty: plural(e.qty, 'sachet'), weight: fmt.kg((Number(e.qty) || 0) * K.enhKg) };
     });
     const hops = (r.hops || []).map((h) => ({
+      thumb: html`<${HopPicture} blend=${h.blend} width=${44} />`,
       name: `${h.blend} hop blend`,
       sub: MJ.calc.hopBreakdown(h.blend, h.qty).map((c) => `${c.hop} ${fmt.g(c.g)}`).join(', '),
       qty: plural(h.qty, 'sachet'), weight: fmt.g((Number(h.qty) || 0) * K.hopSachetG),
@@ -5247,6 +5587,10 @@ window.MJ = window.MJ || {};
     });
     const adds = (r.additions || []).map((a) => {
       const spec = MJ.calc.additionSpec(a);
+      if (MJ.calc.isSpirit(a)) {
+        const ml = Number(a.ml) || 0;
+        return { name: a.name, tag: '', sub: `${a.abv == null ? 40 : Number(a.abv) || 0}% ABV · added at bottling`, qty: mlText(ml), keepSub: true };
+      }
       return {
         name: a.name,
         tag: a.custom ? html`<span class="badge badge-gold" style="margin-left:6px">custom</span>` : '',
@@ -5289,6 +5633,7 @@ window.MJ = window.MJ || {};
           <button class="btn btn-danger" onClick=${remove}><${Icon} name="trash" /> Delete</button>
         </div>
       </div>
+      <${MJ.ui.Readout} result=${s} style=${MJ.calc.bjcpStyle(r.bjcp)} styleId=${r.bjcp} clone=${clone} fermTemp=${r.fermTemp} />
       <div class="detail">
         <div class="stack">
           ${tpl && html`<section class="card tpl-about"><div class="card-head"><h2>About this template</h2>${tpl.miniMash && html`<span class="badge badge-copper">Mini-mash needed</span>`}</div>
@@ -5321,8 +5666,7 @@ window.MJ = window.MJ || {};
           ${r.notes && html`<section class="card"><div class="card-head"><h2>${tpl ? 'Example notes' : 'Notes'}</h2></div><div class="card-body prose">${r.notes}</div></section>`}
           ${r.instructions && html`<section class="card"><div class="card-head"><h2>${tpl ? 'Example method' : 'Instructions'}</h2></div><div class="card-body prose">${r.instructions}</div></section>`}
         </div>
-        <aside class="stats-panel"><${MJ.ui.StatsPanel} result=${s} title=${tpl ? 'Worked example stats' : 'Estimated stats'} subtitle="Calculated live from current specs" showPitch=${false} showVolume=${true} clone=${clone} style=${MJ.calc.bjcpStyle(r.bjcp)} styleId=${r.bjcp} /></aside>
-      </div>
+     </div>
       </div>
       <${PrintSheet} r=${tpl ? { ...r, name: r.exampleName, category: `${r.category} · template example` } : r} s=${s} groups=${groups} fermentation=${fermentation} clone=${clone} />
     </div>`;
@@ -5592,8 +5936,7 @@ EBC      = SRM × 1.97`}>
     const [tab, setTab] = useState('calc');
     return html`<div>
       <div class="page-head">
-        <div><div class="eyebrow">Quick reference</div><h1>Formulas & Calculators</h1>
-          <p>The estimation methods behind every recipe stat, plus everyday brewing calculators and conversions.</p></div>
+        <div><h1>Formulas & Calculators</h1></div>
       </div>
       <${Tabs} active=${tab} onChange=${setTab} tabs=${[{ id: 'calc', label: 'Calculators' }, { id: 'ref', label: 'Formula reference' }]} />
       ${tab === 'calc'
@@ -5653,7 +5996,7 @@ window.MJ = window.MJ || {};
       case 'ingredients': return { nav: 'ingredients', el: html`<${P.Ingredients} query=${query} />` };
       case 'builder': return { nav: 'builder', el: html`<${P.Builder} params=${{ id }} />`, mobileStats: true };
       case 'recipes': return id
-        ? { nav: 'recipes', el: html`<${P.RecipeDetail} params=${{ id }} />` }
+        ? { nav: 'recipes', el: html`<${P.RecipeDetail} params=${{ id }} />`, mobileStats: true }
         : { nav: 'recipes', el: html`<${P.Recipes} />` };
       case 'formulas': return { nav: 'formulas', el: html`<${P.Formulas} />` };
       default: return { nav: 'builder', el: html`<${P.Builder} params=${{}} />`, mobileStats: true };
@@ -5707,10 +6050,10 @@ window.MJ = window.MJ || {};
     const status = MJ.ui.useStoreStatus();
     const [dismissed, setDismissed] = useState(null);
     const showError = status.error && dismissed !== status.error;
-    const footerStatus = !live
-      ? '● Local mode: recipes are saved in this browser only'
+    // Only said when something is wrong or in progress; normal running (local or live) shows nothing.
+    const footerStatus = !live ? ''
       : status.error ? '● Database error: see the banner above'
-      : !status.offline ? '● Live: recipes sync for everyone'
+      : !status.offline ? ''
       : status.ready ? '● Offline: showing this browser\'s saved copy; changes sync when reconnected'
       : '● Connecting…';
     return html`
@@ -5735,8 +6078,7 @@ window.MJ = window.MJ || {};
       </div>`}
       <main class=${view.mobileStats ? 'has-mobile-stats' : ''} key=${route.path}>${view.el}</main>
       <footer class="site-footer">
-        <span>Specs and formulas from ${MJ.data.source}</span>
-        <span><${InstallLink} /> <span class=${'db-status' + (live && !status.offline && !status.error ? ' on' : '') + (status.error ? ' err' : '')}>${footerStatus}</span></span>
+        <span><${InstallLink} /> ${footerStatus && html`<span class=${'db-status' + (status.error ? ' err' : '')}>${footerStatus}</span>`}</span>
       </footer>
       `;
   }
