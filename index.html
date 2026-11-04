@@ -2461,9 +2461,10 @@ MJ.firebaseConfig = {
   messagingSenderId: '435247118775',
   appId: '1:435247118775:web:552d0a44990ffc1c0d1032',
 };
-// Sign-in (js/auth.js): only Google accounts whose verified email ends in this domain get in. The Firestore rules
-// (firebase/firestore.rules.mjRecipes.txt) enforce the same thing on the server; this copy only shapes the sign-in screen.
-MJ.allowedEmailDomain = 'bevie.co';
+// Sign-in (js/auth.js): any Google account with a verified email can sign in. To limit it to one company's accounts, set a
+// domain here (for example 'bevie.co') and change staff() in firebase/firestore.rules.mjRecipes.txt to match: the rules are
+// the real lock, this copy only shapes the sign-in screen.
+MJ.allowedEmailDomain = '';
 MJ.recipesCollection = 'mjRecipes';
 MJ.additionsCollection = 'mjAdditions';
 
@@ -4520,18 +4521,18 @@ window.MJ = window.MJ || {};
 
 </script>
   <script>
-// Sign-in with a Google account (Firebase Authentication). Only accounts whose VERIFIED email ends in
-// MJ.allowedEmailDomain (@bevie.co) may use the tool.
+// Sign-in with a Google account (Firebase Authentication). Any Google account with a VERIFIED email may use the tool.
+// If MJ.allowedEmailDomain is set (say 'bevie.co') only accounts at that domain may.
 //
 // This screen is a convenience. The real lock is in the Firestore rules (firebase/firestore.rules.mjRecipes.txt),
-// which refuse every request that doesn't carry a verified @bevie.co sign-in, whatever page it comes from. The page code
+// which refuse every request that doesn't carry a verified Google sign-in, whatever page it comes from. The page code
 // is public, so nothing here can be a secret.
 //
 // MJ.auth.state:
 //   loading      working out whether someone is already signed in
 //   signedOut    show the sign-in screen
 //   signingIn    the Google window is open
-//   denied       signed in with an account that isn't allowed (say, a personal Gmail)
+//   denied       signed in with an account that isn't allowed (an unverified email, or outside MJ.allowedEmailDomain if one is set)
 //   unavailable  opened as a plain file, where Google sign-in can't run
 //   ready        signed in and allowed: the app opens
 //   open         no Firebase configured (local-only mode): no sign-in needed
@@ -4544,10 +4545,13 @@ window.MJ = window.MJ || {};
   const escapeRe = (s) => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
   const domain = () => (MJ.allowedEmailDomain || '').toLowerCase();
 
-  // Exactly name@domain: "a@bevie.co.evil.com" and "a@mail.bevie.co" don't count. The email must be verified.
+  // The email must be one Google has verified. With no domain set that is all; with one set it must be exactly
+  // name@domain ("a@bevie.co.evil.com" and "a@mail.bevie.co" don't count).
   function emailAllowed(email, verified) {
-    if (!verified || !domain()) return false;
-    return new RegExp('^[^@\\s]+@' + escapeRe(domain()) + '$', 'i').test(String(email || ''));
+    const e = String(email || '');
+    if (!verified || !/^[^@\s]+@[^@\s]+$/.test(e)) return false;
+    if (!domain()) return true;
+    return new RegExp('^[^@\\s]+@' + escapeRe(domain()) + '$', 'i').test(e);
   }
 
   // Words for the errors a person can actually do something about; '' means "they just closed the window".
@@ -4652,7 +4656,7 @@ window.MJ = window.MJ || {};
       signOut: () => fa.signOut(),
       async signIn() {
         const provider = new firebase.auth.GoogleAuthProvider();
-        provider.setCustomParameters({ hd: MJ.allowedEmailDomain, prompt: 'select_account' }); // only a hint: the rules enforce it
+        provider.setCustomParameters(MJ.allowedEmailDomain ? { hd: MJ.allowedEmailDomain, prompt: 'select_account' } : { prompt: 'select_account' }); // hd is only a hint: the rules enforce it
         try {
           await fa.signInWithPopup(provider);
         } catch (e) {
@@ -4696,14 +4700,16 @@ window.MJ = window.MJ || {};
 
   // ---------- sign-in screen ----------
   function AuthScreen({ auth }) {
-    const domain = MJ.allowedEmailDomain ? `@${MJ.allowedEmailDomain}` : 'work';
+    const domain = MJ.allowedEmailDomain ? `@${MJ.allowedEmailDomain} ` : '';
     const { state, user, error } = auth;
     let body;
     if (state === 'loading') {
       body = html`<div class="auth-loading" role="status"><div class="spinner"></div><p>Checking sign-in…</p></div>`;
     } else if (state === 'denied') {
       body = html`<h1 id="auth-title">That account can't be used</h1>
-        <p>You're signed in as <b>${user && user.email}</b>, which isn't a ${domain} account. This tool is for ${domain} Google accounts only.</p>
+        ${MJ.allowedEmailDomain
+          ? html`<p>You're signed in as <b>${user && user.email}</b>, which isn't a ${domain}account. This tool is for ${domain}Google accounts only.</p>`
+          : html`<p>You're signed in as <b>${user && user.email}</b>, but Google hasn't verified that email address, so it can't be used. Verify it with Google, or use a different account.</p>`}
         <button class="btn btn-primary" onClick=${() => auth.signOut()}>Use a different account</button>`;
     } else if (state === 'unavailable') {
       body = html`<h1 id="auth-title">Sign-in needs the web version</h1>
@@ -4713,10 +4719,10 @@ window.MJ = window.MJ || {};
     } else {
       const busy = state === 'signingIn';
       body = html`<h1 id="auth-title">MJ Cans Recipe Database</h1>
-        <p>Sign in with your ${domain} Google account to use the shared recipes.</p>
+        <p>Sign in with your ${domain}Google account to use the shared recipes.</p>
         <button class="btn-google" disabled=${busy} onClick=${() => auth.signIn()}><${GoogleG} /> ${busy ? 'Opening Google…' : 'Sign in with Google'}</button>
         ${error && html`<p class="field-error auth-error" role="alert">${error}</p>`}
-        <p class="muted auth-note">Recipes are internal to Bevie. Signing in on a shared computer? Remember to sign out when you finish.</p>`;
+        <p class="muted auth-note">${MJ.allowedEmailDomain ? 'Recipes are internal to Bevie. ' : ''}Signing in on a shared computer? Remember to sign out when you finish.</p>`;
     }
     return html`<div class="auth-wrap"><section class="auth-card" aria-labelledby="auth-title">
       <${MJ.ui.BrandMark} size=${84} className="auth-mark" />
