@@ -1079,6 +1079,64 @@ h3, h4 { text-transform: uppercase; }
 .back-link:focus-visible { outline: 2px solid var(--primary-hover); outline-offset: 2px; }
 .back-link:active { transform: translateY(1px); }
 
+/* Recipes page: each group (Recipes, Templates, Commercial clones) starts with a clear slate band */
+.lib-recipes + .lib-templates, .lib-recipes + .lib-clones, .lib-templates + .lib-clones { margin-top: 56px; }
+.lib-clones.divided, .lib-templates.divided { padding-top: 0; border-top: 0; }
+.lib-heading { margin: 0 0 18px; padding: 14px 18px; background: var(--header); color: #fff; border-left: 6px solid var(--primary); font-size: 1.3rem; letter-spacing: .1em; }
+.lib-heading .count { background: var(--primary); color: var(--on-primary, #1b1b1b); font-weight: 700; padding: 3px 10px; }
+.lib-intro { margin: 0 0 18px; }
+
+/* ---- Recipe page header: low profile. Small beer picture, name with its meta line under it, batch volume in white on the right, actions in a strip below ---- */
+.detail-hero { display: block; padding: 0; }
+.dh-main { display: flex; align-items: center; gap: 18px; padding: 16px 24px; flex-wrap: wrap; }
+/* the beer picture is as tall as the name block beside it (the padding around the block stays) */
+.dh-glass { flex: none; width: 54px; height: 81px; }
+.detail-hero .dh-glass .glass { display: block; width: 100%; height: 100%; }
+.dh-title { flex: 1 1 200px; min-width: 0; }
+.dh-title .eyebrow { margin-bottom: 6px; }
+.dh-title h1 { font-size: clamp(1.6rem, 2.6vw, 2.1rem); overflow-wrap: anywhere; }
+.dh-meta { display: flex; align-items: center; flex-wrap: wrap; gap: 6px 18px; margin-top: 8px; }
+.detail-hero .dh-meta small { display: inline; margin: 0; }
+.dh-approve { gap: 8px; margin: 0; padding: 0; border: 0; background: none; }
+.dh-approve .switch-track { width: 34px; height: 20px; }
+.dh-approve .switch-track::after { top: 3px; left: 3px; width: 14px; height: 14px; }
+.dh-approve input:checked + .switch-track::after { transform: translateX(14px); }
+.dh-approve .switch-label, .dh-approve input:checked ~ .switch-label { color: #fff; font: 700 12.5px/1 var(--font-body); letter-spacing: .3px; }
+.dh-approve input:disabled + .switch-track { opacity: .6; }
+.dh-batch { flex: none; display: flex; flex-direction: column; align-items: flex-end; gap: 6px; color: #fff; text-align: right; }
+.detail-hero .dh-batch small { margin: 0; font: 700 11px/1 var(--font-body); letter-spacing: .14em; text-transform: uppercase; color: #c3ccd2; }
+.dh-batch b { font: 400 clamp(1.6rem, 2.6vw, 2.1rem)/1.1 var(--font-display); letter-spacing: .03em; text-transform: uppercase; font-variant-numeric: tabular-nums; font-size-adjust: none; color: #fff; }
+.dh-batch b span { font-size: inherit; }
+.dh-actions { display: flex; flex-wrap: wrap; gap: 10px; padding: 12px 24px; border-top: 1px solid rgba(255,255,255,.16); background: rgba(0,0,0,.14); }
+.dh-actions .dh-delete { margin-left: auto; }
+@media (max-width: 700px) {
+  .dh-main { padding: 14px 16px; gap: 10px 12px; }
+  .dh-glass { width: 58px; height: 87px; }
+  .dh-batch { flex-direction: row; align-items: baseline; justify-content: flex-start; gap: 12px; width: 100%; text-align: left; }
+  .dh-actions { padding: 12px 16px; }
+}
+
+/* Approved: a solid green badge pinned to the top right corner of the recipe's tile, and a green edge along its top */
+.badge-approved { display: inline-flex; align-items: center; gap: 4px; background: var(--green); color: #fff; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; }
+.badge-approved svg { flex: none; }
+.recipe-card { position: relative; }
+.recipe-card .rc-approved { position: absolute; top: 14px; right: 12px; z-index: 1; }
+.recipe-card.approved h3 { padding-right: 92px; }
+.recipe-card.approved, .recipe-card.approved:hover { box-shadow: inset 0 4px 0 var(--green); }
+
+/* Builder: the recipe's name is the page title, so a long one must wrap */
+.page-head h1 { overflow-wrap: anywhere; }
+
+/* Batch volume: up and down buttons inside the right edge of the box, 0.5 L each press */
+.input-unit.has-spin .input { padding-right: 92px; }
+.input-unit.has-spin > em { right: 44px; }
+.input-unit .spin { position: absolute; top: 1px; right: 1px; bottom: 1px; width: 34px; display: flex; flex-direction: column; border-left: 1px solid var(--border-strong); }
+.input-unit .spin button { flex: 1; display: flex; align-items: center; justify-content: center; padding: 0; border: 0; background: var(--surface-2); color: var(--text); cursor: pointer; }
+.input-unit .spin button + button { border-top: 1px solid var(--border-strong); }
+.input-unit .spin button:hover:not(:disabled) { background: var(--primary); }
+.input-unit .spin button:disabled { color: var(--border-strong); cursor: default; }
+.input-unit .spin button:focus-visible { outline: 2px solid var(--primary-hover); outline-offset: -2px; }
+
 </style>
 </head>
 <body>
@@ -3052,7 +3110,7 @@ window.MJ = window.MJ || {};
   const byUpdated = (a, b) => (b.updatedAt || '').localeCompare(a.updatedAt || '');
   const plain = (r) => JSON.parse(JSON.stringify(r)); // drops undefined (Firestore rejects it)
   const copyOf = (src) => {
-    const { id, createdAt, updatedAt, createdBy, updatedBy, ...rest } = plain(src);
+    const { id, createdAt, updatedAt, createdBy, updatedBy, approved, ...rest } = plain(src);   // a copy starts unapproved
     return { ...rest, name: `${src.name} (copy)` };
   };
   // Who made the change. `who` is the signed-in person's email, or null when nobody is signed in (local mode). A new
@@ -4156,7 +4214,7 @@ window.MJ = window.MJ || {};
       <div class="ro-sentinel" ref=${sentinel} aria-hidden="true"></div>
       <section class=${'ro-bar' + (stuck ? ' stuck' : '') + (showDetail ? ' joined' : ' solo')} ref=${bar} style=${`top:${top}px`} aria-label="Recipe readout">
         <div class="ro-fit">
-          <div class="ro-glass"><${Glass} hex=${m.s.hex} empty=${!m.ok} /></div>
+          ${!m.noGlass && html`<div class="ro-glass"><${Glass} hex=${m.s.hex} empty=${!m.ok} /></div>`}
           <div class="ro-fit-text">
             <div class="ro-h">${m.title}</div>
             <${Dots} m=${m} />
@@ -4238,7 +4296,7 @@ window.MJ = window.MJ || {};
   // ---------- entry point ----------
   function Readout(props) {
     const mobile = useMedia(MOBILE_QUERY);
-    const m = model(props);
+    const m = { ...model(props), noGlass: !!props.noGlass };   // noGlass: leave the beer picture out of the desktop bar (the recipe page already has one)
     return mobile ? html`<${MobileReadout} m=${m} />` : html`<${DesktopReadout} m=${m} />`;
   }
 
@@ -5147,6 +5205,7 @@ window.MJ = window.MJ || {};
     return canonical(strip(a)) === canonical(strip(b));
   }
 
+  const VOL_STEP = 0.5, VOL_MIN = 1, VOL_MAX = 1000;   // batch volume, in litres
   const DRAFT_KEY = 'mj-cans.draft.v1';
   const LIST_KEY = { cans: 'style', enhancers: 'type', hops: 'blend', yeasts: 'code' };
 
@@ -5181,7 +5240,7 @@ window.MJ = window.MJ || {};
     // Begin a new draft as a copy of a saved recipe. For a template, the worked example becomes the draft and the
     // template's own fields are left behind.
     startFrom(src) {
-      const { id, createdAt, updatedAt, createdBy, updatedBy, isTemplate, template, exampleName, source, ...rest } = src;
+      const { id, createdAt, updatedAt, createdBy, updatedBy, approved, isTemplate, template, exampleName, source, ...rest } = src;
       MJ.draft.set({ ...emptyRecipe(), ...rest, name: exampleName || rest.name });
     },
   };
@@ -5427,6 +5486,11 @@ window.MJ = window.MJ || {};
     }
 
     const update = (patch) => setRecipe((r) => ({ ...r, ...patch }));
+    // Batch volume up / down buttons: 0.5 L a time from whatever is in the box, kept between the limits.
+    const nudgeVolume = (dir) => setRecipe((r) => {
+      const cur = Number(r.volumeL);
+      return { ...r, volumeL: Math.min(VOL_MAX, Math.max(VOL_MIN, Math.round(((Number.isFinite(cur) ? cur : 0) + dir * VOL_STEP) * 100) / 100)) };
+    });
     const setLine = (kind, i, patch) => setRecipe((r) => ({ ...r, [kind]: r[kind].map((l, j) => (j === i ? { ...l, ...patch } : l)) }));
     const replaceLine = (kind, i, next) => setRecipe((r) => ({ ...r, [kind]: r[kind].map((l, j) => (j === i ? next : l)) }));
     const removeLine = (kind, i, label) => {
@@ -5457,7 +5521,7 @@ window.MJ = window.MJ || {};
       }
       if (!(Number(recipe.volumeL) > 0)) { MJ.toast('Enter a batch volume'); return; }
       const doc = { ...recipe, name: asCopy ? `${name} (copy)` : name };
-      if (asCopy) delete doc.id;
+      if (asCopy) { delete doc.id; delete doc.approved; }   // a copy starts unapproved
       if (doc.isClone) {
         doc.clone = { name: clone.name.trim(), og: clone.og, fg: clone.fg, abv: clone.abv, attenuation: clone.attenuation, ibu: clone.ibu, ebc: clone.ebc };
         doc.category = 'Commercial clone';
@@ -5569,7 +5633,7 @@ window.MJ = window.MJ || {};
 
     return html`<div>
       <div class="page-head">
-        <div><div class="eyebrow">${editingId ? 'Editing recipe' : 'New recipe'}</div><h1>Recipe Builder</h1></div>
+        <div><div class="eyebrow">${editingId ? 'Editing recipe' : 'New recipe'}</div><h1>${recipe.name.trim() || 'Recipe Builder'}</h1></div>
         <div class="page-actions no-print">
           <div class="row">
             <button class="btn btn-ghost" onClick=${reset}><${Icon} name=${editingId ? 'plus' : 'x'} /> ${editingId ? 'New recipe' : 'Clear'}</button>
@@ -5602,8 +5666,14 @@ window.MJ = window.MJ || {};
               <label class="field">Style <span class="hint">BJCP 2021 · type to search</span>
                 <${Combobox} options=${styleOptions} value=${recipe.isClone ? '__clone' : recipe.bjcp || ''} placeholder=${recipe.category && !recipe.bjcp ? `${recipe.category} · pick a style` : 'Search BJCP styles…'} onChange=${pickStyle} /></label>
               <label class="field">Batch volume
-                <div class="input-unit"><${NumberInput} value=${recipe.volumeL} min=${1} max=${1000} step=${0.5} decimals=${2}
-                  onChange=${(v) => update({ volumeL: v })} /><em>litres</em></div></label>
+                <div class="input-unit has-spin"><${NumberInput} value=${recipe.volumeL} min=${VOL_MIN} max=${VOL_MAX} step=${VOL_STEP} decimals=${2}
+                  onChange=${(v) => update({ volumeL: v })} /><em>litres</em>
+                  <span class="spin">
+                    <button type="button" aria-label=${`Increase batch volume by ${VOL_STEP} litres`} title=${`+${VOL_STEP} L`} disabled=${Number(recipe.volumeL) >= VOL_MAX} onClick=${() => nudgeVolume(1)}>
+                      <svg width="10" height="10" viewBox="0 0 10 10" aria-hidden="true"><path d="M1 7l4-4 4 4" fill="none" stroke="currentColor" stroke-width="1.8"/></svg></button>
+                    <button type="button" aria-label=${`Decrease batch volume by ${VOL_STEP} litres`} title=${`−${VOL_STEP} L`} disabled=${Number(recipe.volumeL) <= VOL_MIN} onClick=${() => nudgeVolume(-1)}>
+                      <svg width="10" height="10" viewBox="0 0 10 10" aria-hidden="true"><path d="M1 3l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.8"/></svg></button>
+                  </span></div></label>
             </div>
           </${Section}>
 
@@ -5808,7 +5878,8 @@ window.MJ = window.MJ || {};
     const s = useMemo(() => compute(r), [r, rev]);
     const ok = s.valid && s.og > 1;
     const fit = useMemo(() => fitOf(r, s), [r, s]);
-    return html`<a class="card recipe-card" href=${`#/recipes/${r.id}`}>
+    return html`<a class=${'card recipe-card' + (r.approved ? ' approved' : '')} href=${`#/recipes/${r.id}`}>
+      ${r.approved && html`<span class="badge badge-approved rc-approved" title="This recipe has been approved"><${Icon} name="check" size=${12} /> Approved</span>`}
       <div class="rc-top">
         <div style="width:44px;flex-shrink:0"><${Glass} hex=${s.hex} empty=${!ok} /></div>
         <div style="min-width:0">
@@ -5947,15 +6018,19 @@ window.MJ = window.MJ || {};
           </div>
           <p class="muted" style="margin:-6px 0 14px"><small>${normals.length + clones.length} of ${recipeTotal} recipe${recipeTotal === 1 ? '' : 's'}${templateTotal > 0 ? ` · ${templates.length} of ${templateTotal} template${templateTotal === 1 ? '' : 's'}` : ''}</small></p>
           ${rows.length
-            ? html`${normals.length > 0 && grid(normals)}
-              ${clones.length > 0 && html`<section class=${'lib-clones' + (normals.length ? ' divided' : '')} aria-label="Commercial clones">
-                <h2 class="lib-heading">Commercial clones <span class="count">${clones.length}</span></h2>
-                ${grid(clones)}
+            ? html`${normals.length > 0 && html`<section class="lib-recipes" aria-label="Recipes">
+                <h2 class="lib-heading">Recipes <span class="count">${normals.length}</span></h2>
+                ${grid(normals)}
               </section>`}
-              ${templates.length > 0 && html`<section class=${'lib-templates' + (normals.length || clones.length ? ' divided' : '')} aria-label="Templates">
+              ${templates.length > 0 && html`<section class=${'lib-templates' + (normals.length ? ' divided' : '')} aria-label="Templates">
                 <h2 class="lib-heading">Templates <span class="count">${templates.length}</span></h2>
                 <p class="muted lib-intro">Starting frameworks for specialty styles. Each one says what to pick and how much to add, with a worked example you can copy into the builder.</p>
                 <div class="grid grid-3">${templates.map(({ r }) => html`<${TemplateCard} key=${r.id} r=${r} rev=${sharedAdditions} />`)}</div>
+              </section>`}
+              ${clones.length > 0 && html`<section class=${'lib-clones' + (normals.length || templates.length ? ' divided' : '')} aria-label="Commercial clones">
+                <h2 class="lib-heading">Commercial clones <span class="count">${clones.length}</span></h2>
+                <p class="muted lib-intro">Recipes that aim to match a commercial beer's published numbers.</p>
+                ${grid(clones)}
               </section>`}`
             : html`<div class="line-empty">No recipes match these filters.</div>`}`}
     </div>`;
@@ -6060,6 +6135,7 @@ window.MJ = window.MJ || {};
     const { ready } = MJ.ui.useStoreStatus();
     const r = recipes.find((x) => x.id === params.id);
     const s = useMemo(() => (r ? compute(r) : null), [r, sharedAdditions]);
+    const [approving, setApproving] = useState(false);
     if (!r && !ready) return html`<${MJ.ui.Loading} text="Loading recipe…" />`;
     if (!r) {
       return html`<div class="card empty-state"><h2>Recipe not found</h2><p>It may have been deleted.</p>
@@ -6073,6 +6149,21 @@ window.MJ = window.MJ || {};
       MJ.router.navigate('#/recipes');
     };
     const tpl = r.isTemplate ? r.template || {} : null;
+    // Approving saves straight away (to the shared database too): the field is just `approved: true`, and is removed when switched off.
+    const setApproved = async (on) => {
+      if (approving) return;
+      setApproving(true);
+      const next = { ...r };
+      if (on) next.approved = true; else delete next.approved;
+      try {
+        await MJ.store.save(next);
+        MJ.toast(on ? `${r.name} marked as approved` : 'Approval removed');
+      } catch (e) {
+        MJ.toast(`Couldn't update the recipe: ${e.message || e}`);
+      } finally {
+        setApproving(false);
+      }
+    };
     const duplicate = async () => {
       const id = await MJ.store.duplicate(r.id);
       MJ.toast('Recipe duplicated');
@@ -6081,11 +6172,12 @@ window.MJ = window.MJ || {};
 
     const cans = (r.cans || []).map((c) => {
       const l = s.lines.cans.find((x) => x.spec.style === c.style);
-      return { thumb: html`<${CanPicture} style=${c.style} width=${28} />`, name: `${c.style} can`, sub: lookup.cansByStyle[c.style] ? `SKU ${lookup.cansByStyle[c.style].sku}` : '', qty: plural(c.qty, 'can'), weight: fmt.kg((Number(c.qty) || 0) * K.canKg) + (l ? ` · ${fmt.n1(l.pts)} pts` : '') };
+      return { thumb: html`<${CanPicture} style=${c.style} width=${28} />`, name: `${c.style} can`, sub: l ? `${fmt.n1(l.ibu)} IBU · ${fmt.n1(l.ebc)} EBC` : '', qty: plural(c.qty, 'can'), weight: fmt.kg((Number(c.qty) || 0) * K.canKg) + (l ? ` · ${fmt.n1(l.pts)} pts` : '') };
     });
     const enh = (r.enhancers || []).map((e) => {
       const spec = lookup.enhByCode[e.type];
-      return { thumb: html`<${EnhancerPicture} code=${e.type} width=${42} />`, name: spec ? spec.name : e.type, sub: spec ? `SKU ${spec.sku}` : '', qty: plural(e.qty, 'sachet'), weight: fmt.kg((Number(e.qty) || 0) * K.enhKg) };
+      const l = s.lines.enhancers.find((x) => x.spec.code === e.type);
+      return { thumb: html`<${EnhancerPicture} code=${e.type} width=${42} />`, name: spec ? spec.name : e.type, sub: l ? `${fmt.n1(l.ibu)} IBU · ${fmt.n1(l.ebc)} EBC` : '', qty: plural(e.qty, 'sachet'), weight: fmt.kg((Number(e.qty) || 0) * K.enhKg) };
     });
     const hops = (r.hops || []).map((h) => ({
       thumb: html`<${HopPicture} blend=${h.blend} width=${44} />`,
@@ -6132,24 +6224,35 @@ window.MJ = window.MJ || {};
       <div class="screen-only">
       <a class="back-link no-print" href="#/recipes" aria-label="Back to all recipes"><${Icon} name="back" size=${18} /> All recipes</a>
       <div class="detail-hero">
-        <${Glass} hex=${s.hex} empty=${!(s.og > 1)} />
-        <div style="flex:1;min-width:220px">
+        <div class="dh-main">
+        <div class="dh-glass"><${Glass} hex=${s.hex} empty=${!(s.og > 1)} /></div>
+        <div class="dh-title">
           <div class="eyebrow" style="color:var(--primary)">${tpl ? `Template · ${r.bjcp} · ${r.category}` : clone ? 'Commercial clone' : `${r.bjcp ? `${r.bjcp} · ` : ''}${r.category || 'Uncategorised'}`}</div>
           <h1>${r.name}</h1>
           ${tpl && html`<div class="hero-clone"><span>Worked example: <b>${r.exampleName}</b></span></div>`}
           ${clone && html`<div class="hero-clone"><span>Clone of <b>${clone.name || 'a commercial beer'}</b></span></div>`}
-          <small style="color:#b4ad9f">Updated ${fmt.date(r.updatedAt)}${r.updatedBy && html` by <span title=${r.updatedBy}>${MJ.ui.person(r.updatedBy)}</span>`}${r.createdBy && r.createdBy !== r.updatedBy && html` · created by <span title=${r.createdBy}>${MJ.ui.person(r.createdBy)}</span>`}</small>
+          <div class="dh-meta">
+            ${!tpl && html`<label class=${'switch dh-approve' + (r.approved ? ' on' : '')} title="Mark this recipe as approved. It then shows an Approved badge on the Recipes page.">
+              <input type="checkbox" role="switch" checked=${!!r.approved} disabled=${approving} onChange=${(e) => setApproved(e.target.checked)} />
+              <span class="switch-track"></span><span class="switch-label">Recipe approved</span></label>`}
+            <small>Updated ${fmt.date(r.updatedAt)}${r.updatedBy && html` by <span title=${r.updatedBy}>${MJ.ui.person(r.updatedBy)}</span>`}${r.createdBy && r.createdBy !== r.updatedBy && html` · created by <span title=${r.createdBy}>${MJ.ui.person(r.createdBy)}</span>`}</small>
+          </div>
         </div>
-        <div class="row no-print">
+        <div class="dh-batch" role="group" aria-label=${`Batch volume ${fmt.qty(Number(r.volumeL))} litres`}>
+          <small>Batch volume</small>
+          <b>${fmt.qty(Number(r.volumeL))}<span> L</span></b>
+        </div>
+        </div>
+        <div class="dh-actions row no-print">
           ${tpl
             ? html`<button class="btn btn-primary" onClick=${() => startFromExample(r)}><${Icon} name="plus" /> Start from this example</button>`
             : html`<a class="btn btn-primary" href=${`#/builder/${r.id}`}><${Icon} name="edit" /> Edit</a>
               <button class="btn" onClick=${duplicate}><${Icon} name="copy" /> Duplicate</button>`}
           <button class="btn" onClick=${() => window.print()}><${Icon} name="print" /> Print</button>
-          <button class="btn btn-danger" onClick=${remove}><${Icon} name="trash" /> Delete</button>
+          <button class="btn btn-danger dh-delete" onClick=${remove}><${Icon} name="trash" /> Delete</button>
         </div>
       </div>
-      <${MJ.ui.Readout} result=${s} style=${MJ.calc.bjcpStyle(r.bjcp)} styleId=${r.bjcp} clone=${clone} fermTemp=${r.fermTemp} />
+      <${MJ.ui.Readout} result=${s} style=${MJ.calc.bjcpStyle(r.bjcp)} styleId=${r.bjcp} clone=${clone} fermTemp=${r.fermTemp} noGlass=${true} />
       <div class="detail">
         <div class="stack">
           ${tpl && html`<section class="card tpl-about"><div class="card-head"><h2>About this template</h2>${tpl.miniMash && html`<span class="badge badge-copper">Mini-mash needed</span>`}</div>
