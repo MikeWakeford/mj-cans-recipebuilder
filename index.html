@@ -7568,7 +7568,7 @@ window.MJ = window.MJ || {};
 
   // ---------- router ----------
   function parseHash() {
-    const raw = (location.hash || '').replace(/^#/, '') || '/builder';
+    const raw = (location.hash || '').replace(/^#/, '') || '/recipes';
     const [path, qs] = raw.split('?');
     const query = Object.fromEntries(new URLSearchParams(qs || ''));
     const parts = path.split('/').filter(Boolean);
@@ -7595,7 +7595,7 @@ window.MJ = window.MJ || {};
         ? { nav: 'recipes', el: html`<${P.RecipeDetail} params=${{ id }} />`, mobileStats: true }
         : { nav: 'recipes', el: html`<${P.Recipes} />` };
       case 'formulas': return { nav: 'formulas', el: html`<${P.Formulas} />` };
-      default: return { nav: 'builder', el: html`<${P.Builder} params=${{}} />`, mobileStats: true };
+      default: return { nav: 'recipes', el: html`<${P.Recipes} />` };
     }
   }
 
@@ -7672,7 +7672,7 @@ window.MJ = window.MJ || {};
       <div class="header-slot" ref=${slotRef}>
       <header class=${'site-header' + (compact ? ' compact' : '')} ref=${headerRef}>
         <div class="header-inner">
-          <a class="brand" href="#/builder" aria-label="Recipe database home">
+          <a class="brand" href="#/recipes" aria-label="Recipe database home">
             <${BrandMark} size=${64} />
             <span class="brand-text">Recipe database</span>
           </a>
