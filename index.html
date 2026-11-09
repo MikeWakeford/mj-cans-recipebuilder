@@ -1137,6 +1137,159 @@ h3, h4 { text-transform: uppercase; }
 .input-unit .spin button:disabled { color: var(--border-strong); cursor: default; }
 .input-unit .spin button:focus-visible { outline: 2px solid var(--primary-hover); outline-offset: -2px; }
 
+/* Colour tile: SRM is the big number, EBC sits beside it as the second figure */
+.ro-val.has-alt { display: flex; align-items: baseline; justify-content: space-between; gap: 6px; }
+.ro-val .ro-alt { font: 600 12.5px/1 var(--font-body); letter-spacing: .02em; color: var(--ro-muted); white-space: nowrap; font-variant-numeric: tabular-nums; }
+.ro-val .ro-alt small { margin: 0; font-size: inherit; text-transform: none; }
+.ro-mval .ro-malt { display: block; margin-top: 3px; font: 600 11.5px/1 var(--font-body); color: var(--ro-muted); white-space: nowrap; }
+
+/* ---- Ways to improve the fit (readout) ---- */
+.ro-tippill { display: inline-flex; align-items: center; gap: 4px; padding: 6px 9px; border-radius: 2px; font: 700 12px/1 var(--font-body); color: #fff; background: rgba(255,255,255,.1); border: 1px solid rgba(255,255,255,.4); cursor: pointer; }
+.ro-tippill:hover { background: rgba(255,255,255,.18); }
+.ro-tippill:focus-visible { outline: 2px solid var(--primary); outline-offset: 2px; }
+.ro-tippill svg { color: var(--primary); }
+.ro-dtip { color: var(--primary); }
+.ro-tips { margin-top: 12px; padding: 14px 16px 16px; background: var(--ro-tile); border: 1px solid var(--ro-line); border-left: 4px solid var(--primary); }
+.ro-tiplist { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 10px; margin-top: 10px; }
+.ro-tip { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 12px 14px; background: rgba(0,0,0,.18); border: 1px solid var(--ro-line); }
+.ro-tip-main { min-width: 0; display: flex; flex-direction: column; gap: 4px; }
+.ro-tip-main b { font: 700 14px/1.3 var(--font-body); color: #fff; }
+.ro-tip-main span { font: 500 12.5px/1.35 var(--font-body); color: var(--ro-muted); font-variant-numeric: tabular-nums; }
+.ro-tip-main small { font: 700 11.5px/1.3 var(--font-body); color: var(--ro-good); letter-spacing: .02em; }
+.ro-tip-go { flex: none; padding: 9px 14px; background: var(--primary); color: var(--on-primary); border: 0; font: 700 13px/1 var(--font-body); letter-spacing: .3px; cursor: pointer; min-height: 38px; }
+.ro-tip-go:hover { background: var(--primary-hover); }
+.ro-tip-go:focus-visible { outline: 2px solid #fff; outline-offset: 2px; }
+.ro-m .ro-tips { margin-top: 10px; }
+
+/* ---- Recipes page: filter bar (a "Filters" panel on phones), count line with the Approved only chip ---- */
+.f-search { display: flex; gap: 8px; min-width: 0; }
+.f-search > :first-child { flex: 1; min-width: 0; }
+.f-toggle { display: none; }
+.filters-more { display: contents; }
+.list-meta { display: flex; align-items: center; justify-content: space-between; gap: 10px 14px; flex-wrap: wrap; margin: -6px 0 14px; }
+.list-meta p { margin: 0; }
+.lm-actions { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.lm-clear { min-height: 36px; padding: 0 4px; background: none; border: 0; color: var(--primary-strong); font: 700 13px var(--font-body); text-decoration: underline; cursor: pointer; }
+.chip-toggle { display: inline-flex; align-items: center; gap: 6px; min-height: 36px; padding: 0 12px; background: #fff; border: 1px solid var(--border-strong); color: var(--text); font: 700 13px var(--font-body); letter-spacing: .2px; cursor: pointer; }
+.chip-toggle:hover { border-color: var(--header); }
+.chip-toggle .n { min-width: 20px; padding: 2px 6px; background: var(--surface-3); color: var(--text-2); font: 700 11px/1.3 var(--font-body); text-align: center; }
+.chip-toggle.on { background: var(--green); border-color: var(--green); color: #fff; }
+.chip-toggle.on .n { background: rgba(255,255,255,.22); color: #fff; }
+.dh-approved { color: #c3ccd2; }
+@media (max-width: 700px) {
+  .filters-bar { position: sticky; top: var(--site-header-h, 0px); z-index: 25; padding: 8px 0; background: var(--bg); border-bottom: 1px solid var(--border); margin-bottom: 8px; }
+  .filters { display: block; margin-bottom: 0; }
+  .f-toggle { display: inline-flex; align-items: center; gap: 8px; flex: none; min-height: 44px; padding: 0 14px; background: #fff; border: 1px solid var(--border-strong); color: var(--text); font: 700 14px var(--font-body); cursor: pointer; }
+  .f-toggle[aria-expanded="true"] { border-color: var(--header); background: var(--surface-3); }
+  .f-toggle .n { min-width: 20px; padding: 2px 6px; background: var(--primary); color: var(--on-primary); font: 700 11px/1.3 var(--font-body); text-align: center; }
+  .filters-more { display: none; }
+  .filters-more.open { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 10px; }
+  .filters-more .filter-style { grid-column: 1 / -1; }
+  .list-meta { margin-top: 0; }
+}
+
+/* ---- Slimmer pinned top: the header slims down when you scroll, and the readout is a little tighter ---- */
+.header-slot { position: relative; z-index: 40; }   /* keeps the full header's height, so nothing moves when the header slims */
+.site-header { position: fixed; top: 0; left: 0; right: 0; }
+.site-header.compact { box-shadow: 0 2px 10px rgba(0,0,0,.28); }
+.site-header.compact .header-inner { min-height: 56px; }
+.site-header.compact .brand .brand-logo, .site-header.compact .brand .brand-mark { width: 40px !important; height: 40px !important; }
+.site-header.compact .brand-text { font-size: 20px; }
+@media (max-width: 770px) {
+  .site-header.compact .header-inner { padding-top: 6px; }
+  .site-header.compact .brand .brand-logo, .site-header.compact .brand .brand-mark { width: 30px !important; height: 30px !important; }
+  .site-header.compact .brand-text { display: none; }
+}
+@media print { .header-slot { display: none !important; } }
+.ro-bar { padding: 10px 16px; }
+.ro-val { font-size: 30px; margin: 0 0 7px; }
+
+/* A narrow colour tile drops the EBC half of its range rather than cutting the text off */
+.ro-tile { container-type: inline-size; }
+@container (max-width: 142px) { .ro-range-alt { display: none; } }
+.ro-tippill { padding: 6px 8px; }
+
+/* ---- Yeast suggestions by style ---- */
+.line-note, .ing-note { display: flex; align-items: flex-start; gap: 6px; margin-top: 6px; padding: 6px 8px; background: var(--primary-soft); border-left: 3px solid var(--primary-hover); color: var(--text); font: 600 12.5px/1.4 var(--font-body); }
+.line-note svg, .ing-note svg { flex: none; margin-top: 2px; color: var(--primary-strong); }
+.ing-note { display: flex; }
+.yp-suggest { margin-bottom: 18px; padding: 12px 14px 14px; background: var(--green-soft); border-left: 4px solid var(--green); }
+.yp-suggest .yp-heading small { display: block; margin-top: 4px; color: var(--text-2); }
+.yeast-card.suggested { border-color: var(--green); }
+.yc-tag { display: inline-block; align-self: flex-start; margin-bottom: 3px; padding: 2px 7px; background: var(--green); color: #fff; font: 700 10.5px/1.3 var(--font-body); letter-spacing: .06em; text-transform: uppercase; }
+.yc-tag.alt { background: var(--green-soft); color: var(--green); border: 1px solid var(--green); }
+.yc-hint { display: block; margin-top: 2px; font: 600 12px/1.35 var(--font-body); color: var(--text-2); }
+
+/* The "does not suit the style" warning has a Dismiss button */
+.line-note, .ing-note { flex-wrap: wrap; align-items: center; }
+.line-note .ln-text, .ing-note .ln-text { flex: 1 1 200px; min-width: 0; }
+.note-dismiss { flex: none; min-height: 30px; padding: 0 12px; background: #fff; border: 1px solid var(--border-strong); color: var(--text); font: 700 12px var(--font-body); letter-spacing: .2px; cursor: pointer; }
+.note-dismiss:hover { border-color: var(--header); }
+.note-dismiss:focus-visible { outline: 2px solid var(--primary-hover); outline-offset: 2px; }
+
+/* One-tap fix for an under-pitched yeast */
+.note-fix { flex: none; min-height: 30px; padding: 0 12px; background: var(--primary); border: 1px solid var(--primary); color: var(--on-primary); font: 700 12px var(--font-body); letter-spacing: .2px; cursor: pointer; }
+.note-fix:hover { background: var(--primary-hover); border-color: var(--primary-hover); }
+.note-fix:focus-visible { outline: 2px solid var(--header); outline-offset: 2px; }
+.ro-fix { flex: none; margin-left: 10px; min-height: 30px; padding: 0 12px; background: var(--primary); border: 0; color: var(--on-primary); font: 700 12px var(--font-body); cursor: pointer; }
+.ro-fix:hover { background: var(--primary-hover); }
+.ro-fix:focus-visible { outline: 2px solid #fff; outline-offset: 2px; }
+.ro-warn { align-items: center; }
+
+/* ============ Phone builder: collapsible sections, a jump menu, and a Save bar above the readout dock ============ */
+[hidden] { display: none !important; }
+.sec-jump, .save-bar { display: none; }
+.sec-attn { display: inline-block; width: 9px; height: 9px; margin-left: 8px; border-radius: 50%; background: var(--primary); vertical-align: middle; }
+@media (max-width: 700px) {
+  .builder-page .page-actions, .builder-page .form-foot { display: none; }
+  .builder-page { padding-bottom: 84px; }
+  .sec-jump { display: flex; gap: 8px; position: sticky; top: var(--site-header-h, 0px); z-index: 26; margin: 0 -4px 14px; padding: 8px 4px; overflow-x: auto; background: var(--bg); border-bottom: 1px solid var(--border); scrollbar-width: none; }
+  .sec-jump::-webkit-scrollbar { display: none; }
+  .sj-chip { flex: none; min-height: 44px; padding: 0 16px; background: #fff; border: 1px solid var(--border-strong); color: var(--text); font: 700 14px var(--font-body); white-space: nowrap; cursor: pointer; }
+  .sj-chip:active { background: var(--primary-soft); }
+  .sj-chip.attn::after { content: ''; display: inline-block; width: 8px; height: 8px; margin-left: 8px; border-radius: 50%; background: var(--primary); }
+  .card.sec { scroll-margin-top: calc(var(--site-header-h, 0px) + 64px); }
+  .card.sec .card-head { padding: 0; }
+  .card.sec.collapsed .card-head { border-bottom: 0; }
+  .card.sec .card-head > :not(.sec-h) { margin-right: 16px; }
+  .sec-h { flex: 1; min-width: 0; margin: 0; }
+  .sec-toggle { display: flex; align-items: center; justify-content: space-between; gap: 12px; width: 100%; min-height: 56px; padding: 14px 18px; background: none; border: 0; text-align: left; color: inherit; font: inherit; letter-spacing: inherit; text-transform: inherit; cursor: pointer; }
+  .sec-toggle:focus-visible { outline: 2px solid var(--primary-hover); outline-offset: -2px; }
+  .sec-text { min-width: 0; }
+  .sec-title { display: block; }
+  .sec-text small, .sec-summary { display: block; margin-top: 4px; font: 500 13px/1.35 var(--font-body); letter-spacing: 0; text-transform: none; color: var(--text-2); }
+  .sec-summary { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+  .sec-chev { flex: none; color: var(--text-2); transition: transform .15s; }
+  .sec-toggle[aria-expanded="true"] .sec-chev { transform: rotate(180deg); }
+  .save-bar { display: flex; align-items: center; gap: 10px; position: relative; padding: 8px 12px; border-bottom: 1px solid rgba(255,255,255,.12); }
+  .sb-state { flex: 1; min-width: 0; display: flex; align-items: center; gap: 8px; font: 700 12.5px/1.2 var(--font-body); color: var(--ro-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .sb-state::before { content: ''; flex: none; width: 8px; height: 8px; border-radius: 50%; background: var(--ro-good); }
+  .sb-state.dirty::before { background: var(--ro-near); }
+  .sb-state.draft::before { background: #9aa5ac; }
+  .sb-save { min-height: 44px; padding: 0 20px; }
+  .sb-more-btn { display: grid; place-items: center; min-width: 44px; min-height: 44px; padding: 0; }
+  .sb-menu { position: absolute; right: 12px; bottom: calc(100% + 6px); min-width: 210px; background: #fff; color: var(--text); border: 1px solid var(--border-strong); box-shadow: 0 10px 30px rgba(0,0,0,.35); z-index: 5; }
+  .sb-menu button { display: block; width: 100%; min-height: 48px; padding: 0 16px; background: none; border: 0; text-align: left; color: inherit; font: 600 15px var(--font-body); cursor: pointer; }
+  .sb-menu button + button { border-top: 1px solid var(--border); }
+  .sb-menu button:hover:not(:disabled) { background: var(--surface-3); }
+  .sb-menu button:disabled { opacity: .5; cursor: default; }
+}
+.ro-pitch .ro-why { display: block; margin-top: 3px; font: 500 12px/1.4 var(--font-body); color: var(--ro-muted); }
+
+/* Gravity points panel: the sugar in the batch against the yeast dose line */
+.ro-grav-panel { display: block; }
+.ro-grav-main { display: flex; align-items: center; gap: 16px; }
+@media (max-width: 480px) { .ro-grav-main { gap: 12px; } }
+.ro-sugar { margin-top: 14px; padding-top: 12px; border-top: 1px solid var(--ro-line); }
+.ro-sugar-row { display: flex; align-items: baseline; flex-wrap: wrap; gap: 0 8px; margin-top: 6px; }
+.ro-sugar-row b { font: 400 26px/1.1 var(--font-display); font-variant-numeric: tabular-nums; font-size-adjust: none; }
+.ro-sugar-row small { margin-left: -4px; font: 600 12px var(--font-body); color: var(--ro-muted); }
+.ro-sugar-bar { position: relative; height: 8px; margin-top: 8px; background: rgba(255,255,255,.12); }
+.ro-sugar-bar .sg-fill { position: absolute; left: 0; top: 0; bottom: 0; background: var(--ro-good); }
+.ro-sugar.over .ro-sugar-bar .sg-fill { background: var(--ro-near); }
+.ro-sugar-bar .sg-mark { position: absolute; top: -4px; bottom: -4px; width: 2px; margin-left: -1px; background: #fff; }
+.ro-sugar .ro-note { margin-top: 8px; }
+
 </style>
 </head>
 <body>
@@ -2451,6 +2604,127 @@ MJ.bjcp = { source: 'BJCP 2021 Beer Style Guidelines', styles: [
 
 </script>
   <script>
+// Which Mangrove Jack's yeast suits which BJCP style (GENERATED by tools/make_yeast_styles.py: do not edit by hand).
+// pick = the suggested yeasts (the booklet's three choices, in its order, which the app never shows: suggestions are not ranked); also = other yeasts the booklet says suit the style;
+// source 'booklet' = the "BEER YEASTS" table in "Mangrove Jack's Yeast Range.pdf", 'derived' = not in the table, worked out from the
+// yeast descriptions (see `why`); culture = the style needs a souring / wild culture that is not in the range; any = an open style.
+window.MJ = window.MJ || {};
+MJ.data = MJ.data || {};
+MJ.data.yeastStyles = {
+  "1A": {"pick": ["M84", "M54", "M76", "M24"], "also": [], "source": "booklet", "hints": {"M24": "Lallemand NovaLager: a clean, neutral lager yeast that also ferments warm (10 to 25 °C). High attenuation, little sulphur or diacetyl, and it lets hops show."}},
+  "1B": {"pick": ["M84", "M54", "M76", "M24"], "also": [], "source": "booklet", "hints": {"M24": "Lallemand NovaLager: a clean, neutral lager yeast that also ferments warm (10 to 25 °C). High attenuation, little sulphur or diacetyl, and it lets hops show."}},
+  "1C": {"pick": ["M54", "M84", "M76", "M24"], "also": ["M36"], "source": "booklet", "hints": {"M24": "A lager yeast that copes with warm fermentation (up to 25 °C), which suits this hybrid style."}},
+  "1D": {"pick": ["M44", "M54", "M36"], "also": ["M24"], "source": "booklet"},
+  "2A": {"pick": ["M84", "M54", "M76", "M24"], "also": [], "source": "booklet", "hints": {"M24": "Lallemand NovaLager: a clean, neutral lager yeast that also ferments warm (10 to 25 °C). High attenuation, little sulphur or diacetyl, and it lets hops show."}},
+  "2B": {"pick": ["M84", "M54", "M76", "M24"], "also": [], "source": "booklet", "hints": {"M24": "Lallemand NovaLager: a clean, neutral lager yeast that also ferments warm (10 to 25 °C). High attenuation, little sulphur or diacetyl, and it lets hops show."}},
+  "2C": {"pick": ["M84", "M54", "M76", "M24"], "also": [], "source": "booklet", "hints": {"M24": "Lallemand NovaLager: a clean, neutral lager yeast that also ferments warm (10 to 25 °C). High attenuation, little sulphur or diacetyl, and it lets hops show."}},
+  "3A": {"pick": ["M84", "M76", "M54", "M24"], "also": [], "source": "booklet", "hints": {"M24": "Lallemand NovaLager: a clean, neutral lager yeast that also ferments warm (10 to 25 °C). High attenuation, little sulphur or diacetyl, and it lets hops show."}},
+  "3B": {"pick": ["M84", "M76", "M54", "M24"], "also": [], "source": "booklet", "hints": {"M24": "Lallemand NovaLager: a clean, neutral lager yeast that also ferments warm (10 to 25 °C). High attenuation, little sulphur or diacetyl, and it lets hops show."}},
+  "3C": {"pick": ["M84", "M76", "M54", "M24"], "also": [], "source": "booklet", "hints": {"M24": "Lallemand NovaLager: a clean, neutral lager yeast that also ferments warm (10 to 25 °C). High attenuation, little sulphur or diacetyl, and it lets hops show."}},
+  "3D": {"pick": ["M84", "M76", "M54", "M24"], "also": [], "source": "booklet", "hints": {"M24": "Lallemand NovaLager: a clean, neutral lager yeast that also ferments warm (10 to 25 °C). High attenuation, little sulphur or diacetyl, and it lets hops show."}},
+  "4A": {"pick": ["M76", "M84", "M54", "M24"], "also": [], "source": "booklet", "hints": {"M24": "Lallemand NovaLager: a clean, neutral lager yeast that also ferments warm (10 to 25 °C). High attenuation, little sulphur or diacetyl, and it lets hops show."}},
+  "4B": {"pick": ["M76", "M84", "M54", "M24"], "also": [], "source": "booklet", "hints": {"M24": "Lallemand NovaLager: a clean, neutral lager yeast that also ferments warm (10 to 25 °C). High attenuation, little sulphur or diacetyl, and it lets hops show."}},
+  "4C": {"pick": ["M76", "M84", "M54", "M24"], "also": [], "source": "booklet", "hints": {"M24": "Lallemand NovaLager: a clean, neutral lager yeast that also ferments warm (10 to 25 °C). High attenuation, little sulphur or diacetyl, and it lets hops show."}},
+  "5A": {"pick": ["M76", "M84", "M54", "M24"], "also": [], "source": "booklet", "hints": {"M24": "Lallemand NovaLager: a clean, neutral lager yeast that also ferments warm (10 to 25 °C). High attenuation, little sulphur or diacetyl, and it lets hops show."}},
+  "5B": {"pick": ["M54", "M76", "M84", "M24"], "also": ["M36"], "source": "booklet", "hints": {"M24": "A lager yeast that copes with warm fermentation (up to 25 °C), which suits this hybrid style."}},
+  "5C": {"pick": ["M76", "M84", "M54", "M24"], "also": [], "source": "booklet", "hints": {"M24": "Lallemand NovaLager: a clean, neutral lager yeast that also ferments warm (10 to 25 °C). High attenuation, little sulphur or diacetyl, and it lets hops show."}},
+  "5D": {"pick": ["M76", "M84", "M54", "M24"], "also": [], "source": "booklet", "hints": {"M24": "Lallemand NovaLager: a clean, neutral lager yeast that also ferments warm (10 to 25 °C). High attenuation, little sulphur or diacetyl, and it lets hops show."}},
+  "6A": {"pick": ["M76", "M84", "M54", "M24"], "also": [], "source": "booklet", "hints": {"M24": "Lallemand NovaLager: a clean, neutral lager yeast that also ferments warm (10 to 25 °C). High attenuation, little sulphur or diacetyl, and it lets hops show."}},
+  "6B": {"pick": ["M76", "M84", "M54", "M24"], "also": [], "source": "booklet", "hints": {"M24": "Lallemand NovaLager: a clean, neutral lager yeast that also ferments warm (10 to 25 °C). High attenuation, little sulphur or diacetyl, and it lets hops show."}},
+  "6C": {"pick": ["M76", "M84", "M54", "M24"], "also": [], "source": "booklet", "hints": {"M24": "Lallemand NovaLager: a clean, neutral lager yeast that also ferments warm (10 to 25 °C). High attenuation, little sulphur or diacetyl, and it lets hops show."}},
+  "7A": {"pick": ["M76", "M84", "M54", "M24"], "also": [], "source": "booklet", "hints": {"M24": "Lallemand NovaLager: a clean, neutral lager yeast that also ferments warm (10 to 25 °C). High attenuation, little sulphur or diacetyl, and it lets hops show."}},
+  "7B": {"pick": ["M54", "M76", "M84", "M24"], "also": ["M36"], "source": "booklet", "hints": {"M24": "A lager yeast that copes with warm fermentation (up to 25 °C), which suits this hybrid style."}},
+  "8A": {"pick": ["M76", "M84", "M54", "M24"], "also": [], "source": "booklet", "hints": {"M24": "Lallemand NovaLager: a clean, neutral lager yeast that also ferments warm (10 to 25 °C). High attenuation, little sulphur or diacetyl, and it lets hops show."}},
+  "8B": {"pick": ["M76", "M84", "M54", "M24"], "also": [], "source": "booklet", "hints": {"M24": "Lallemand NovaLager: a clean, neutral lager yeast that also ferments warm (10 to 25 °C). High attenuation, little sulphur or diacetyl, and it lets hops show."}},
+  "9A": {"pick": ["M76", "M84", "M54", "M24"], "also": [], "source": "booklet", "hints": {"M24": "Lallemand NovaLager: a clean, neutral lager yeast that also ferments warm (10 to 25 °C). High attenuation, little sulphur or diacetyl, and it lets hops show."}},
+  "9B": {"pick": ["M76", "M84", "M54", "M24"], "also": [], "source": "booklet", "hints": {"M24": "Lallemand NovaLager: a clean, neutral lager yeast that also ferments warm (10 to 25 °C). High attenuation, little sulphur or diacetyl, and it lets hops show."}},
+  "9C": {"pick": ["M76", "M84", "M54", "M24"], "also": [], "source": "booklet", "hints": {"M24": "Lallemand NovaLager: a clean, neutral lager yeast that also ferments warm (10 to 25 °C). High attenuation, little sulphur or diacetyl, and it lets hops show."}},
+  "10A": {"pick": ["M20"], "also": [], "source": "booklet"},
+  "10B": {"pick": ["M20"], "also": [], "source": "booklet"},
+  "10C": {"pick": ["M20"], "also": [], "source": "booklet"},
+  "11A": {"pick": ["M36", "M42", "M15"], "also": [], "source": "booklet"},
+  "11B": {"pick": ["M36", "M42", "M15"], "also": [], "source": "booklet"},
+  "11C": {"pick": ["M36", "M42", "M15"], "also": [], "source": "booklet"},
+  "12A": {"pick": ["M36", "M42", "M15"], "also": [], "source": "booklet"},
+  "12B": {"pick": ["M36", "M42", "M20"], "also": [], "source": "booklet"},
+  "12C": {"pick": ["M36", "M42", "M15"], "also": [], "source": "booklet"},
+  "13A": {"pick": ["M15", "M36", "M42"], "also": [], "source": "booklet"},
+  "13B": {"pick": ["M15", "M36", "M42"], "also": [], "source": "booklet"},
+  "13C": {"pick": ["M15", "M36", "M42"], "also": [], "source": "booklet"},
+  "14A": {"pick": ["M15", "M36", "M42"], "also": [], "source": "booklet"},
+  "14B": {"pick": ["M15", "M36", "M42"], "also": [], "source": "booklet"},
+  "14C": {"pick": ["M15", "M36", "M42"], "also": [], "source": "booklet"},
+  "15A": {"pick": ["M15", "M36", "M42"], "also": [], "source": "booklet"},
+  "15B": {"pick": ["M15", "M42", "M36"], "also": [], "source": "booklet"},
+  "15C": {"pick": ["M15", "M42", "M36"], "also": [], "source": "booklet"},
+  "16A": {"pick": ["M15", "M42", "M36"], "also": [], "source": "booklet"},
+  "16B": {"pick": ["M15", "M42", "M36"], "also": [], "source": "booklet"},
+  "16C": {"pick": ["M15", "M42", "M36"], "also": [], "source": "booklet"},
+  "16D": {"pick": ["M15", "M42", "M36"], "also": [], "source": "booklet"},
+  "17A": {"pick": ["M42", "M36", "M44"], "also": [], "source": "booklet"},
+  "17B": {"pick": ["M42", "M36", "M44"], "also": [], "source": "booklet"},
+  "17C": {"pick": ["M42", "M36", "M44"], "also": ["M15"], "source": "booklet"},
+  "17D": {"pick": ["M42", "M36", "M44"], "also": [], "source": "booklet"},
+  "18A": {"pick": ["M44", "M36", "M42"], "also": ["M12"], "source": "booklet"},
+  "18B": {"pick": ["M44", "M66", "M36"], "also": ["M12"], "source": "booklet"},
+  "19A": {"pick": ["M44", "M36", "M42"], "also": ["M15"], "source": "booklet"},
+  "19B": {"pick": ["M54", "M44", "M42", "M24"], "also": [], "source": "booklet", "hints": {"M24": "A clean lager yeast that ferments well at the warmer end of lager temperatures, as a California Common needs."}},
+  "19C": {"pick": ["M44", "M36", "M42"], "also": [], "source": "booklet"},
+  "20A": {"pick": ["M44", "M36", "M42"], "also": [], "source": "booklet"},
+  "20B": {"pick": ["M44", "M36", "M42"], "also": [], "source": "booklet"},
+  "20C": {"pick": ["M44", "M36", "M42"], "also": [], "source": "booklet"},
+  "21A": {"pick": ["M44", "M66", "M12", "M24"], "also": ["M42"], "source": "booklet", "hints": {"M24": "For a Cold IPA: a clean lager yeast fermented warm, dry and crisp, with an enzyme that lifts hop aroma. Not a traditional ale-yeast IPA."}},
+  "21B": {"pick": ["M44", "M66", "M36", "M24"], "also": ["M31", "M41", "M47", "M21", "M20", "M12", "M42"], "source": "booklet", "hints": {"M24": "For a Cold IPA: a clean lager yeast fermented warm, dry and crisp, with an enzyme that lifts hop aroma. Not a traditional ale-yeast IPA."}},
+  "21C": {"pick": ["M66", "M12", "M44"], "also": ["M42"], "source": "derived", "why": "Hazy IPA is not a table row: M66 Hophead is the booklet's yeast for New England / Juicy / Hazy IPA, then the American IPA row (M12, M44)."},
+  "22A": {"pick": ["M66", "M42", "M12"], "also": ["M44"], "source": "booklet"},
+  "22B": {"pick": ["M44", "M42", "M36"], "also": [], "source": "booklet"},
+  "22C": {"pick": ["M44", "M42", "M36"], "also": [], "source": "booklet"},
+  "22D": {"pick": ["M42", "M44", "M36"], "also": [], "source": "booklet"},
+  "23A": {"pick": ["M42", "M44", "M36"], "also": [], "source": "booklet", "culture": true},
+  "23B": {"pick": ["M42", "M44", "M41"], "also": [], "source": "booklet", "culture": true},
+  "23C": {"pick": ["M42", "M44", "M41"], "also": [], "source": "booklet", "culture": true},
+  "23D": {"pick": ["M42", "M44", "M41"], "also": [], "source": "booklet", "culture": true},
+  "23E": {"pick": ["M42", "M44", "M41"], "also": [], "source": "booklet", "culture": true},
+  "23F": {"pick": ["M42", "M44", "M41"], "also": [], "source": "booklet", "culture": true},
+  "23G": {"pick": ["M42", "M44", "M21"], "also": [], "source": "booklet", "culture": true},
+  "24A": {"pick": ["M21", "M20", "M12"], "also": [], "source": "booklet"},
+  "24B": {"pick": ["M47", "M41", "M31"], "also": [], "source": "booklet"},
+  "24C": {"pick": ["M29", "M41", "M31"], "also": [], "source": "booklet"},
+  "25A": {"pick": ["M47", "M41", "M31"], "also": [], "source": "booklet"},
+  "25B": {"pick": ["M29", "M41", "M31"], "also": [], "source": "booklet"},
+  "25C": {"pick": ["M41", "M31", "M47"], "also": [], "source": "booklet"},
+  "26A": {"pick": ["M47", "M41", "M31"], "also": [], "source": "booklet"},
+  "26B": {"pick": ["M47", "M31", "M41"], "also": [], "source": "booklet"},
+  "26C": {"pick": ["M31", "M41"], "also": [], "source": "booklet"},
+  "26D": {"pick": ["M31", "M41"], "also": [], "source": "booklet"},
+  "28A": {"pick": ["M42", "M44", "M41"], "also": [], "source": "derived", "why": "Brett beer: the sour rows' base yeasts (M42, M44, M41); Brettanomyces is added separately.", "culture": true},
+  "28B": {"pick": ["M42", "M44", "M41"], "also": [], "source": "derived", "why": "Mixed-fermentation sour: the sour rows' base yeasts; the souring cultures are added separately.", "culture": true},
+  "28C": {"pick": ["M42", "M44", "M41"], "also": [], "source": "derived", "why": "Wild specialty beer: the sour rows' base yeasts; the wild cultures are added separately.", "culture": true},
+  "28D": {"pick": ["M42", "M44", "M36"], "also": [], "source": "derived", "why": "Straight sour beer: the Berliner Weisse row (M42, M44, M36); the souring is separate.", "culture": true},
+  "29A": {"pick": ["M66", "M36", "M44"], "also": [], "source": "derived", "why": "Fruit beer: M66 (its enzymes lift aroma from fruit additions), then the clean, neutral M36 and M44.", "any": true},
+  "29B": {"pick": ["M21", "M36", "M66"], "also": [], "source": "derived", "why": "Fruit and spice: M21 Belgian Wit is the booklet's yeast for spiced ales and botanicals; M36 and M66 are clean partners for fruit.", "any": true},
+  "29C": {"pick": ["M36", "M66", "M44"], "also": [], "source": "derived", "why": "Specialty fruit beer: clean, neutral yeasts that let the fruit show.", "any": true},
+  "29D": {"pick": ["M36", "M44", "M42"], "also": [], "source": "derived", "why": "Grape ale: clean, neutral yeasts that let the grape show.", "any": true},
+  "30A": {"pick": ["M21", "M36", "M44"], "also": [], "source": "derived", "why": "Spice, herb or vegetable beer: M21 (works with botanicals), then neutral all-rounders.", "any": true},
+  "30B": {"pick": ["M15", "M36", "M21"], "also": [], "source": "derived", "why": "Autumn seasonal (amber, malty, often spiced): M15 for body and dark fruit, M36, M21 for spice.", "any": true},
+  "30C": {"pick": ["M15", "M42", "M36"], "also": [], "source": "derived", "why": "Winter seasonal (strong, rich, spiced): M15 and M42 (12% ABV), M36.", "any": true},
+  "30D": {"pick": ["M21", "M36", "M44"], "also": [], "source": "derived", "why": "Specialty spice beer: M21 (works with botanicals), then neutral all-rounders.", "any": true},
+  "31A": {"pick": ["M36", "M44", "M42"], "also": [], "source": "derived", "why": "Alternative grain beer: clean, neutral all-rounders; the base style decides the rest.", "any": true},
+  "31B": {"pick": ["M36", "M15", "M42"], "also": [], "source": "derived", "why": "Alternative sugar beer: M36 and M42 for a clean finish, M15 where body is wanted.", "any": true},
+  "32A": {"pick": ["M76", "M84", "M54", "M24"], "also": [], "source": "derived", "why": "Classic smoked beer is Rauchbier: the Rauchbier row.", "hints": {"M24": "Lallemand NovaLager: a clean, neutral lager yeast that also ferments warm (10 to 25 °C). High attenuation, little sulphur or diacetyl, and it lets hops show."}},
+  "32B": {"pick": ["M15", "M36", "M44"], "also": ["M76", "M84", "M54", "M24"], "source": "derived", "why": "Specialty smoked beer: ale yeasts for smoked porters and the like, lager yeasts accepted for smoked lagers.", "any": true},
+  "34A": {"pick": ["M36", "M44", "M42"], "also": [], "source": "derived", "why": "Open style: any yeast can be right; these are versatile, neutral choices.", "any": true},
+  "34B": {"pick": ["M36", "M44", "M42"], "also": [], "source": "derived", "why": "Open style: any yeast can be right; these are versatile, neutral choices.", "any": true},
+  "34C": {"pick": ["M36", "M44", "M42"], "also": [], "source": "derived", "why": "Open style: any yeast can be right; these are versatile, neutral choices.", "any": true},
+  "X1": {"pick": ["M36", "M44", "M42"], "also": [], "source": "derived", "why": "Dorada Pampeana (Argentine golden ale): the Blonde Ale row."},
+  "X2": {"pick": ["M44", "M66", "M12"], "also": [], "source": "derived", "why": "IPA Argenta: the American IPA row."},
+  "X3": {"pick": ["M42", "M44", "M36"], "also": [], "source": "derived", "why": "Italian grape ale (can be strong): clean, neutral yeasts that let the grape show, M42 first for its 12% tolerance.", "any": true},
+  "X4": {"pick": ["M42", "M44", "M36"], "also": [], "source": "derived", "why": "Catharina Sour: the Berliner Weisse row; the souring is separate.", "culture": true},
+  "X5": {"pick": ["M76", "M84", "M54", "M24"], "also": [], "source": "derived", "why": "New Zealand Pilsner: the German Pils row (M76 expresses hop flavour well).", "hints": {"M24": "Lallemand NovaLager: a clean, neutral lager yeast that also ferments warm (10 to 25 °C). High attenuation, little sulphur or diacetyl, and it lets hops show."}}
+};
+
+</script>
+  <script>
 // GENERATED by tools/optimise_can_images.py: the packaging colour of each yeast sachet, and the text colour that reads best on it.
 window.MJ = window.MJ || {};
 MJ.yeastColours = {
@@ -2523,6 +2797,10 @@ MJ.firebaseConfig = {
 // domain here (for example 'bevie.co') and change staff() in firebase/firestore.rules.mjRecipes.txt to match: the rules are
 // the real lock, this copy only shapes the sign-in screen.
 MJ.allowedEmailDomain = '';
+// Who may mark a recipe as approved. Empty means anyone who is signed in. To limit it, list their emails, for example
+// ['mike@example.com', 'sam@example.com'], and add the matching check to the rules (see the "approvers" note in
+// firebase/firestore.rules.mjRecipes.txt): this list only greys out the switch, the rules are what enforce it.
+MJ.approvers = [];
 MJ.recipesCollection = 'mjRecipes';
 MJ.additionsCollection = 'mjAdditions';
 
@@ -2675,21 +2953,54 @@ window.MJ = window.MJ || {};
     return { min, max, overlap: min <= max, optimal, yeasts: ys };
   }
 
+  // The booklet's yeast dose changes at OG 1.050 in 23 L: 50 gravity points.
+  const PITCH_LINE_PTS = 50;
+
   // Pitch-rate rules from Yeast Specs "General Usage Notes".
+  // The Mangrove Jack's doses are per 23 L of wort: "one 10 g pack for up to 23 L", "ales over OG 1.050: 2 per 23 L", and so on. What the
+  // yeast has to work through is the amount of sugar, not the litres, so a batch of up to 23 L is judged by its sugar: the strength it would
+  // have if it were made up to 23 L (14.5 L at 1.055 holds the sugar of 23 L at 1.035, so the standard 1-sachet dose applies; the 1.050 line is
+  // not crossed just because the batch is small). Beyond 23 L, every full 23 L is judged at the real OG, as the booklet says, and the part
+  // batch left over is judged by its sugar like a small batch. The cold-lager dose is a temperature rule, not a sugar one, so it scales with
+  // the litres of a part batch. At exactly 23 L every figure is the booklet's.
+  // Over 23 L and not over the 1.050 line (so every dose is the standard 1 sachet per 23 L of sugar), the sachets are not rounded up per slice:
+  // one sachet covers the sugar of 23 L at OG 1.050 (1150 total gravity points), so 28.5 L at 1.033 (954 points) needs 1 sachet, not 2.
   function pitchAdvice(yeast, og, volumeL, fermTemp) {
-    const batches = Math.max(1, Math.ceil(volumeL / K.litresPerYeastSachet));
-    const cold = fermTemp && Number.isFinite(fermTemp.max) && fermTemp.max <= 14;
-    let perBatch = 1;
-    let reason = `Standard pitch: 1 × 10g sachet per ${K.litresPerYeastSachet}L.`;
-    if (yeast.family === 'lager') {
-      if (og > 1.05) { perBatch = 4; reason = 'Lager with OG > 1.050: min. 4 sachets.'; }
-      else if (cold) { perBatch = 2; reason = 'Lager fermented at ≤14°C: 2 sachets.'; }
-    } else if (og > 1.05) {
-      perBatch = 2; reason = 'Ale with OG > 1.050: min. 2 sachets.';
+    const per = K.litresPerYeastSachet;
+    const lager = yeast.family === 'lager';
+    const cold = !!(fermTemp && Number.isFinite(fermTemp.max) && fermTemp.max <= 14);
+    const slot = (litres) => {                       // sachets for one batch of up to 23 L
+      const fill = litres / per;
+      const og23 = 1 + (og - 1) * fill;               // this batch's sugar, as the OG it would have in 23 L
+      if (lager) {
+        if (og23 > 1.05) return { n: 4, og23, reason: 'Lager with OG > 1.050: min. 4 sachets.' };
+        if (cold) return { n: Math.max(1, Math.ceil(2 * fill - 1e-9)), og23, reason: 'Lager fermented at ≤14°C: 2 sachets.' };
+        return { n: 1, og23, reason: `Standard pitch: 1 × 10g sachet per ${per}L.` };
+      }
+      return og23 > 1.05 ? { n: 2, og23, reason: 'Ale with OG > 1.050: min. 2 sachets.' } : { n: 1, og23, reason: `Standard pitch: 1 × 10g sachet per ${per}L.` };
+    };
+    const full = Math.floor(volumeL / per + 1e-9);
+    const rest = volumeL - full * per;
+    const hasRest = rest > 0.05;
+    const first = slot(full > 0 ? per : volumeL);
+    const part = hasRest && full > 0 ? slot(rest) : null;
+    const pooled = full > 0 && og <= 1.05 && !(lager && cold);     // standard dose throughout: judged by the total sugar
+    const totalPts = Math.max(0, og - 1) * 1000 * volumeL;
+    const recommended = pooled ? Math.max(1, Math.ceil(totalPts / (PITCH_LINE_PTS * per) - 1e-9))
+      : Math.max(1, full > 0 ? full * first.n + (part ? part.n : 0) : first.n);
+    let reason = first.reason;
+    // Say so when the batch size moves it across the 1.050 line, so the advice is not a mystery
+    if (full === 0 && og > 1 && (og > 1.05) !== (first.og23 > 1.05)) {
+      reason += ` The doses are per ${per}L, so the sugar sets the rate: ${fmtLitres(volumeL)}L at ${og.toFixed(3)} holds what ${per}L at ${first.og23.toFixed(3)} would.`;
     }
-    if (batches > 1) reason += ` Scaled ×${batches} for ${volumeL}L.`;
-    return { code: yeast.code, recommended: perBatch * batches, reason };
+    if (pooled) {
+      reason = `Standard pitch: 1 × 10g sachet covers ${per}L at OG 1.050 (${PITCH_LINE_PTS * per} total gravity points). This ${fmtLitres(volumeL)}L batch has ${Math.round(totalPts)}.`;
+    } else if (full > 0 && (full > 1 || hasRest)) {
+      reason += ` ${fmtLitres(volumeL)}L is ${full} × ${per}L${hasRest ? ` plus ${fmtLitres(rest)}L (judged by its sugar: ${part.n} sachet${part.n > 1 ? 's' : ''})` : ''}.`;
+    }
+    return { code: yeast.code, recommended, reason, og23: first.og23, batches: full + (full > 0 && hasRest ? 1 : 0) || 1 };
   }
+  const fmtLitres = (x) => String(Math.round(x * 10) / 10);
 
   // ---------- main entry ----------
   function compute(recipe) {
@@ -2700,12 +3011,12 @@ window.MJ = window.MJ || {};
       kitPts: 0, canPts: 0, enhPts: 0, addPts: 0, unfermentedAddPts: 0,
       og: null, fg: null, fgRange: null, abv: null, abvRange: null, buGu: null, calories: null,
       ibu: 0, ebc: 0, ebcLinear: 0, srm: 0, hex: SRM_HEX[0],
-      attenuation: null, yeast: null, tolerance: null, spirit: null, isohop: null,
+      attenuation: null, yeast: null, tolerance: null, spirit: null, isohop: null, sugar: null,
       lines: { cans: [], enhancers: [], additions: [], hops: [], yeasts: [] },
       totals: { canKg: 0, enhKg: 0, additionKg: 0, hopG: 0, yeastSachets: 0, fermentablesKg: 0 },
       temp: null, pitch: [], warnings: [],
     };
-    const warn = (level, text) => out.warnings.push({ level, text });
+    const warn = (level, text, extra) => out.warnings.push({ level, text, ...(extra || {}) });
     if (!out.valid) {
       warn('error', 'Enter a batch volume to calculate stats.');
       return out;
@@ -2836,6 +3147,10 @@ window.MJ = window.MJ || {};
         out.abvRange = out.abvRange.map((a) => Math.min(a, ceiling));
         out.attenuation = { ...out.attenuation, effective: conv.apparentAttenuation(out.og, out.fg) };
       }
+      // A yeast the booklet does not list for the chosen BJCP style (js/yeast-fit.js)
+      if (recipe.bjcp && !recipe.isClone && MJ.yeastFit) {
+        yeastLines.forEach((y) => { const n = MJ.yeastFit.note(recipe.bjcp, y.spec.code, recipe.dismissedNotes); if (n) warn('warn', n); });
+      }
       if (yeastLines.length > 1) {
         warn('info', `Multiple yeasts: FG uses ${lead.spec.code} ${lead.spec.name} (${lead.spec.attenuation}), the most attenuative strain.`);
       }
@@ -2872,13 +3187,23 @@ window.MJ = window.MJ || {};
       out.pitch = yeastLines.map((y) => pitchAdvice(y.spec, out.og, V, recipe.fermTemp));
       const needed = Math.max(...out.pitch.map((p) => p.recommended));
       if (out.totals.yeastSachets < needed) {
-        warn('warn', `Under-pitched: ${out.totals.yeastSachets} sachet(s) entered, ${needed} recommended. ${out.pitch.find((p) => p.recommended === needed).reason}`);
+        // `fix` is what one tap should do: add the shortfall to the yeast that asks for the most. The pages offer it as a button.
+        const lead = out.pitch.find((p) => p.recommended === needed).code;
+        const add = needed - out.totals.yeastSachets;
+        warn('warn', `Under-pitched: ${out.totals.yeastSachets} sachet(s) entered, ${needed} recommended. ${out.pitch.find((p) => p.recommended === needed).reason}`,
+          { fix: { kind: 'pitch', code: lead, add, total: needed, label: yeastLines.length === 1 ? `Set to ${needed} sachets` : `Add ${add} × ${lead}` } });
       }
     } else {
       warn('error', 'Add a yeast to estimate FG and ABV.');
     }
     // Balance and calories (Daniels): BU:GU = IBU ÷ gravity points; calories per 100 ml from real extract and ABW.
     if (out.og > 1) out.buGu = out.ibu / ((out.og - 1) * 1000);
+    // The sugar in the batch, the quantity the yeast dose follows: gravity points x litres ("total gravity points"), and the same sugar as the points it
+    // would have if made up to 23 L (for a batch over 23 L: the real points, since each full 23 L is dosed at its real strength).
+    if (out.og > 1 && V > 0) {
+      const pts = (out.og - 1) * 1000, per = K.litresPerYeastSachet;
+      out.sugar = { pointLitres: pts * V, pts23: V <= per ? (pts * V) / per : pts, line: PITCH_LINE_PTS, cutoff: PITCH_LINE_PTS * per, litres: V, per };
+    }
     if (out.og > 1 && out.fg > 0 && out.abv != null) {
       const re = 0.1808 * conv.sgToPlato(out.og) + 0.8192 * conv.sgToPlato(out.fg);
       const abw = (0.79 * out.abv) / out.fg;
@@ -3039,7 +3364,11 @@ window.MJ = window.MJ || {};
           const pad = STYLE_PAD * (r[1] - r[0]);
           scale = [Math.max(m.floor, r[0] - pad), r[1] + pad];
           const round = (x) => Number(x.toFixed(SHOWN_DIGITS[m.key]));
-          if (value != null) ({ status, delta } = rangeStatus(round(value), round(r[0]), round(r[1])));
+          if (value != null && m.key === 'ebc') {
+            // Colour is judged in SRM, the unit shown first and the one BJCP writes its ranges in; `delta` stays in EBC like the rest of this bar's numbers.
+            ({ status, delta } = rangeStatus(round(conv.ebcToSrm(value)), round(style.srm[0]), round(style.srm[1])));
+            delta *= conv.srmToEbc(1);
+          } else if (value != null) ({ status, delta } = rangeStatus(round(value), round(r[0]), round(r[1])));
         }
       }
       if (m.key === 'ebc') scale = SPECTRUM_SCALE.slice();
@@ -3050,6 +3379,11 @@ window.MJ = window.MJ || {};
         derived: !!(rc && rc.derived[m.key] && mode === 'clone'),
         pos: value == null ? null : at(value), clamped: value != null && (value < scale[0] || value > scale[1]),
         bandPos: band ? [at(band[0]), at(band[1])] : null, targetPos: target == null ? null : at(target),
+        // Colour only: the same value, band, target and delta in SRM (the readout leads with SRM and keeps EBC as the second figure).
+        srm: m.key !== 'ebc' ? null : {
+          value: value == null ? null : conv.ebcToSrm(value), band: band && band.map((x) => conv.ebcToSrm(x)),
+          target: target == null ? null : conv.ebcToSrm(target), delta: delta == null ? null : conv.ebcToSrm(delta),
+        },
         // EBC only: colour stops for the track and the axis ticks.
         spectrum: m.key === 'ebc',
         stops: m.key === 'ebc' ? SRM_HEX.map((hex, i) => [hex, at(conv.srmToEbc(i))]) : null,
@@ -3067,7 +3401,7 @@ window.MJ = window.MJ || {};
     if (!banded.length) return null;
     const rank = { good: 0, near: 1, far: 2 };
     const scored = banded.filter((b) => b.value != null && b.status);
-    const rows = scored.map((b) => ({ key: b.key, label: b.label, status: b.status })).sort((a, b) => rank[a.status] - rank[b.status]);
+    const rows = scored.map((b) => ({ key: b.key, label: b.key === 'ebc' ? 'SRM' : b.label, status: b.status })).sort((a, b) => rank[a.status] - rank[b.status]);
     const good = rows.filter((r) => r.status === 'good').length;
     return { good, total: banded.length, scored: scored.length, near: rows.filter((r) => r.status === 'near').length, far: rows.filter((r) => r.status === 'far').length, rows, clone: !!clone };
   }
@@ -3082,6 +3416,205 @@ window.MJ = window.MJ || {};
     lookup: { cansByStyle, enhByCode, addByName, sharedByName, hopByName, yeastByCode },
     SRM_HEX,
   };
+})();
+
+</script>
+  <script>
+// Ways to improve a recipe's fit: "what one change would move the numbers into the style range (or closer to the clone's targets)?"
+//
+// MJ.suggest(recipe, { style, clone, max }) -> [{ id, kind, text, effect[], fit: { from, to, total }, recipe }]
+//
+// It tries a fixed set of small changes (one more or one fewer can or enhancer, dextrose, the batch volume, Isohop; never the
+// yeast, which is a choice about the style of beer, see js/yeast-fit.js), runs each through the same calculation the readout uses (MJ.calc.compute + statBars), and keeps only the ones that
+// help: more numbers in range or the same number but closer, no number that was in range pushed out, and no new warnings.
+// The best change of each kind is offered, best first. Nothing is applied here: `recipe` is the changed copy for the page to use.
+window.MJ = window.MJ || {};
+
+(function () {
+  const D = MJ.data;
+  const copy = (r) => JSON.parse(JSON.stringify(r));
+  const r1 = (x) => Math.round(x * 10) / 10;
+
+  // How a bar's number reads in the effect line (colour leads with SRM).
+  const SHOWN = {
+    og: { label: 'OG', f: (b) => b.value.toFixed(3) },
+    fg: { label: 'FG', f: (b) => b.value.toFixed(3) },
+    abv: { label: 'ABV', f: (b) => `${b.value.toFixed(1)}%` },
+    ibu: { label: 'IBU', f: (b) => String(Math.round(b.value)) },
+    ebc: { label: 'SRM', f: (b) => (b.value / 1.97).toFixed(1) },
+  };
+
+  // Where the recipe stands against the style range or clone targets: how many numbers are in range, and how far the rest are
+  // outside (as a share of each range's width, so a big miss on a narrow range counts for more).
+  function measure(res, opts) {
+    const bars = MJ.calc.statBars(res, opts).filter((b) => b.mode !== 'none' && b.value != null && b.status);
+    const byKey = {};
+    let good = 0, dist = 0;
+    bars.forEach((b) => {
+      byKey[b.key] = b;
+      if (b.status === 'good') { good++; return; }
+      const [lo, hi] = b.band;
+      dist += (b.value < lo ? lo - b.value : b.value - hi) / ((hi - lo) || 1);
+    });
+    return { good, total: bars.length, dist, byKey, warns: res.warnings.filter((w) => w.level === 'warn').length };
+  }
+
+  // The one-change variants worth trying for this recipe.
+  function candidates(r, base, m0) {
+    const out = [];
+    const add = (kind, text, edit) => { const c = copy(r); edit(c); out.push({ kind, text, recipe: c }); };
+    const qtyOf = (list, key, v) => { const l = list.find((x) => x[key] === v); return l ? Number(l.qty) || 0 : 0; };
+    const bump = (c, list, key, v, d) => {
+      const l = c[list].find((x) => x[key] === v);
+      if (l) l.qty = (Number(l.qty) || 0) + d; else if (d > 0) c[list].push({ [key]: v, qty: d });
+      c[list] = c[list].filter((x) => (Number(x.qty) || 0) > 0);
+    };
+
+    // Cans
+    const canTotal = (r.cans || []).reduce((t, c) => t + (Number(c.qty) || 0), 0);
+    D.cans.forEach((c) => {
+      const have = qtyOf(r.cans || [], 'style', c.style);
+      add('can', have ? `Add 1 × ${c.style} can` : `Add a ${c.style} can`, (x) => bump(x, 'cans', 'style', c.style, 1));
+      if (have && canTotal > 1) add('can', `Remove 1 × ${c.style} can`, (x) => bump(x, 'cans', 'style', c.style, -1));
+    });
+    // Enhancers
+    D.enhancers.forEach((e) => {
+      const have = qtyOf(r.enhancers || [], 'type', e.code);
+      add('enhancer', have ? `Add 1 × ${e.name}` : `Add a ${e.name} sachet`, (x) => bump(x, 'enhancers', 'type', e.code, 1));
+      if (have) add('enhancer', `Remove 1 × ${e.name}`, (x) => bump(x, 'enhancers', 'type', e.code, -1));
+    });
+    // Dextrose, 0.5 kg at a time
+    const dex = D.additions.find((a) => /^Dextrose/.test(a.name));
+    if (dex) {
+      const line = (r.additions || []).find((a) => a.name === dex.name);
+      add('sugar', line ? 'Add another 0.5 kg of dextrose' : 'Add 0.5 kg of dextrose', (x) => {
+        const l = x.additions.find((a) => a.name === dex.name);
+        if (l) { l.kg = Math.round(((Number(l.kg) || 0) + 0.5) * 1000) / 1000; l.unit = 'kg'; } else x.additions.push({ name: dex.name, kg: 0.5, unit: 'kg' });
+      });
+      if (line && (Number(line.kg) || 0) >= 0.5) {
+        add('sugar', 'Use 0.5 kg less dextrose', (x) => {
+          const l = x.additions.find((a) => a.name === dex.name);
+          l.kg = Math.round(((Number(l.kg) || 0) - 0.5) * 1000) / 1000;
+          if (l.kg <= 0) x.additions = x.additions.filter((a) => a !== l);
+        });
+      }
+    }
+    // Batch volume: topping up less (or more) water concentrates (or dilutes) everything
+    const vol = Number(r.volumeL) || 0;
+    [-1, -0.5, 0.5, 1].forEach((d) => {
+      const v = Math.round((vol + d) * 100) / 100;
+      if (v >= 1) add('volume', `Make ${v} L instead of ${vol} L`, (x) => { x.volumeL = v; });
+    });
+    // Isohop to bring the bitterness to the middle of its range (or the clone's target)
+    const ibu = m0.byKey.ibu;
+    if (ibu && ibu.status !== 'good') {
+      const mid = ibu.mode === 'clone' ? ibu.target : (ibu.band[0] + ibu.band[1]) / 2;
+      const line = (r.additions || []).find((a) => MJ.calc.isIsohop(a));
+      const util = line ? MJ.calc.isohopUtil(line) : D.isohop.defaultUtilisation;
+      const perMl = MJ.calc.isohopIbu(1, util, vol);
+      if (perMl > 0) {
+        const ml = Math.max(0, r1(((Number(line && line.ml) || 0) + (mid - ibu.value) / perMl) * 1) );
+        const was = Number(line && line.ml) || 0;
+        if (ml > 0 && Math.abs(ml - was) >= 0.1) {
+          const gain = r1(Math.abs(ml - was) * perMl);
+          const name = (D.additions.find((a) => /^Isohop/.test(a.name)) || {}).name || 'Isohop (Barth-Haas)';
+          const text = !line ? `Add ${ml} ml of Isohop (+${gain} IBU)` : ml > was ? `Raise Isohop to ${ml} ml (+${gain} IBU)` : `Lower Isohop to ${ml} ml (−${gain} IBU)`;
+          add('isohop', text, (x) => {
+            const l = x.additions.find((a) => MJ.calc.isIsohop(a));
+            if (l) l.ml = ml; else x.additions.push({ name, kg: 0, unit: 'ml', ml, util });
+          });
+        }
+      }
+    }
+    return out;
+  }
+
+  function suggest(recipe, { style = null, clone = null, max = 3 } = {}) {
+    if (!recipe || !MJ.calc) return [];
+    const base = MJ.calc.compute(recipe);
+    if (!base.valid || !(base.og > 1)) return [];
+    const opts = { style, clone };
+    const m0 = measure(base, opts);
+    if (!m0.total || m0.good === m0.total) return [];
+
+    const best = {};
+    candidates(recipe, base, m0).forEach((c) => {
+      const res = MJ.calc.compute(c.recipe);
+      if (!res.valid || !(res.og > 1)) return;
+      const m = measure(res, opts);
+      if (m.total !== m0.total || m.warns > m0.warns) return;
+      // never swap a number that is in range for one that is not
+      if (Object.keys(m0.byKey).some((k) => m0.byKey[k].status === 'good' && !(m.byKey[k] && m.byKey[k].status === 'good'))) return;
+      const gain = (m.good - m0.good) * 10 + (m0.dist - m.dist);
+      if (gain <= 0.05) return;
+      if (!best[c.kind] || gain > best[c.kind].gain) best[c.kind] = { ...c, gain, m };
+    });
+
+    return Object.values(best).sort((a, b) => b.gain - a.gain).slice(0, max).map((c, i) => {
+      // the numbers that were off, or that changed status, before and after
+      const effect = Object.keys(c.m.byKey).filter((k) => m0.byKey[k] && SHOWN[k].f(m0.byKey[k]) !== SHOWN[k].f(c.m.byKey[k]))
+        .map((k) => `${SHOWN[k].label} ${SHOWN[k].f(m0.byKey[k])} → ${SHOWN[k].f(c.m.byKey[k])}`);
+      return { id: `${c.kind}-${i}`, kind: c.kind, text: c.text, effect, fit: { from: m0.good, to: c.m.good, total: m0.total }, recipe: c.recipe };
+    });
+  }
+
+  MJ.suggest = suggest;
+})();
+
+</script>
+  <script>
+// Which yeast suits the chosen BJCP style, from MJ.data.yeastStyles (js/data/yeast-styles.js, built from the Mangrove Jack's
+// "Yeast Range" booklet by tools/make_yeast_styles.py).
+//
+//   MJ.yeastFit.forStyle(styleId) -> { style, pick: [yeast...], hints: { code: text }, culture, any, source, why } | null   the suggested yeasts (up to four), in code order: they are not ranked
+//   MJ.yeastFit.check(styleId, code) -> 'pick' | 'also' | 'any' | 'no' | null                      null = nothing known for the style
+//   MJ.yeastFit.note(styleId, code, dismissedNotes) -> "M47 Belgian Abbey does not suit 14B Scottish Heavy. Suggested: ..." | null   (null once dismissed)
+//
+// "pick" is one of the yeasts suggested for the style (the booklet's three choices, and M24 Versa Lager where it suits), "also" a yeast the booklet says suits it without ranking it,
+// "any" an open style where no yeast is wrong. Imported recipes can carry a variant id such as "21B-Bel": it falls back to "21B".
+window.MJ = window.MJ || {};
+
+(function () {
+  const data = () => (MJ.data && MJ.data.yeastStyles) || {};
+  const styleOf = (id) => {
+    if (!id) return null;
+    const st = MJ.calc && MJ.calc.bjcpStyle ? MJ.calc.bjcpStyle(id) : null;
+    return st && data()[st.id] ? st : null;
+  };
+  const spec = (code) => (MJ.calc && MJ.calc.lookup.yeastByCode[code]) || null;
+  const nameOf = (code) => { const y = spec(code); return y ? `${y.code} ${y.name}` : code; };
+  // The suggestions are a set, not a ranking: they are always shown in plain code order (M12, M15, M24 ...).
+  const num = (code) => parseInt(String(code).replace(/\D/g, ''), 10) || 0;
+  const inOrder = (codes) => codes.slice().sort((a, b) => num(a) - num(b));
+  const list = (codes) => (codes.length > 1 ? `${codes.slice(0, -1).map(nameOf).join(', ')} or ${nameOf(codes[codes.length - 1])}` : codes.map(nameOf).join(''));
+
+  function forStyle(styleId) {
+    const st = styleOf(styleId);
+    if (!st) return null;
+    const e = data()[st.id];
+    return { style: st, pick: inOrder(e.pick).map(spec).filter(Boolean), also: e.also.map(spec).filter(Boolean), culture: !!e.culture, any: !!e.any, source: e.source, why: e.why || '', hints: e.hints || {} };
+  }
+
+  function check(styleId, code) {
+    const st = styleOf(styleId);
+    if (!st) return null;
+    const e = data()[st.id];
+    if (e.any) return 'any';
+    return e.pick.includes(code) ? 'pick' : e.also.includes(code) ? 'also' : 'no';
+  }
+
+  // A dismissed warning is remembered in recipe.dismissedNotes as this key. It is per yeast and style, so it comes back
+  // if the yeast or the style changes.
+  const key = (styleId, code) => `yeast:${code}:${styleId}`;
+
+  function note(styleId, code, dismissed) {
+    if (check(styleId, code) !== 'no') return null;
+    if (dismissed && dismissed.includes(key(styleId, code))) return null;
+    const st = styleOf(styleId);
+    return `${nameOf(code)} does not suit ${st.id} ${st.name}. Suggested: ${list(inOrder(data()[st.id].pick))}.`;
+  }
+
+  MJ.yeastFit = { forStyle, check, note, key, list };
 })();
 
 </script>
@@ -3110,7 +3643,7 @@ window.MJ = window.MJ || {};
   const byUpdated = (a, b) => (b.updatedAt || '').localeCompare(a.updatedAt || '');
   const plain = (r) => JSON.parse(JSON.stringify(r)); // drops undefined (Firestore rejects it)
   const copyOf = (src) => {
-    const { id, createdAt, updatedAt, createdBy, updatedBy, approved, ...rest } = plain(src);   // a copy starts unapproved
+    const { id, createdAt, updatedAt, createdBy, updatedBy, approved, approvedBy, approvedAt, ...rest } = plain(src);   // a copy starts unapproved
     return { ...rest, name: `${src.name} (copy)` };
   };
   // Who made the change. `who` is the signed-in person's email, or null when nobody is signed in (local mode). A new
@@ -3300,6 +3833,8 @@ window.MJ = window.MJ || {};
     n2: (x) => (Number.isFinite(x) ? (Math.round(x * 100) / 100).toFixed(2) : '—'),
     pct: (x) => (Number.isFinite(x) ? `${(Math.round(x * 10) / 10).toFixed(1)}%` : '—'),
     qty: (x) => (Number.isFinite(x) ? String(Math.round(x * 1000) / 1000) : '—'),
+    // Colour as SRM first with EBC in brackets, e.g. "6.5 SRM (12.8 EBC)" (EBC = SRM x 1.97).
+    colour: (ebc) => (Number.isFinite(ebc) ? `${(Math.round((ebc / 1.97) * 10) / 10).toFixed(1)} SRM (${(Math.round(ebc * 10) / 10).toFixed(1)} EBC)` : '—'),
     kg: (kg) => (kg < 1 ? `${Math.round(kg * 1000)} g` : `${Math.round(kg * 1000) / 1000} kg`),
     g: (g) => (g >= 1000 ? `${Math.round(g) / 1000} kg` : `${Math.round(g * 10) / 10} g`),
     date: (iso) => (iso ? new Date(iso).toLocaleDateString(undefined, { day: 'numeric', month: 'short', year: 'numeric' }) : ''),
@@ -3322,6 +3857,7 @@ window.MJ = window.MJ || {};
     check: 'm9 16.2-3.5-3.5L4 14.2l5 5 11-11-1.4-1.4z',
     back: 'M20 11H7.8l5.6-5.6L12 4l-8 8 8 8 1.4-1.4L7.8 13H20z',
     beaker: 'M9 2h6v2h-1v5.3l5.6 9.6A2 2 0 0 1 17.9 22H6.1a2 2 0 0 1-1.7-3.1L10 9.3V4H9z',
+    bulb: 'M12 2a7 7 0 0 0-4 12.7V17a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-2.3A7 7 0 0 0 12 2zM9 20h6v2H9z',
   };
   function Icon({ name, size = 16 }) {
     return html`<svg width=${size} height=${size} viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d=${PATHS[name]} /></svg>`;
@@ -3494,7 +4030,7 @@ window.MJ = window.MJ || {};
   // The 41 SRM swatches laid out along an EBC axis, with a marker where this beer's colour falls.
   // Swatch i is the colour at SRM i, so its centre sits at EBC i × 1.97.
   const EBC_PER_SRM = 1.97;
-  const COLOUR_TICKS = [0, 20, 40, 60, 80];
+  const COLOUR_TICKS = [0, 10, 20, 30, 40];   // SRM
   // `target` (EBC) adds a second marker for a commercial beer being cloned.
   function ColourBar({ ebc, target }) {
     const swatches = MJ.calc.SRM_HEX;
@@ -3502,15 +4038,15 @@ window.MJ = window.MJ || {};
     const limit = (swatches.length - 0.5) * EBC_PER_SRM;
     const hasTarget = Number.isFinite(target) && target > 0;
     const off = ebc > limit || (hasTarget && target > limit);
-    return html`<div class="colour-bar" role="img" aria-label=${`Colour ${fmt.n0(ebc)} EBC${hasTarget ? `, target ${fmt.n0(target)} EBC` : ''}${off ? ', darker than the scale' : ''}`}>
-      <div class="cb-head"><span>Colour</span><b>${fmt.n0(ebc)} EBC<small> · ${fmt.n1(ebc / EBC_PER_SRM)} SRM</small></b></div>
+    return html`<div class="colour-bar" role="img" aria-label=${`Colour ${fmt.n1(ebc / EBC_PER_SRM)} SRM (${fmt.n0(ebc)} EBC)${hasTarget ? `, target ${fmt.n1(target / EBC_PER_SRM)} SRM` : ''}${off ? ', darker than the scale' : ''}`}>
+      <div class="cb-head"><span>Colour</span><b>${fmt.n1(ebc / EBC_PER_SRM)} SRM<small> · ${fmt.n0(ebc)} EBC</small></b></div>
       <div class="cb-wrap">
         <div class="cb-track">
           <div class="cb-swatches">${swatches.map((h) => html`<span style=${`background:${h}`}></span>`)}</div>
           ${hasTarget && html`<i class="cb-marker target" style=${`left:${at(target)}%`}></i>`}
           <i class="cb-marker" style=${`left:${at(ebc)}%`}></i>
         </div>
-        <div class="cb-scale">${COLOUR_TICKS.map((t) => html`<span style=${`left:${at(t)}%`}>${t}</span>`)}</div>
+        <div class="cb-scale">${COLOUR_TICKS.map((t) => html`<span style=${`left:${at(t * EBC_PER_SRM)}%`}>${t}</span>`)}</div>
       </div>
       ${hasTarget && html`<div class="cb-key"><span><i class="you"></i>Recipe ${fmt.n0(ebc)} EBC</span><span><i class="tgt"></i>Target ${fmt.n0(target)} EBC</span></div>`}
       ${off && html`<small class="cb-over">Darker than the 80 EBC scale</small>`}
@@ -3966,7 +4502,7 @@ window.MJ = window.MJ || {};
   const DIGITS = { og: 3, fg: 3, abv: 1, ibu: 0, ebc: 1 };      // shown value
   const DELTA_DIGITS = { og: 3, fg: 3, abv: 1, ibu: 1, ebc: 1 }; // how far off
   const NAMES = { og: 'OG', fg: 'FG', abv: 'ABV', ibu: 'Bitterness', ebc: 'Colour' };
-  const UNITS = { og: '', fg: '', abv: '%', ibu: ' IBU', ebc: ' EBC' };
+  const UNITS = { og: '', fg: '', abv: '%', ibu: ' IBU', ebc: ' SRM' };
   const MOBILE_QUERY = '(max-width: 1080px)';
 
   // The panels start hidden; Details opens them, and that choice is remembered on this device.
@@ -3976,12 +4512,23 @@ window.MJ = window.MJ || {};
   // ---------- numbers ----------
   const valueText = (b) => (b.value == null ? '—' : b.value.toFixed(DIGITS[b.key]));
   const deltaText = (b) => `${b.delta > 0 ? '▲' : '▼'} ${Math.abs(b.delta).toFixed(DELTA_DIGITS[b.key])}`;
-  const rangeText = (b) => {
-    const f = (x) => x.toFixed(DIGITS[b.key] === 0 ? 0 : DIGITS[b.key]);
-    if (b.mode === 'style') return `BJCP ${f(b.band[0])}–${f(b.band[1])}${b.unit}`;
-    if (b.mode === 'clone') return `Target ${b.derived ? '≈ ' : ''}${f(b.target)}${b.unit}`;
-    return '';
+  // Colour leads with SRM (the unit BJCP writes its ranges in) and keeps EBC as the second figure: see present().
+  const trim = (x) => String(Number(x.toFixed(1)));
+  // The range as [main, second]: for colour the second part is the same range in EBC, which a narrow tile drops (see .ro-range-alt).
+  const rangeParts = (b) => {
+    const f = (x) => (b.alt ? trim(x) : x.toFixed(DIGITS[b.key] === 0 ? 0 : DIGITS[b.key]));
+    const w = (x) => String(Math.round(x));
+    if (b.mode === 'style') return [`Target ${f(b.band[0])}–${f(b.band[1])}${b.unit}`, b.alt ? `${w(b.alt.band[0])}–${w(b.alt.band[1])} EBC` : ''];
+    if (b.mode === 'clone') return [`Target ${b.derived ? '≈ ' : ''}${f(b.target)}${b.unit}`, b.alt ? `${w(b.alt.target)} EBC` : ''];
+    return ['', ''];
   };
+  const rangeText = (b) => rangeParts(b).filter(Boolean).join(' · ');
+  const altText = (b) => (b.alt && b.alt.value != null ? `${b.alt.value.toFixed(1)} EBC` : '');
+  function present(b) {
+    if (b.key !== 'ebc') return b;
+    return { ...b, label: 'SRM', unit: '', value: b.srm.value, band: b.srm.band, target: b.srm.target, delta: b.srm.delta,
+      alt: { label: 'EBC', value: b.value, band: b.band, target: b.target } };
+  }
   const statusWord = (b) => {
     const clone = b.mode === 'clone';
     if (b.status === 'good') return clone ? 'On target' : 'In range';
@@ -3990,14 +4537,14 @@ window.MJ = window.MJ || {};
   };
   const ariaFor = (b) => {
     const ref = rangeText(b), word = statusWord(b);
-    return `${b.label} ${b.value == null ? 'not yet known' : valueText(b) + b.unit}${ref ? `, ${ref}` : ''}${word ? `, ${word}` : ''}`;
+    return `${b.label} ${b.value == null ? 'not yet known' : valueText(b) + b.unit}${altText(b) ? ` (${altText(b)})` : ''}${ref ? `, ${ref}` : ''}${word ? `, ${word}` : ''}`;
   };
 
   // Everything the panels show, worked out once per render.
   function model({ result: s, style, styleId, clone, fermTemp }) {
     const totalPts = s.canPts + s.enhPts + s.addPts;
     const ok = s.valid && totalPts > 0;
-    const bars = MJ.calc.statBars(s, { style, clone });
+    const bars = MJ.calc.statBars(s, { style, clone }).map(present);
     const banded = bars.filter((b) => b.mode !== 'none');
     const scored = banded.filter((b) => b.value != null && b.status);
     const rank = { good: 0, near: 1, far: 2 };
@@ -4082,9 +4629,9 @@ window.MJ = window.MJ || {};
       : b.status && b.delta ? html`<span class="ro-chip" title=${word}>${deltaText(b)}</span>` : null;
     return html`<div class=${'ro-tile tone-' + (b.status || 'none')} role="group" aria-label=${ariaFor(b)} data-key=${b.key}>
       <div class="ro-th"><span class="ro-label">${b.label}</span>${chip}</div>
-      <div class="ro-val">${valueText(b)}${b.unit && b.value != null && html`<small>${b.unit}</small>`}</div>
+      <div class=${'ro-val' + (b.alt ? ' has-alt' : '')}>${valueText(b)}${b.unit && b.value != null && html`<small>${b.unit}</small>`}${altText(b) && html`<span class="ro-alt">${b.alt.value.toFixed(1)}<small> EBC</small></span>`}</div>
       <${Track} b=${b} />
-      <div class="ro-range">${rangeText(b)}</div>
+      <div class="ro-range">${rangeParts(b)[0]}${rangeParts(b)[1] && html`<span class="ro-range-alt"> · ${rangeParts(b)[1]}</span>`}</div>
       ${spirit && b.key === 'abv' && html`<${SpiritNote} s=${spirit} />`}
       ${isohop && b.key === 'ibu' && html`<${IsohopNote} i=${isohop} />`}
     </div>`;
@@ -4109,13 +4656,40 @@ window.MJ = window.MJ || {};
       </div></div>`;
   }
 
+  // The sugar in the batch against the yeast dose line (the booklet's 1.050 in 23 L = 50 points): gravity points x litres, shown as the points
+  // the same sugar would have in 23 L. A smaller batch is not "stronger" for the yeast: only the amount of sugar counts.
+  function SugarBlock({ m }) {
+    const g = m.s.sugar;
+    if (!g) return null;
+    const over = g.pointLitres > g.cutoff + 1e-6;
+    const fam = m.s.yeast && m.s.yeast.family;
+    const cold = m.fermTemp && Number.isFinite(m.fermTemp.max) && m.fermTemp.max <= 14;
+    const cut = fmt.n0(g.cutoff);
+    const big = g.litres > g.per;      // over 23 L: each sachet covers the cut-off, so the count follows the sugar
+    const guide = big ? (fam === 'lager' ? `4× the dose above OG 1.050${cold ? ' (2× when cold)' : ''}.` : 'Double the dose above OG 1.050.')
+      : fam === 'lager' ? `1 sachet up to it${cold ? ' (2 as it is cold)' : ' (2 if at 14 °C or below)'}, 4 above.`
+      : fam ? '1 sachet up to it, 2 above.' : '1 sachet up to it; above it, 2 for an ale and 4 for a lager.';
+    const scale = g.cutoff * Math.max(2, Math.ceil(g.pointLitres / g.cutoff - 1e-9));   // the bar always shows at least two sachets' worth
+    return html`<div class=${'ro-sugar' + (over ? ' over' : '')} data-sugar>
+      <div class="ro-h">Total gravity points</div>
+      <div class="ro-sugar-row" title=${`${fmt.n0(g.pointLitres)} total gravity points = gravity points × litres. The cut-off, ${cut}, is what one sachet covers: OG 1.050 in ${fmt.qty(g.per)} L.`}>
+        <b>${fmt.n0(g.pointLitres)}</b><small> pts × litres</small></div>
+      <div class="ro-sugar-bar" role="img" aria-label=${`Total gravity points ${fmt.n0(g.pointLitres)}; the yeast cut-off is ${cut}: ${over ? 'over' : 'under'} it`}>
+        <i class="sg-fill" style=${`width:${Math.max(2, Math.min(100, (g.pointLitres / scale) * 100))}%`}></i><i class="sg-mark" style=${`left:${(g.cutoff / scale) * 100}%`}></i></div>
+      <p class="ro-note">Cut-off: ${cut}${big ? ' per sachet' : ''}. ${guide}</p>
+    </div>`;
+  }
+
   function GravityPanel({ m }) {
     return html`<div class="ro-panel ro-grav-panel">
+      <div class="ro-grav-main">
       <${Donut} segs=${m.ok ? m.parts.map(([k, , v]) => ({ v, c: BREAK_COLOURS[k] })) : []}><b>${m.ok ? fmt.n0(m.totalPts) : '0'}</b><small>PTS</small><//>
       <div class="ro-fit-text">
         <div class="ro-h">Gravity points</div>
         <ul class="ro-legend">${m.ok ? m.parts.map(([k, label, v]) => html`<li><i style=${`background:${BREAK_COLOURS[k]}`}></i><span>${label}</span><b>${fmt.n1(v)}</b></li>`) : html`<li class="ro-note">Add a can, enhancer or fermentable addition.</li>`}</ul>
-      </div></div>`;
+      </div></div>
+      ${m.ok && html`<${SugarBlock} m=${m} />`}
+    </div>`;
   }
 
   function FermPanel({ m }) {
@@ -4141,7 +4715,7 @@ window.MJ = window.MJ || {};
         <div class="ro-scale" aria-hidden="true">${[10, 20, 30].map((t) => html`<span style=${`left:${at(t)}%`}>${t}</span>`)}</div>
       </div>
       ${s.temp && !s.temp.overlap && html`<p class="ro-msg tone-far">No overlapping temperature range</p>`}
-      ${s.pitch.map((p) => html`<p class="ro-pitch"><b>${p.code}: ${p.recommended} sachet${p.recommended > 1 ? 's' : ''} recommended</b></p>`)}
+      ${s.pitch.map((p) => html`<p class="ro-pitch"><b>${p.code}: ${p.recommended} sachet${p.recommended > 1 ? 's' : ''} recommended</b><small class="ro-why">${p.reason}</small></p>`)}
       ${attText && html`<p class="ro-note">${attText}</p>`}
       ${!s.yeast && html`<p class="ro-note">Add a yeast to see fermentation advice.</p>`}
     </div>`;
@@ -4165,11 +4739,28 @@ window.MJ = window.MJ || {};
   function WarningList({ m }) {
     if (!m.s.warnings.length) return null;
     return html`<div class="ro-warnings" role="list">${m.s.warnings.map((w) => html`<div class=${'ro-warn ' + w.level} role="listitem">
-      <${Icon} name=${w.level === 'warn' ? 'warn' : 'info'} size=${14} /><span>${w.text}</span></div>`)}</div>`;
+      <${Icon} name=${w.level === 'warn' ? 'warn' : 'info'} size=${14} /><span>${w.text}</span>
+      ${w.fix && m.onFix && html`<button type="button" class="ro-fix" aria-label=${`${w.fix.label} (${w.text.split('.')[0]})`} onClick=${() => m.onFix(w.fix)}>${w.fix.label}</button>`}</div>`)}</div>`;
+  }
+
+  // Suggestions from MJ.suggest: each is one change that moves the numbers closer to the style range or clone targets.
+  function Tips({ m }) {
+    if (!m.tips.length) return null;
+    return html`<section class="ro-tips" aria-label="Ways to improve the fit">
+      <div class="ro-h">Ways to improve the fit</div>
+      <div class="ro-tiplist">${m.tips.map((t) => html`<div class="ro-tip" key=${t.id}>
+        <div class="ro-tip-main">
+          <b>${t.text}</b>
+          <span>${t.effect.join(' · ')}</span>
+          <small>${t.fit.from === t.fit.to ? `${t.fit.to} of ${t.fit.total} ${m.word}, but closer` : `${t.fit.from} → ${t.fit.to} of ${t.fit.total} ${m.word}`}</small>
+        </div>
+        <button type="button" class="ro-tip-go" aria-label=${`Apply: ${t.text}`} onClick=${() => m.onApplyTip(t)}>Apply</button>
+      </div>`)}</div></section>`;
   }
 
   const Panels = ({ m }) => html`<div class="ro-panels">
     <${FitPanel} m=${m} /><${GravityPanel} m=${m} /><${FermPanel} m=${m} /><${TotalsPanel} m=${m} /></div>
+    <${Tips} m=${m} />
     <${WarningList} m=${m} />`;
 
   // ---------- desktop ----------
@@ -4183,7 +4774,7 @@ window.MJ = window.MJ || {};
 
     // Where the row sticks: just under the site header (which can change height).
     useEffect(() => {
-      const measure = () => { const h = document.querySelector('.site-header'); setTop((h ? h.offsetHeight : 67) + 8); };
+      const measure = () => { const h = document.querySelector('.site-header'); setTop((h ? h.getBoundingClientRect().height : 67) + 8); };
       measure();
       window.addEventListener('resize', measure);
       return () => window.removeEventListener('resize', measure);
@@ -4223,6 +4814,8 @@ window.MJ = window.MJ || {};
         </div>
         <div class="ro-tiles">${m.bars.map((b) => html`<${Tile} key=${b.key} b=${b} spirit=${m.s.spirit} isohop=${m.s.isohop} />`)}</div>
         <div class="ro-ctl">
+          ${m.tips.length > 0 && html`<button type="button" class="ro-tippill" title=${`${m.tips.length} way${m.tips.length > 1 ? 's' : ''} to improve the fit`}
+            onClick=${() => { if (stuck) setPeek(true); else if (hidden) { setHidden(false); writePref(false); } }}><${Icon} name="bulb" size=${13} />${m.tips.length}<span class="sr-only"> way${m.tips.length > 1 ? 's' : ''} to improve the fit</span></button>`}
           ${m.warnCount > 0 && html`<button type="button" class="ro-warnpill" title=${m.s.warnings.filter((w) => w.level === 'warn').map((w) => w.text).join('\n')}
             onClick=${() => { if (stuck) setPeek(true); else if (hidden) { setHidden(false); writePref(false); } }}><${Icon} name="warn" size=${13} />${m.warnCount}<span class="sr-only"> warning${m.warnCount > 1 ? 's' : ''}</span></button>`}
           <button type="button" class="ro-btn" aria-expanded=${open} aria-controls=${stuck ? 'ro-pop' : 'ro-detail'} onClick=${toggle}>
@@ -4240,6 +4833,7 @@ window.MJ = window.MJ || {};
       <span class="ro-label">${b.label}</span>
       <div class="ro-mbar"><${Track} b=${b} /><div class="ro-range">${rangeText(b)}</div></div>
       <div class="ro-mval"><b>${valueText(b)}${b.unit && b.value != null && html`<small>${b.unit}</small>`}</b>
+        ${altText(b) && html`<span class="ro-malt">${altText(b)}</span>`}
         <span class="ro-mstat">${b.status === 'good' ? html`<${Icon} name="check" size=${11} /> ${word}` : b.status && b.delta ? html`${b.delta > 0 ? '▲' : '▼'} ${word}` : ''}</span></div>
       ${spirit && b.key === 'abv' && html`<${SpiritNote} s=${spirit} />`}
       ${isohop && b.key === 'ibu' && html`<${IsohopNote} i=${isohop} />`}
@@ -4273,11 +4867,13 @@ window.MJ = window.MJ || {};
       ${m.bars.map((b) => html`<span class=${'ro-dcol tone-' + (b.status || 'none')} data-key=${b.key}>
         <small>${b.label}</small><b>${valueText(b)}${b.unit && b.value != null && html`<i>${b.unit}</i>`}</b>
         <em>${b.status === 'good' ? html`<${Icon} name="check" size=${11} />` : b.status && b.delta ? deltaText(b) : ''}</em></span>`)}
+      ${m.tips.length > 0 && html`<span class="ro-dwarn ro-dtip" aria-label=${`${m.tips.length} way${m.tips.length > 1 ? 's' : ''} to improve the fit`}><${Icon} name="bulb" size=${13} /></span>`}
       ${m.warnCount > 0 && html`<span class="ro-dwarn" aria-label=${`${m.warnCount} warning${m.warnCount > 1 ? 's' : ''}`}><${Icon} name="warn" size=${13} /></span>`}
     </button>`;
     return html`
       ${open && html`<div class="ro-back" onClick=${() => setOpen(false)}></div>`}
       <section class=${'ro-m' + (open ? ' open' : '')} role=${open ? 'dialog' : 'region'} aria-modal=${open ? 'true' : undefined} aria-label="Live readout">
+        ${!open && m.above}
         <button type="button" class="ro-handle" aria-label=${open ? 'Collapse the readout' : 'Expand the readout'} onClick=${() => setOpen(!open)}><i></i></button>
         ${open ? html`<div class="ro-sheet">
           <div class="ro-sheet-head">
@@ -4296,7 +4892,7 @@ window.MJ = window.MJ || {};
   // ---------- entry point ----------
   function Readout(props) {
     const mobile = useMedia(MOBILE_QUERY);
-    const m = { ...model(props), noGlass: !!props.noGlass };   // noGlass: leave the beer picture out of the desktop bar (the recipe page already has one)
+    const m = { ...model(props), noGlass: !!props.noGlass, tips: props.onApplyTip && props.tips ? props.tips : [], onApplyTip: props.onApplyTip, onFix: props.onFix, above: props.above };   // noGlass: leave the beer picture out of the desktop bar (the recipe page already has one)
     return mobile ? html`<${MobileReadout} m=${m} />` : html`<${DesktopReadout} m=${m} />`;
   }
 
@@ -5206,6 +5802,8 @@ window.MJ = window.MJ || {};
   }
 
   const VOL_STEP = 0.5, VOL_MIN = 1, VOL_MAX = 1000;   // batch volume, in litres
+  // The recipe without one dismissed note (and without the list at all once it is empty, so an undo leaves no trace).
+  const dropNote = (r, key) => { const left = (r.dismissedNotes || []).filter((k) => k !== key); const { dismissedNotes, ...rest } = r; return left.length ? { ...rest, dismissedNotes: left } : rest; };
   const DRAFT_KEY = 'mj-cans.draft.v1';
   const LIST_KEY = { cans: 'style', enhancers: 'type', hops: 'blend', yeasts: 'code' };
 
@@ -5240,7 +5838,7 @@ window.MJ = window.MJ || {};
     // Begin a new draft as a copy of a saved recipe. For a template, the worked example becomes the draft and the
     // template's own fields are left behind.
     startFrom(src) {
-      const { id, createdAt, updatedAt, createdBy, updatedBy, approved, isTemplate, template, exampleName, source, ...rest } = src;
+      const { id, createdAt, updatedAt, createdBy, updatedBy, approved, approvedBy, approvedAt, isTemplate, template, exampleName, source, ...rest } = src;
       MJ.draft.set({ ...emptyRecipe(), ...rest, name: exampleName || rest.name });
     },
   };
@@ -5255,10 +5853,35 @@ window.MJ = window.MJ || {};
   };
 
   // ---------- section helpers ----------
-  function Section({ title, hint, children, action }) {
-    return html`<section class="card">
-      <div class="card-head"><div><h2>${title}</h2>${hint && html`<small>${hint}</small>`}</div>${action}</div>
-      <div class="card-body">${children}</div>
+  // Is this a phone? (the builder then collapses sections and gets a jump menu and a Save bar)
+  function useIsPhone() {
+    const query = '(max-width: 700px)';
+    const [on, setOn] = useState(() => !!(window.matchMedia && window.matchMedia(query).matches));
+    useEffect(() => {
+      if (!window.matchMedia) return undefined;
+      const mq = window.matchMedia(query);
+      const change = () => setOn(mq.matches);
+      change();
+      if (mq.addEventListener) mq.addEventListener('change', change); else mq.addListener(change);
+      return () => { if (mq.removeEventListener) mq.removeEventListener('change', change); else mq.removeListener(change); };
+    }, []);
+    return on;
+  }
+
+  // On a phone (`collapsible`) the header is a button: closed, it shows a one-line summary of what is in the section.
+  function Section({ id, title, hint, children, action, summary, collapsible, open = true, onToggle, attention }) {
+    const shut = !!collapsible && !open;
+    return html`<section class=${'card' + (collapsible ? ' sec' : '') + (shut ? ' collapsed' : '')} id=${id ? 'sec-' + id : undefined}>
+      <div class="card-head">
+        ${collapsible
+          ? html`<h2 class="sec-h"><button type="button" class="sec-toggle" aria-expanded=${!shut} aria-controls=${id + '-body'} onClick=${onToggle}>
+              <span class="sec-text"><span class="sec-title">${title}${attention && html`<i class="sec-attn" role="img" aria-label="needs attention"></i>`}</span>
+                ${shut ? html`<small class="sec-summary">${summary}</small>` : hint && html`<small>${hint}</small>`}</span>
+              <svg class="sec-chev" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path d="M7.4 8.6 12 13.2l4.6-4.6L18 10l-6 6-6-6z" fill="currentColor" /></svg></button></h2>`
+          : html`<div><h2>${title}</h2>${hint && html`<small>${hint}</small>`}</div>`}
+        ${!shut && action}
+      </div>
+      <div class="card-body" id=${id ? id + '-body' : undefined} hidden=${shut}>${children}</div>
     </section>`;
   }
 
@@ -5295,7 +5918,7 @@ window.MJ = window.MJ || {};
   const codeNumber = (y) => parseInt(String(y.code).replace(/\D/g, ''), 10) || 0;
   const shortTemp = (y) => y.fermTemp.split(' (')[0].replace(/\s*–\s*/, '–').replace('°C', ' °C');
 
-  function YeastPicker({ yeasts, counts, onAdd }) {
+  function YeastPicker({ yeasts, counts, onAdd, fit }) {
     const [family, setFamily] = useState('all');
     const [query, setQuery] = useState('');
     const words = query.toLowerCase().split(/\s+/).filter(Boolean);
@@ -5308,6 +5931,22 @@ window.MJ = window.MJ || {};
     const shown = bySearch.filter((y) => family === 'all' || y.family === family);
     const groups = YEAST_GROUPS.map((g) => ({ ...g, list: shown.filter((y) => y.family === g.id) })).filter((g) => g.list.length);
     const chip = (id, label, n) => html`<button type="button" class="yp-chip" aria-pressed=${family === id} onClick=${() => setFamily(id)}>${label}<small>${n}</small></button>`;
+    const pickCodes = fit ? fit.pick.map((y) => y.code) : [];
+    const card = (y, rank) => html`<div class="yc-wrap" key=${(rank != null ? 's' : 'l') + y.code}>
+            <button type="button" class=${'yeast-card' + (counts[y.code] ? ' added' : '') + (rank != null ? ' suggested' : '')} data-family=${y.family}
+              title=${`${y.notes} Ferments ${y.fermTemp}. Attenuation ${y.attenuation}. Tolerates ${y.alcoholTolerance}.`} aria-label=${`Add ${y.code} ${y.name} yeast`} onClick=${() => onAdd(y.code)}>
+              <${YeastPicture} code=${y.code} width=${50} />
+              <span class="yc-body">
+                ${rank != null ? html`<span class="yc-tag">${fit.any ? 'Versatile' : 'Suggested'}</span>` : pickCodes.includes(y.code) && html`<span class="yc-tag alt">Suggested</span>`}
+                <span class="yc-title">${y.name}<span class="yc-code">${y.code}</span></span>
+                <span class="yc-meta">${shortTemp(y)} · ${y.attenuation.replace(/\s*–\s*/, '–')} att.</span>
+                <span class="yc-meta">Tolerates ${y.alcoholTolerance}</span>
+                ${rank != null && fit.hints[y.code] ? html`<span class="yc-hint">${fit.hints[y.code]}</span>` : html`<span class="yc-styles">${y.styles}</span>`}
+              </span>
+              ${counts[y.code] > 0 && html`<span class="yc-count">×${fmt.qty(counts[y.code])}</span>`}
+            </button>
+            <button type="button" class="yc-details" aria-label=${`${y.code} ${y.name} yeast technical specifications`} title="See the technical sheet" onClick=${() => MJ.yeastDetails(y.code)}><${Icon} name="info" size=${13} /> Technical Specs</button>
+          </div>`;
     return html`<div class="yeast-picker">
       <div class="yp-bar">
         <div class="yp-chips" role="group" aria-label="Show yeasts by type">
@@ -5316,24 +5955,15 @@ window.MJ = window.MJ || {};
         </div>
         <${SearchInput} value=${query} onInput=${setQuery} placeholder="Search name, style, e.g. IPA" />
       </div>
+      ${fit && html`<section class="yp-group yp-suggest" aria-label=${`Yeasts suggested for ${fit.style.name}`}>
+        <h4 class="yp-heading">Suggested for ${fit.style.id} ${fit.style.name}<small>${fit.any ? 'Any yeast can suit this style (the base beer decides). These are versatile choices.' : `From the Mangrove Jack's yeast range booklet${Object.keys(fit.hints).length ? ', plus M24 Versa Lager (Lallemand NovaLager)' : ''}.`}${fit.culture ? ' This style also needs a souring or wild culture (not part of the range); the yeast ferments the base beer.' : ''}</small></h4>
+        <div class="yeast-grid">${fit.pick.map((y, i) => card(y, i))}</div>
+      </section>`}
       <p class="yp-count muted" aria-live="polite">${shown.length} of ${yeasts.length} yeasts${query.trim() ? ` match “${query.trim()}”` : ''}</p>
       ${groups.map((g) => html`<section class="yp-group" aria-label=${`${g.label} yeasts`}>
         <h4 class="yp-heading">${g.label}<small>${g.note}</small></h4>
         <div class="yeast-grid">
-          ${g.list.map((y) => html`<div class="yc-wrap">
-            <button type="button" class=${'yeast-card' + (counts[y.code] ? ' added' : '')} data-family=${y.family}
-              title=${`${y.notes} Ferments ${y.fermTemp}. Attenuation ${y.attenuation}. Tolerates ${y.alcoholTolerance}.`} aria-label=${`Add ${y.code} ${y.name} yeast`} onClick=${() => onAdd(y.code)}>
-              <${YeastPicture} code=${y.code} width=${50} />
-              <span class="yc-body">
-                <span class="yc-title">${y.name}<span class="yc-code">${y.code}</span></span>
-                <span class="yc-meta">${shortTemp(y)} · ${y.attenuation.replace(/\s*–\s*/, '–')} att.</span>
-                <span class="yc-meta">Tolerates ${y.alcoholTolerance}</span>
-                <span class="yc-styles">${y.styles}</span>
-              </span>
-              ${counts[y.code] > 0 && html`<span class="yc-count">×${fmt.qty(counts[y.code])}</span>`}
-            </button>
-            <button type="button" class="yc-details" aria-label=${`${y.code} ${y.name} yeast technical specifications`} title="See the technical sheet" onClick=${() => MJ.yeastDetails(y.code)}><${Icon} name="info" size=${13} /> Technical Specs</button>
-          </div>`)}
+          ${g.list.map((y) => card(y, null))}
         </div>
       </section>`)}
       ${shown.length === 0 && html`<div class="line-empty">No yeast matches${query.trim() ? ` “${query.trim()}”` : ' that filter'}.
@@ -5391,7 +6021,7 @@ window.MJ = window.MJ || {};
       if (res) { onChange(res.line); if (res.saved) MJ.toast(`Saved ${res.line.name} to the shared additions`); }
     };
     const sub = line
-      ? `${fmt.n1(line.pts)} pts · ${fmt.n1(line.ebc)} EBC · ${Math.round(spec.fermentability * 100)}% fermentable`
+      ? `${fmt.n1(line.pts)} pts · ${fmt.colour(line.ebc)} · ${Math.round(spec.fermentability * 100)}% fermentable`
       : spec ? `${spec.category}` : 'Unknown addition';
     return html`<${Line} title=${a.name} sub=${sub} onRemove=${onRemove}
       tag=${a.custom ? html`<span class="badge badge-gold" style="margin-left:6px">custom</span>` : ''}
@@ -5431,6 +6061,27 @@ window.MJ = window.MJ || {};
       const t = setTimeout(() => setFlash(null), 2200);
       return () => clearTimeout(t);
     }, [flash]);
+    const phone = useIsPhone();
+    const [closed, setClosed] = useState({});          // sections collapsed on a phone
+    const [moreOpen, setMoreOpen] = useState(false);   // the phone Save bar's "More" menu
+    const collapseInit = useRef(false);
+    // On a phone, opening a saved recipe starts with every section that already has something in it collapsed to its summary.
+    useEffect(() => {
+      if (collapseInit.current || !recipe || !phone) return;
+      collapseInit.current = true;
+      if (!editingId) return;
+      const has = { cans: recipe.cans.length, enhancers: recipe.enhancers.length, hops: recipe.hops.length, yeast: recipe.yeasts.length, additions: recipe.additions.length,
+        ferm: (recipe.fermTemp && (recipe.fermTemp.min != null || recipe.fermTemp.max != null)) || (recipe.conditioning || '').trim(), notes: (recipe.notes || '').trim() || (recipe.instructions || '').trim() };
+      setClosed(Object.fromEntries(Object.entries(has).filter(([, v]) => v).map(([k]) => [k, true])));
+    }, [!!recipe, phone]);
+    useEffect(() => {
+      if (!moreOpen) return undefined;
+      const away = (e) => { if (!e.target.closest || !e.target.closest('.save-bar')) setMoreOpen(false); };
+      const esc = (e) => { if (e.key === 'Escape') setMoreOpen(false); };
+      document.addEventListener('mousedown', away);
+      document.addEventListener('keydown', esc);
+      return () => { document.removeEventListener('mousedown', away); document.removeEventListener('keydown', esc); };
+    }, [moreOpen]);
 
     const dirty = !!(editingId && recipe && base && sameRecipe(recipe, base) === false);
     const dirtyRef = useRef(dirty);
@@ -5470,6 +6121,9 @@ window.MJ = window.MJ || {};
     }, []);
 
     const result = useMemo(() => (recipe ? compute(recipe) : null), [recipe, sharedAdditions]);
+    // Ways to improve the fit: recalculated only when something that affects the numbers changes (not for a new name or notes).
+    const tipKey = recipe ? JSON.stringify([recipe.cans, recipe.enhancers, recipe.hops, recipe.yeasts, recipe.additions, recipe.volumeL, recipe.bjcp, recipe.isClone, recipe.isClone ? recipe.clone : null]) : '';
+    const tips = useMemo(() => (recipe ? MJ.suggest(recipe, { style: MJ.calc.bjcpStyle(recipe.bjcp), clone: recipe.isClone ? { ...emptyClone(), ...recipe.clone } : null }) : []), [tipKey, sharedAdditions]);
 
     // Keep the fermentation temperature in step with the yeasts while it's on auto.
     useEffect(() => {
@@ -5502,6 +6156,48 @@ window.MJ = window.MJ || {};
       });
     };
     const add = (kind, value) => setRecipe((r) => addLine(r, kind, value));
+    // ---- phone layout: collapsible sections with a one-line summary, and a jump menu
+    const toggleSection = (id) => setClosed((c) => ({ ...c, [id]: !c[id] }));
+    const jump = (id) => {
+      setClosed((c) => ({ ...c, [id]: false }));
+      setTimeout(() => {
+        const el = document.getElementById('sec-' + id);
+        if (el) el.scrollIntoView({ block: 'start' });   // straight there: no scrolling animation to wait for on a long form
+      }, 60);
+    };
+    const qtyList = (list, name) => (list.length ? list.map((l) => `${fmt.qty(Number(l.qty) || 0)} × ${name(l)}`).join(', ') : 'None yet');
+    const bothTemps = recipe.fermTemp && Number.isFinite(recipe.fermTemp.min) && Number.isFinite(recipe.fermTemp.max);
+    const hasNotes = (recipe.notes || '').trim(), hasSteps = (recipe.instructions || '').trim();
+    const SECTION_INFO = {
+      details: { summary: [recipe.name.trim() || 'No name yet', recipe.isClone ? 'Clone' : (recipe.bjcp || 'No style'), `${fmt.qty(Number(recipe.volumeL) || 0)} L`].join(' · ') },
+      cans: { summary: qtyList(recipe.cans, (c) => `${c.style} can`) },
+      enhancers: { summary: qtyList(recipe.enhancers, (e) => (lookup.enhByCode[e.type] || {}).name || e.type) },
+      hops: { summary: qtyList(recipe.hops, (h) => h.blend) },
+      yeast: { summary: qtyList(recipe.yeasts, (y) => { const sp = lookup.yeastByCode[y.code]; return sp ? `${sp.code} ${sp.name}` : y.code; }), attention: result.warnings.some((w) => /does not suit|Under-pitched/.test(w.text)) },
+      additions: { summary: recipe.additions.length ? recipe.additions.map((a) => a.name || 'Custom addition').join(', ') : 'None yet' },
+      ferm: { summary: [bothTemps ? fmtRange(recipe.fermTemp.min, recipe.fermTemp.max) : null, (recipe.conditioning || '').trim() || null].filter(Boolean).join(' · ') || 'Not set' },
+      notes: { summary: hasNotes || hasSteps ? [hasNotes ? 'Notes' : null, hasSteps ? 'Instructions' : null].filter(Boolean).join(' and ') + ' written' : 'Empty' },
+    };
+    const sec = (id) => ({ id, collapsible: phone, open: !closed[id], onToggle: () => toggleSection(id), summary: SECTION_INFO[id].summary, attention: !!SECTION_INFO[id].attention });
+    const JUMP = [['details', 'Details'], ['cans', 'Cans'], ['enhancers', 'Enhancers'], ['hops', 'Hops'], ['yeast', 'Yeast'], ['additions', 'Additions'], ['ferm', 'Fermentation'], ['notes', 'Notes']];
+
+    // One-tap fix for a warning that carries one (the under-pitched yeast): add the shortfall, with an Undo.
+    const applyFix = (fix) => {
+      const bump = (d) => setRecipe((r) => ({ ...r, yeasts: r.yeasts.map((y) => (y.code === fix.code ? { ...y, qty: Math.max(0, (Number(y.qty) || 0) + d) } : y)) }));
+      bump(fix.add);
+      MJ.toast({ text: `Pitch rate fixed: ${fix.code} +${fix.add} sachet${fix.add === 1 ? '' : 's'}`, action: { label: 'Undo', run: () => bump(-fix.add) } });
+    };
+    // Dismiss a "does not suit the style" warning: it is remembered with the recipe (for that yeast and style), with an Undo.
+    const dismissNote = (key) => {
+      setRecipe((r) => ({ ...r, dismissedNotes: (r.dismissedNotes || []).includes(key) ? r.dismissedNotes : (r.dismissedNotes || []).concat(key) }));
+      MJ.toast({ text: 'Warning dismissed', action: { label: 'Undo', run: () => setRecipe((r) => dropNote(r, key)) } });
+    };
+    // A suggestion from the readout: use its changed copy of the recipe, with an Undo.
+    const applyTip = (tip) => {
+      const before = recipe;
+      setRecipe({ ...tip.recipe });
+      MJ.toast({ text: `Applied: ${tip.text}`, action: { label: 'Undo', run: () => setRecipe(before) } });
+    };
     // From the pop-up: add it, and say so in the pop-up's footer.
     const pick = (kind, value, label) => { add(kind, value); setFlash({ text: `Added ${label}`, n: Date.now() }); };
     const setFermTemp = (end, v) => setRecipe((r) => ({ ...r, fermTempAuto: false, fermTemp: { ...r.fermTemp, [end]: v } }));
@@ -5521,7 +6217,7 @@ window.MJ = window.MJ || {};
       }
       if (!(Number(recipe.volumeL) > 0)) { MJ.toast('Enter a batch volume'); return; }
       const doc = { ...recipe, name: asCopy ? `${name} (copy)` : name };
-      if (asCopy) { delete doc.id; delete doc.approved; }   // a copy starts unapproved
+      if (asCopy) { delete doc.id; delete doc.approved; delete doc.approvedBy; delete doc.approvedAt; }   // a copy starts unapproved
       if (doc.isClone) {
         doc.clone = { name: clone.name.trim(), og: clone.og, fg: clone.fg, abv: clone.abv, attenuation: clone.attenuation, ibu: clone.ibu, ebc: clone.ebc };
         doc.category = 'Commercial clone';
@@ -5565,6 +6261,8 @@ window.MJ = window.MJ || {};
       MJ.router.navigate(existing ? `#/recipes/${editingId}` : '#/recipes');
     };
 
+    // The yeasts the booklet suggests for the chosen style (not for a commercial clone, which has no style)
+    const yeastFit = !recipe.isClone && recipe.bjcp ? MJ.yeastFit.forStyle(recipe.bjcp) : null;
     const canItems = D.cans.map((c) => ({ value: c.style, label: c.style }));
     const enhItems = D.enhancers.map((e) => ({ value: e.code, label: e.name }));
     const hopItems = D.hops.map((h) => ({ value: h.name, label: h.name, hint: `${h.flavour} (${h.components.map((c) => c.hop).join(', ')})` }));
@@ -5631,7 +6329,21 @@ window.MJ = window.MJ || {};
       ? (dirty ? html`<span class="save-state dirty"><i></i>Unsaved changes</span>` : html`<span class="save-state clean"><${Icon} name="check" size=${13} />All changes saved</span>`)
       : html`<span class="save-state"><${Icon} name="info" size=${13} />Draft is kept in this browser until you save</span>`;
 
-    return html`<div>
+    // On a phone the Save button lives in a bar just above the readout dock, so it is always in reach; the other actions are under "More".
+    const saveBar = html`<div class="save-bar no-print">
+      <span class=${'sb-state ' + (editingId ? (dirty ? 'dirty' : 'clean') : 'draft')} role="status">${editingId ? (dirty ? 'Unsaved changes' : 'All changes saved') : 'Draft'}</span>
+      <button type="button" class="btn btn-primary sb-save" disabled=${saving} onClick=${() => save(false)}>
+        ${saving ? html`<span class="spinner spinner-sm"></span> Saving…` : html`<${Icon} name="check" /> ${editingId && !dirty ? 'Saved' : 'Save recipe'}`}</button>
+      <button type="button" class="btn sb-more-btn" aria-haspopup="menu" aria-expanded=${moreOpen} aria-label="More actions" onClick=${() => setMoreOpen(!moreOpen)}>
+        <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><circle cx="5" cy="12" r="2" fill="currentColor" /><circle cx="12" cy="12" r="2" fill="currentColor" /><circle cx="19" cy="12" r="2" fill="currentColor" /></svg></button>
+      ${moreOpen && html`<div class="sb-menu" role="menu">
+        <button type="button" role="menuitem" onClick=${() => { setMoreOpen(false); reset(); }}>${editingId ? 'New recipe' : 'Clear the builder'}</button>
+        ${editingId && html`<button type="button" role="menuitem" disabled=${saving} onClick=${() => { setMoreOpen(false); save(true); }}>Save as copy</button>`}
+        ${editingId && html`<button type="button" role="menuitem" disabled=${saving} onClick=${() => { setMoreOpen(false); cancelEdit(); }}>Cancel</button>`}
+      </div>`}
+    </div>`;
+
+    return html`<div class="builder-page">
       <div class="page-head">
         <div><div class="eyebrow">${editingId ? 'Editing recipe' : 'New recipe'}</div><h1>${recipe.name.trim() || 'Recipe Builder'}</h1></div>
         <div class="page-actions no-print">
@@ -5653,11 +6365,14 @@ window.MJ = window.MJ || {};
         <span><b>This recipe was deleted by someone else.</b> Saving will put it back.</span>
       </div>`}
 
-      <${Readout} result=${result} style=${MJ.calc.bjcpStyle(recipe.bjcp)} styleId=${recipe.bjcp} clone=${cloneSpecs} fermTemp=${recipe.fermTemp} />
+      <${Readout} result=${result} style=${MJ.calc.bjcpStyle(recipe.bjcp)} styleId=${recipe.bjcp} clone=${cloneSpecs} fermTemp=${recipe.fermTemp} tips=${tips} onApplyTip=${applyTip} onFix=${applyFix} above=${phone ? saveBar : null} />
 
+      ${phone && html`<nav class="sec-jump no-print" aria-label="Jump to a section">
+        ${JUMP.map(([id, label]) => html`<button type="button" class=${'sj-chip' + (SECTION_INFO[id].attention ? ' attn' : '')} onClick=${() => jump(id)}>${label}${SECTION_INFO[id].attention ? html`<span class="sr-only"> (needs attention)</span>` : ''}</button>`)}
+      </nav>`}
       <div class="builder">
         <div class="builder-form">
-          <${Section} title="Recipe details" action=${cloneSwitch}>
+          <${Section} ...${sec('details')} title="Recipe details" action=${cloneSwitch}>
             <div class="form-grid">
               <label class="field wide">Recipe name
                 <input ref=${nameRef} class=${'input' + (nameError ? ' invalid' : '')} placeholder=${recipe.isClone ? `e.g. ${clone.name.trim() ? clone.name.trim() + ' clone' : 'Punk IPA clone'}` : 'e.g. Tropical Session IPA'} value=${recipe.name}
@@ -5698,32 +6413,32 @@ window.MJ = window.MJ || {};
           </${Section}>`}
 
 
-          <${Section} title="Malt extract cans" hint=${`${K.canKg} kg hopped malt extract per can`}>
+          <${Section} ...${sec('cans')} title="Malt extract cans" hint=${`${K.canKg} kg hopped malt extract per can`}>
             <div class="line-list">
               ${recipe.cans.map((c, i) => {
                 const l = lineFor('cans', i);
                 return html`<${Line} key=${'c' + i} title=${`${c.style} can`} thumb=${html`<${CanPicture} style=${c.style} width=${34} />`} onRemove=${() => removeLine('cans', i, `${c.style} can`)}
-                  sub=${l ? `${fmt.kg(l.kg)} · ${fmt.n1(l.pts)} pts · ${fmt.n1(l.ibu)} IBU · ${fmt.n1(l.ebc)} EBC${l.spec.ebcDark ? ' †' : ''}` : '—'}
+                  sub=${l ? `${fmt.kg(l.kg)} · ${fmt.n1(l.pts)} pts · ${fmt.n1(l.ibu)} IBU · ${fmt.colour(l.ebc)}${l.spec.ebcDark ? ' †' : ''}` : '—'}
                   qty=${html`<${Stepper} label=${`${c.style} cans`} value=${c.qty} step=${1} onChange=${(v) => setLine('cans', i, { qty: v })} />`} />`;
               })}
             </div>
             <${AddButton} empty=${recipe.cans.length === 0} label=${recipe.cans.length ? 'Add another can' : 'Add a can'} hint="Pick a base for your beer" onClick=${() => setPicker('cans')} />
           </${Section}>
 
-          <${Section} title="Beer enhancer sachets" hint=${`${K.enhKg} kg per sachet · malt extract + dextrose`}>
+          <${Section} ...${sec('enhancers')} title="Beer enhancer sachets" hint=${`${K.enhKg} kg per sachet · malt extract + dextrose`}>
             <div class="line-list">
               ${recipe.enhancers.map((e, i) => {
                 const l = lineFor('enhancers', i);
                 const name = lookup.enhByCode[e.type] ? lookup.enhByCode[e.type].name : e.type;
                 return html`<${Line} key=${'e' + i} title=${name} thumb=${html`<${EnhancerPicture} code=${e.type} width=${34} />`} onRemove=${() => removeLine('enhancers', i, name)}
-                  sub=${l ? `${fmt.kg(l.kg)} · ${fmt.n1(l.pts)} pts · ${fmt.n1(l.ibu)} IBU · ${fmt.n1(l.ebc)} EBC` : '—'}
+                  sub=${l ? `${fmt.kg(l.kg)} · ${fmt.n1(l.pts)} pts · ${fmt.n1(l.ibu)} IBU · ${fmt.colour(l.ebc)}` : '—'}
                   qty=${html`<${Stepper} label="sachets" value=${e.qty} step=${1} onChange=${(v) => setLine('enhancers', i, { qty: v })} />`} />`;
               })}
             </div>
             <${AddButton} empty=${recipe.enhancers.length === 0} label=${recipe.enhancers.length ? 'Add another enhancer' : 'Add an enhancer'} hint="Optional, but they lift gravity and body" onClick=${() => setPicker('enhancers')} />
           </${Section}>
 
-          <${Section} title="Hop sachets (dry hop)" hint=${`${K.hopSachetG} g blend per sachet · aroma only, negligible IBU`}>
+          <${Section} ...${sec('hops')} title="Hop sachets (dry hop)" hint=${`${K.hopSachetG} g blend per sachet · aroma only, negligible IBU`}>
             <div class="line-list">
               ${recipe.hops.map((h, i) => {
                 const spec = lookup.hopByName[h.blend];
@@ -5737,20 +6452,28 @@ window.MJ = window.MJ || {};
             <${AddButton} empty=${recipe.hops.length === 0} label=${recipe.hops.length ? 'Add another hop blend' : 'Add a hop blend'} hint="Dry hop for aroma" onClick=${() => setPicker('hops')} />
           </${Section}>
 
-          <${Section} title="Yeast" hint="10 g sachets · add more than one strain if you like">
+          <${Section} ...${sec('yeast')} title="Yeast" hint="10 g sachets · add more than one strain if you like">
             <div class="line-list">
               ${recipe.yeasts.map((y, i) => {
                 const spec = lookup.yeastByCode[y.code];
                 const name = spec ? `${spec.code} ${spec.name}` : y.code;
+                const verdict = yeastFit ? MJ.yeastFit.check(recipe.bjcp, y.code) : null;
+                const noteText = verdict === 'no' ? MJ.yeastFit.note(recipe.bjcp, y.code, recipe.dismissedNotes) : null;
+                const pitchWarn = result.warnings.find((w) => w.fix && w.fix.kind === 'pitch' && w.fix.code === y.code);
                 return html`<${Line} key=${'y' + i} title=${name} thumb=${html`<${YeastPicture} code=${y.code} width=${34} />`} onRemove=${() => removeLine('yeasts', i, name)}
                   sub=${spec ? `${spec.fermTemp} · ${spec.attenuation} attenuation · ${spec.alcoholTolerance}` : ''}
-                  qty=${html`<${Stepper} label="sachets" value=${y.qty} step=${1} onChange=${(v) => setLine('yeasts', i, { qty: v })} />`} />`;
+                  qty=${html`<${Stepper} label="sachets" value=${y.qty} step=${1} onChange=${(v) => setLine('yeasts', i, { qty: v })} />`}>
+                  ${noteText && html`<span class="line-note" role="note"><${Icon} name="warn" size=${13} /> <span class="ln-text">${noteText}</span>
+                    <button type="button" class="note-dismiss" aria-label=${`Dismiss the warning about ${name}`} title="Dismiss this warning" onClick=${() => dismissNote(MJ.yeastFit.key(recipe.bjcp, y.code))}>Dismiss</button></span>`}
+                  ${pitchWarn && html`<span class="line-note pitch-note" role="note"><${Icon} name="warn" size=${13} /> <span class="ln-text">${pitchWarn.text}</span>
+                    <button type="button" class="note-fix" aria-label=${`${pitchWarn.fix.label} for ${name}`} onClick=${() => applyFix(pitchWarn.fix)}>${pitchWarn.fix.label}</button></span>`}
+                </${Line}>`;
               })}
             </div>
             <${AddButton} empty=${recipe.yeasts.length === 0} label=${recipe.yeasts.length ? 'Add another yeast' : 'Add a yeast'} hint="FG and ABV need at least one strain" onClick=${() => setPicker('yeasts')} />
           </${Section}>
 
-          <${Section} title="Additions" hint="Sugars, extracts, fruit, spices. Pick from the list or add your own">
+          <${Section} ...${sec('additions')} title="Additions" hint="Sugars, extracts, fruit, spices. Pick from the list or add your own">
             <div class="line-list">
               ${recipe.additions.map((a, i) => html`<${AdditionLine} key=${'a' + i + a.name} a=${a} volumeL=${recipe.volumeL}
                 line=${result.lines.additions.find((l) => l.label === (a.name || 'Custom addition') && Math.abs(l.kg - a.kg) < 1e-9)}
@@ -5759,7 +6482,7 @@ window.MJ = window.MJ || {};
             <${AddButton} empty=${recipe.additions.length === 0} label=${recipe.additions.length ? 'Add another addition' : 'Add an addition'} hint="Try dextrose for a drier, stronger beer, or add your own" onClick=${() => setPicker('additions')} />
           </${Section}>
 
-          <${Section} title="Fermentation & conditioning"
+          <${Section} ...${sec('ferm')} title="Fermentation & conditioning"
             action=${!recipe.fermTempAuto && result.temp && result.temp.overlap && html`<button class="btn btn-sm" onClick=${() => update({ fermTempAuto: true })}>Use suggested</button>`}>
             <div class="form-grid">
               <label class="field">Ferm. temp from <span class=${'hint' + (recipe.fermTempAuto ? ' hint-auto' : '')}>${recipe.fermTempAuto ? 'auto from yeast' : 'manual'}</span>
@@ -5777,7 +6500,7 @@ window.MJ = window.MJ || {};
               ${result.temp.optimal ? ` · optimal ${fmtRange(...result.temp.optimal)}` : ''}</p>`}
           </${Section}>
 
-          <${Section} title="Notes & instructions">
+          <${Section} ...${sec('notes')} title="Notes & instructions">
             <div class="form-grid">
               <label class="field wide">Recipe notes <span class="hint">style intent, tasting notes, tips</span>
                 <textarea class="input" value=${recipe.notes} onInput=${(e) => update({ notes: e.target.value })}></textarea></label>
@@ -5787,7 +6510,7 @@ window.MJ = window.MJ || {};
             </div>
           </${Section}>
 
-          <div class="row no-print" style="justify-content:flex-end;margin-top:16px">
+          <div class="row no-print form-foot" style="justify-content:flex-end;margin-top:16px">
             ${saveState}
             ${saveButtons}
           </div>
@@ -5800,7 +6523,7 @@ window.MJ = window.MJ || {};
           onAdd=${(v) => pick('enhancers', v, (lookup.enhByCode[v] || {}).name || v)} noun="enhancer sachet" groupLabel="Choose an enhancer sachet" picture=${(it) => html`<${EnhancerPicture} code=${it.value} width=${72} />`} />`}
         ${picker === 'hops' && html`<${PicturePicker} items=${hopItems.map((it) => ({ ...it, sub: (lookup.hopByName[it.value] || {}).flavour || '', count: countOf(recipe.hops, 'blend', it.value) }))}
           onAdd=${(v) => pick('hops', v, `${v} hops`)} noun="hop blend" groupLabel="Choose a hop blend" picture=${(it) => html`<${HopPicture} blend=${it.value} width=${64} />`} />`}
-        ${picker === 'yeasts' && html`<${YeastPicker} yeasts=${D.yeasts} counts=${Object.fromEntries(D.yeasts.map((y) => [y.code, countOf(recipe.yeasts, 'code', y.code)]))}
+        ${picker === 'yeasts' && html`<${YeastPicker} yeasts=${D.yeasts} fit=${yeastFit} counts=${Object.fromEntries(D.yeasts.map((y) => [y.code, countOf(recipe.yeasts, 'code', y.code)]))}
           onAdd=${(code) => pick('yeasts', code, `${code} ${(lookup.yeastByCode[code] || {}).name || ''}`.trim())} />`}
         ${picker === 'additions' && html`<${AdditionPicker} rows=${additionRows} counts=${additionCounts} onAdd=${(r) => pick('additions', r.name, r.name)} onCustom=${openCustom} />`}
       </${PickerDialog}>`}
@@ -5879,7 +6602,7 @@ window.MJ = window.MJ || {};
     const ok = s.valid && s.og > 1;
     const fit = useMemo(() => fitOf(r, s), [r, s]);
     return html`<a class=${'card recipe-card' + (r.approved ? ' approved' : '')} href=${`#/recipes/${r.id}`}>
-      ${r.approved && html`<span class="badge badge-approved rc-approved" title="This recipe has been approved"><${Icon} name="check" size=${12} /> Approved</span>`}
+      ${r.approved && html`<span class="badge badge-approved rc-approved" title=${approvalText(r) || 'This recipe has been approved'}><${Icon} name="check" size=${12} /> Approved</span>`}
       <div class="rc-top">
         <div style="width:44px;flex-shrink:0"><${Glass} hex=${s.hex} empty=${!ok} /></div>
         <div style="min-width:0">
@@ -5899,7 +6622,7 @@ window.MJ = window.MJ || {};
         <div><b>${ok && s.fg ? fmt.sg(s.fg) : '—'}</b><small class="muted">FG</small></div>
         <div><b>${ok && s.abv != null ? fmt.pct(s.abv) : '—'}</b><small class="muted">ABV</small></div>
         <div><b>${ok ? fmt.n0(s.ibu) : '—'}</b><small class="muted">IBU</small></div>
-        <div><b>${ok ? fmt.n0(s.ebc) : '—'}</b><small class="muted">EBC</small></div>
+        <div title=${ok ? `${fmt.n1(s.ebc)} EBC` : undefined}><b>${ok ? fmt.n1(s.srm) : '—'}</b><small class="muted">SRM</small></div>
       </div>
     </a>`;
   }
@@ -5930,7 +6653,7 @@ window.MJ = window.MJ || {};
         <div><b>${ok && s.fg ? fmt.sg(s.fg) : '—'}</b><small class="muted">FG</small></div>
         <div><b>${ok && s.abv != null ? fmt.pct(s.abv) : '—'}</b><small class="muted">ABV</small></div>
         <div><b>${ok ? fmt.n0(s.ibu) : '—'}</b><small class="muted">IBU</small></div>
-        <div><b>${ok ? fmt.n0(s.ebc) : '—'}</b><small class="muted">EBC</small></div>
+        <div title=${ok ? `${fmt.n1(s.ebc)} EBC` : undefined}><b>${ok ? fmt.n1(s.srm) : '—'}</b><small class="muted">SRM</small></div>
       </div>
       <div class="tc-foot"><button class="btn btn-sm btn-primary" onClick=${() => startFromExample(r)}><${Icon} name="plus" size=${14} /> Start from example</button></div>
     </article>`;
@@ -5942,7 +6665,11 @@ window.MJ = window.MJ || {};
     return m ? m[1].padStart(3, '0') + m[2].toUpperCase() : '~';
   };
 
+  // "Approved by Michael Wakeford on 9 Nov 2026" (whatever of that is known).
+  const approvalText = (r) => (r.approved ? `Approved${r.approvedBy ? ` by ${MJ.ui.person(r.approvedBy)}` : ''}${r.approvedAt ? ` on ${fmt.date(r.approvedAt)}` : ''}` : '');
+
   const SORTS = {
+    approved: { label: 'Approved first', fn: (a, b) => (b.r.approved ? 1 : 0) - (a.r.approved ? 1 : 0) || (b.r.updatedAt || '').localeCompare(a.r.updatedAt || '') },
     bjcp: { label: 'BJCP style number', fn: (a, b) => bjcpKey(a.r).localeCompare(bjcpKey(b.r)) || a.r.name.localeCompare(b.r.name) },
     updated: { label: 'Recently updated', fn: (a, b) => (b.r.updatedAt || '').localeCompare(a.r.updatedAt || '') },
     name: { label: 'Name A–Z', fn: (a, b) => a.r.name.localeCompare(b.r.name) },
@@ -5966,6 +6693,8 @@ window.MJ = window.MJ || {};
     const [can, setCan] = useState('');
     const [yeast, setYeast] = useState('');
     const [sort, setSort] = useState('updated');
+    const [approvedOnly, setApprovedOnly] = useState(false);
+    const [filtersOpen, setFiltersOpen] = useState(false);   // the phone's "Filters" panel
 
     const rows = useMemo(() => {
       const s = q.trim().toLowerCase();
@@ -5973,11 +6702,12 @@ window.MJ = window.MJ || {};
         .filter((r) => !cat || (cat === 'Template' ? !!r.isTemplate : catOf(r) === cat))
         .filter((r) => !can || (r.cans || []).some((c) => c.style === can))
         .filter((r) => !yeast || (r.yeasts || []).some((y) => y.code === yeast))
+        .filter((r) => !approvedOnly || !!r.approved)
         .filter((r) => !s || [r.name, r.bjcp, catOf(r), r.notes, summary(r), r.isClone && r.clone ? `${r.clone.name || ''} clone` : '',
           r.isTemplate ? ['template', r.exampleName, ...Object.values(r.template || {}).filter((v) => typeof v === 'string')].join(' ') : ''].join(' ').toLowerCase().includes(s))
         .map((r) => { const s = compute(r); return { r, s, fit: fitOf(r, s) }; })
         .sort(SORTS[sort].fn);
-    }, [recipes, sharedAdditions, q, cat, can, yeast, sort]);
+    }, [recipes, sharedAdditions, q, cat, can, yeast, sort, approvedOnly]);
 
     const usedCats = [...new Set(recipes.filter((r) => !r.isClone).map((r) => r.category).filter(Boolean))].sort();
     // "Commercial clone" always leads the list; the style filter is searchable like the builder's.
@@ -5988,8 +6718,14 @@ window.MJ = window.MJ || {};
     const clones = rows.filter(({ r }) => r.isClone);
     // Templates keep BJCP order (29A, 29B, … 34C) whichever sort is chosen.
     const templates = rows.filter(({ r }) => r.isTemplate).sort(SORTS.bjcp.fn);
-    const recipeTotal = recipes.filter((r) => !r.isTemplate).length;
-    const templateTotal = recipes.length - recipeTotal;
+    const totals = { r: recipes.filter((r) => !r.isClone && !r.isTemplate).length, c: recipes.filter((r) => r.isClone).length, t: recipes.filter((r) => r.isTemplate).length };
+    const approvedCount = recipes.filter((r) => r.approved).length;
+    // "86 recipes · 16 clones · 15 templates", or "4 of 86 recipes · …" while a filter is hiding some.
+    const part = (n, total, one, many) => (total ? `${n === total ? '' : `${n} of `}${total} ${total === 1 ? one : many}` : '');
+    const countText = [part(normals.length, totals.r, 'recipe', 'recipes'), part(clones.length, totals.c, 'clone', 'clones'), part(templates.length, totals.t, 'template', 'templates')].filter(Boolean).join(' · ');
+    const panelFilters = [cat, can, yeast].filter(Boolean).length + (sort !== 'updated' ? 1 : 0);
+    const anyFilter = !!(q.trim() || cat || can || yeast || approvedOnly);
+    const clearAll = () => { setQ(''); setCat(''); setCan(''); setYeast(''); setApprovedOnly(false); setSort('updated'); };
     const grid = (list) => html`<div class="grid grid-3">${list.map(({ r }) => html`<${RecipeCard} key=${r.id} r=${r} rev=${sharedAdditions} />`)}</div>`;
 
     return html`<div>
@@ -6006,17 +6742,32 @@ window.MJ = window.MJ || {};
             <a class="btn btn-primary" href="#/builder"><${Icon} name="plus" /> Build a recipe</a>
           </div>`
         : html`
-          <div class="filters">
-            <${SearchInput} value=${q} onInput=${setQ} placeholder="Search recipes, ingredients, notes…" />
-            <div class="filter-style"><${Combobox} id="style-filter" options=${catOptions} value=${cat} placeholder="All styles" onChange=${(v) => setCat(v)} /></div>
-            <select class="select" value=${can} onChange=${(e) => setCan(e.target.value)} aria-label="Base can">
-              <option value="">Any can</option>${D.cans.map((c) => html`<option value=${c.style}>${c.style}</option>`)}</select>
-            <select class="select" value=${yeast} onChange=${(e) => setYeast(e.target.value)} aria-label="Yeast">
-              <option value="">Any yeast</option>${D.yeasts.map((y) => html`<option value=${y.code}>${y.code} ${y.name}</option>`)}</select>
-            <select class="select" value=${sort} onChange=${(e) => setSort(e.target.value)} aria-label="Sort">
-              ${Object.entries(SORTS).map(([k, v]) => html`<option value=${k}>${v.label}</option>`)}</select>
+          <div class="filters-bar">
+            <div class="filters">
+              <div class="f-search">
+                <${SearchInput} value=${q} onInput=${setQ} placeholder="Search recipes, ingredients, notes…" />
+                <button type="button" class="f-toggle" aria-expanded=${filtersOpen} aria-controls="filters-more" onClick=${() => setFiltersOpen(!filtersOpen)}>
+                  Filters${panelFilters > 0 && html`<span class="n" aria-label=${`${panelFilters} in use`}>${panelFilters}</span>`}</button>
+              </div>
+              <div class=${'filters-more' + (filtersOpen ? ' open' : '')} id="filters-more">
+                <div class="filter-style"><${Combobox} id="style-filter" options=${catOptions} value=${cat} placeholder="All styles" onChange=${(v) => setCat(v)} /></div>
+                <select class="select" value=${can} onChange=${(e) => setCan(e.target.value)} aria-label="Base can">
+                  <option value="">Any can</option>${D.cans.map((c) => html`<option value=${c.style}>${c.style}</option>`)}</select>
+                <select class="select" value=${yeast} onChange=${(e) => setYeast(e.target.value)} aria-label="Yeast">
+                  <option value="">Any yeast</option>${D.yeasts.map((y) => html`<option value=${y.code}>${y.code} ${y.name}</option>`)}</select>
+                <select class="select" value=${sort} onChange=${(e) => setSort(e.target.value)} aria-label="Sort">
+                  ${Object.entries(SORTS).map(([k, v]) => html`<option value=${k}>${v.label}</option>`)}</select>
+              </div>
+            </div>
           </div>
-          <p class="muted" style="margin:-6px 0 14px"><small>${normals.length + clones.length} of ${recipeTotal} recipe${recipeTotal === 1 ? '' : 's'}${templateTotal > 0 ? ` · ${templates.length} of ${templateTotal} template${templateTotal === 1 ? '' : 's'}` : ''}</small></p>
+          <div class="list-meta">
+            <p class="lm-count muted"><small>${countText}</small></p>
+            <div class="lm-actions">
+              ${anyFilter && html`<button type="button" class="lm-clear" onClick=${clearAll}>Clear filters</button>`}
+              <button type="button" class=${'chip-toggle' + (approvedOnly ? ' on' : '')} aria-pressed=${approvedOnly} onClick=${() => setApprovedOnly(!approvedOnly)}
+                title="Show only recipes marked as approved"><${Icon} name="check" size=${13} /> Approved only <span class="n">${approvedCount}</span></button>
+            </div>
+          </div>
           ${rows.length
             ? html`${normals.length > 0 && html`<section class="lib-recipes" aria-label="Recipes">
                 <h2 class="lib-heading">Recipes <span class="count">${normals.length}</span></h2>
@@ -6124,7 +6875,7 @@ window.MJ = window.MJ || {};
       <h4 class="eyebrow" style="margin:4px 0 4px">${title}</h4>
       <ul class="ing-list">${items.map((it) => html`<li class=${it.thumb ? 'has-thumb' : ''}>
         ${it.thumb && html`<span class="ing-thumb">${it.thumb}</span>`}
-        <span class="ing-main"><b>${it.name}</b>${it.tag}${it.sub && html`<small class="muted" style="display:block">${it.sub}</small>`}</span>
+        <span class="ing-main"><b>${it.name}</b>${it.tag}${it.sub && html`<small class="muted" style="display:block">${it.sub}</small>`}${(it.notes || []).map((n) => html`<small class=${'ing-note' + (n.kind ? ' ' + n.kind + '-note' : '')} role="note"><${Icon} name="warn" size=${13} /> <span class="ln-text">${n.text}</span>${n.action && html`<button type="button" class=${n.action.cls} aria-label=${`${n.action.label} (${it.name})`} title=${n.action.title || n.action.label} onClick=${n.action.run}>${n.action.label}</button>`}</small>`)}</span>
         <span class="qty">${it.qty}${it.weight && html`<small class="muted" style="display:block;font-weight:400">${it.weight}</small>`}</span>
       </li>`)}</ul></div>`;
   }
@@ -6149,12 +6900,21 @@ window.MJ = window.MJ || {};
       MJ.router.navigate('#/recipes');
     };
     const tpl = r.isTemplate ? r.template || {} : null;
+    // Who is signed in, and whether they may approve: anyone, unless MJ.approvers (js/firebase-config.js) lists named people.
+    const who = (MJ.auth && MJ.auth.user && MJ.auth.user.email) || '';
+    const approvers = (MJ.approvers || []).map((e) => String(e).toLowerCase());
+    const canApprove = !approvers.length || (!!who && approvers.includes(who.toLowerCase()));
     // Approving saves straight away (to the shared database too): the field is just `approved: true`, and is removed when switched off.
     const setApproved = async (on) => {
       if (approving) return;
       setApproving(true);
       const next = { ...r };
-      if (on) next.approved = true; else delete next.approved;
+      if (on) {
+        next.approved = true;
+        next.approvedAt = new Date().toISOString();
+        const by = (MJ.auth && MJ.auth.user && MJ.auth.user.email) || '';   // whoever is signed in right now
+        if (by) next.approvedBy = by; else delete next.approvedBy;
+      } else { delete next.approved; delete next.approvedAt; delete next.approvedBy; }
       try {
         await MJ.store.save(next);
         MJ.toast(on ? `${r.name} marked as approved` : 'Approval removed');
@@ -6162,6 +6922,25 @@ window.MJ = window.MJ || {};
         MJ.toast(`Couldn't update the recipe: ${e.message || e}`);
       } finally {
         setApproving(false);
+      }
+    };
+    // Dismissing a "does not suit the style" warning saves straight away, with the recipe, for that yeast and style.
+    const dismissNote = async (key) => {
+      try {
+        await MJ.store.save({ ...r, dismissedNotes: (r.dismissedNotes || []).concat(key) });
+        MJ.toast('Warning dismissed');
+      } catch (e) {
+        MJ.toast(`Couldn't update the recipe: ${e.message || e}`);
+      }
+    };
+    // The one-tap fix for an under-pitched yeast saves straight away (like Dismiss), with an Undo that saves the old recipe back.
+    const fixPitch = async (fix) => {
+      const before = r;
+      try {
+        await MJ.store.save({ ...r, yeasts: r.yeasts.map((y) => (y.code === fix.code ? { ...y, qty: (Number(y.qty) || 0) + fix.add } : y)) });
+        MJ.toast({ text: `Pitch rate fixed: ${fix.code} +${fix.add} sachet${fix.add === 1 ? '' : 's'}`, action: { label: 'Undo', run: () => MJ.store.save(before) } });
+      } catch (e) {
+        MJ.toast(`Couldn't update the recipe: ${e.message || e}`);
       }
     };
     const duplicate = async () => {
@@ -6172,12 +6951,12 @@ window.MJ = window.MJ || {};
 
     const cans = (r.cans || []).map((c) => {
       const l = s.lines.cans.find((x) => x.spec.style === c.style);
-      return { thumb: html`<${CanPicture} style=${c.style} width=${28} />`, name: `${c.style} can`, sub: l ? `${fmt.n1(l.ibu)} IBU · ${fmt.n1(l.ebc)} EBC` : '', qty: plural(c.qty, 'can'), weight: fmt.kg((Number(c.qty) || 0) * K.canKg) + (l ? ` · ${fmt.n1(l.pts)} pts` : '') };
+      return { thumb: html`<${CanPicture} style=${c.style} width=${28} />`, name: `${c.style} can`, sub: l ? `${fmt.n1(l.ibu)} IBU · ${fmt.colour(l.ebc)}` : '', qty: plural(c.qty, 'can'), weight: fmt.kg((Number(c.qty) || 0) * K.canKg) + (l ? ` · ${fmt.n1(l.pts)} pts` : '') };
     });
     const enh = (r.enhancers || []).map((e) => {
       const spec = lookup.enhByCode[e.type];
       const l = s.lines.enhancers.find((x) => x.spec.code === e.type);
-      return { thumb: html`<${EnhancerPicture} code=${e.type} width=${42} />`, name: spec ? spec.name : e.type, sub: l ? `${fmt.n1(l.ibu)} IBU · ${fmt.n1(l.ebc)} EBC` : '', qty: plural(e.qty, 'sachet'), weight: fmt.kg((Number(e.qty) || 0) * K.enhKg) };
+      return { thumb: html`<${EnhancerPicture} code=${e.type} width=${42} />`, name: spec ? spec.name : e.type, sub: l ? `${fmt.n1(l.ibu)} IBU · ${fmt.colour(l.ebc)}` : '', qty: plural(e.qty, 'sachet'), weight: fmt.kg((Number(e.qty) || 0) * K.enhKg) };
     });
     const hops = (r.hops || []).map((h) => ({
       thumb: html`<${HopPicture} blend=${h.blend} width=${44} />`,
@@ -6187,7 +6966,12 @@ window.MJ = window.MJ || {};
     }));
     const yeasts = (r.yeasts || []).map((y) => {
       const spec = lookup.yeastByCode[y.code];
-      return { thumb: html`<${YeastPicture} code=${y.code} width=${38} />`, name: spec ? `${spec.code} ${spec.name}` : y.code, sub: spec ? `${spec.fermTemp} · ${spec.attenuation}` : '', qty: plural(y.qty, 'sachet'), weight: fmt.g((Number(y.qty) || 0) * K.yeastSachetG) };
+      const verdict = r.bjcp && !r.isClone && MJ.yeastFit ? MJ.yeastFit.check(r.bjcp, y.code) : null;
+      return { thumb: html`<${YeastPicture} code=${y.code} width=${38} />`, name: spec ? `${spec.code} ${spec.name}` : y.code, sub: spec ? `${spec.fermTemp} · ${spec.attenuation}` : '',
+        notes: [
+          ...(verdict === 'no' && MJ.yeastFit.note(r.bjcp, y.code, r.dismissedNotes) ? [{ kind: 'style', text: MJ.yeastFit.note(r.bjcp, y.code, r.dismissedNotes), action: tpl ? null : { label: 'Dismiss', cls: 'note-dismiss', title: 'Dismiss this warning', run: () => dismissNote(MJ.yeastFit.key(r.bjcp, y.code)) } }] : []),
+          ...(s.warnings.filter((w) => w.fix && w.fix.kind === 'pitch' && w.fix.code === y.code).map((w) => ({ kind: 'pitch', text: w.text, action: tpl ? null : { label: w.fix.label, cls: 'note-fix', run: () => fixPitch(w.fix) } }))),
+        ], qty: plural(y.qty, 'sachet'), weight: fmt.g((Number(y.qty) || 0) * K.yeastSachetG) };
     });
     const adds = (r.additions || []).map((a) => {
       const spec = MJ.calc.additionSpec(a);
@@ -6232,9 +7016,10 @@ window.MJ = window.MJ || {};
           ${tpl && html`<div class="hero-clone"><span>Worked example: <b>${r.exampleName}</b></span></div>`}
           ${clone && html`<div class="hero-clone"><span>Clone of <b>${clone.name || 'a commercial beer'}</b></span></div>`}
           <div class="dh-meta">
-            ${!tpl && html`<label class=${'switch dh-approve' + (r.approved ? ' on' : '')} title="Mark this recipe as approved. It then shows an Approved badge on the Recipes page.">
-              <input type="checkbox" role="switch" checked=${!!r.approved} disabled=${approving} onChange=${(e) => setApproved(e.target.checked)} />
+            ${!tpl && html`<label class=${'switch dh-approve' + (r.approved ? ' on' : '')} title=${canApprove ? 'Mark this recipe as approved. It then shows an Approved badge on the Recipes page.' : 'Only the named approvers can change this.'}>
+              <input type="checkbox" role="switch" checked=${!!r.approved} disabled=${approving || !canApprove} onChange=${(e) => setApproved(e.target.checked)} />
               <span class="switch-track"></span><span class="switch-label">Recipe approved</span></label>`}
+            ${!tpl && r.approved && approvalText(r) !== 'Approved' && html`<small class="dh-approved" title=${r.approvedBy || ''}>${approvalText(r).replace(/^Approved /, '')}</small>`}
             <small>Updated ${fmt.date(r.updatedAt)}${r.updatedBy && html` by <span title=${r.updatedBy}>${MJ.ui.person(r.updatedBy)}</span>`}${r.createdBy && r.createdBy !== r.updatedBy && html` · created by <span title=${r.createdBy}>${MJ.ui.person(r.createdBy)}</span>`}</small>
           </div>
         </div>
@@ -6608,11 +7393,20 @@ Lovibond: SRM = 1.3546 × °L − 0.76`}<//>
           ${info('EBC').map((i) => html`<details class="ref-more"><summary>${i.label}</summary><p class="prose">${i.text}</p>${i.example && html`<p class="muted"><small>${i.example}</small></p>`}</details>`)}` },
       ] },
       { group: 'Yeast and fermentation', note: 'How much yeast, and what it can reach', items: [
-        { id: 'pitch', title: 'Pitch rate', key: '1 sachet per 23 L, more for strong or cold lager', body: html`
-          <${Eq}>${`Sachets = (sachets per batch) × ceil(V ÷ ${K.litresPerYeastSachet})
+        { id: 'pitch', title: 'Pitch rate', key: '1 sachet per 23 L, more for strong or cold lager: a small batch is judged by its sugar', body: html`
+          <${Eq}>${`Full batches  = floor(V ÷ ${K.litresPerYeastSachet});  the rest = V − ${K.litresPerYeastSachet} × full batches
+OG in ${K.litresPerYeastSachet} L    = 1 + (OG − 1) × (litres in the batch ÷ ${K.litresPerYeastSachet})     (a full batch: the OG itself)
 
-Ale:    1 sachet; 2 if OG > 1.050
-Lager:  1 sachet; 2 if fermented at 14 °C or below; 4 if OG > 1.050`}<//>
+Dose for one batch of up to ${K.litresPerYeastSachet} L:
+  Ale:    1 sachet; 2 if its OG in ${K.litresPerYeastSachet} L is over 1.050
+  Lager:  1 sachet; 2 if fermented at 14 °C or below (× litres ÷ ${K.litresPerYeastSachet}, at least 1); 4 if its OG in ${K.litresPerYeastSachet} L is over 1.050
+
+Sachets = (full batches × the dose at the real OG) + (the dose for the rest)
+
+Over ${K.litresPerYeastSachet} L with OG 1.050 or below (and not a cold lager), every dose is the standard one, so sachets are not rounded up per slice:
+  Sachets = ceil( total gravity points ÷ ${50 * K.litresPerYeastSachet} )     total gravity points = (OG − 1) × 1000 × V`}<//>
+          <p>The booklet's doses are written per ${K.litresPerYeastSachet} L of wort, and what the yeast has to work through is the amount of sugar, not the litres. So a batch of up to ${K.litresPerYeastSachet} L is judged by the strength its sugar would have in ${K.litresPerYeastSachet} L. At exactly ${K.litresPerYeastSachet} L every figure is the booklet's; over ${K.litresPerYeastSachet} L each full ${K.litresPerYeastSachet} L is judged at the real OG and only the part batch left over is judged by its sugar.</p>
+          <${Example}>14.5 L at OG 1.055 holds the sugar of ${K.litresPerYeastSachet} L at OG ${fmt.sg(1 + 0.055 * 14.5 / K.litresPerYeastSachet)}, which is under 1.050: 1 sachet for an ale (2 for a lager fermented at 14 °C or below), not the 2 (or 4) that OG 1.055 would ask for at ${K.litresPerYeastSachet} L. 30 L at OG 1.060 is one full ${K.litresPerYeastSachet} L (2 sachets) plus 7 L whose sugar is that of ${K.litresPerYeastSachet} L at OG ${fmt.sg(1 + 0.06 * 7 / K.litresPerYeastSachet)} (1 sachet): 3 sachets.<//>
           <p class="prose">${D.yeastNotes}</p>
           <dl class="kv">${info('ATTENUATION').map((i) => html`<dt>${i.label}</dt><dd>${i.text}</dd>`)}</dl>` },
         { id: 'tolerance', title: 'Yeast alcohol tolerance', key: 'ABV is held at the yeast\'s tolerance; FG = OG − tolerance ÷ 131.25', body: html`
@@ -6671,7 +7465,7 @@ new EBC = curve( uncurve(old EBC) × V₁ ÷ V₂ )`}<//>
 near     : outside the range by no more than half the range's width
 far      : further out than that
 Style fit = how many of OG, FG, ABV, IBU and EBC are in range`}<//>
-          <p>The comparison uses the numbers as displayed (OG and FG to three decimals, ABV and EBC to one, IBU to a whole number), so a value shown as 1.010 is in a 1.010–1.014 range. The style's EBC range is its SRM range × 1.97. A green dot is in range, amber near, red far.</p>` },
+          <p>The comparison uses the numbers as displayed (OG and FG to three decimals, ABV and SRM to one, IBU to a whole number), so a value shown as 1.010 is in a 1.010–1.014 range. Colour is compared in SRM, the unit BJCP writes its ranges in; EBC = SRM × 1.97. A green dot is in range, amber near, red far.</p>` },
         { id: 'clone', title: 'Commercial clone match', key: 'score = 1 − (|difference| − good) ÷ (zero − good), averaged', body: html`
           <${Eq}>${`score (each spec) = 1 − (|recipe − target| − good) ÷ (zero − good)     held between 0 and 1
 match %           = average of the specs entered × 100
@@ -6760,7 +7554,7 @@ EBC    larger of 2 or 6%      larger of 20 or 50% of the target`}<//>
 window.MJ = window.MJ || {};
 
 (function () {
-  const { html, render, useState, useEffect } = htmPreact;
+  const { html, render, useState, useEffect, useRef } = htmPreact;
   const { Icon, Overlays, InstallPrompt, InstallLink, AuthScreen, UserMenu, useAuth, BrandMark } = MJ.ui;
 
   // The database connection opens only once someone is signed in (or in local-only mode): the rules refuse a connection
@@ -6835,6 +7629,34 @@ window.MJ = window.MJ || {};
       return () => window.removeEventListener('hashchange', onHash);
     }, []);
 
+    // The header is full size at the top of the page and slims down once you scroll (with a gap either side, so it
+    // doesn't flicker at the edge). It is fixed, with a slot that keeps the full height, so shrinking it never moves the page.
+    const [compact, setCompact] = useState(false);
+    const headerRef = useRef(null);
+    const slotRef = useRef(null);
+    const lastHeight = useRef(0);
+    useEffect(() => {
+      const onScroll = () => { const y = window.scrollY || document.documentElement.scrollTop || 0; setCompact((c) => (c ? y > 24 : y > 110)); };
+      window.addEventListener('scroll', onScroll, { passive: true });
+      onScroll();
+      return () => window.removeEventListener('scroll', onScroll);
+    }, []);
+    useEffect(() => {
+      const h = headerRef.current, slot = slotRef.current;
+      if (!h || !slot) return undefined;
+      const measure = () => {
+        if (!compact) slot.style.height = `${h.offsetHeight}px`;
+        const now = h.offsetHeight;
+        document.documentElement.style.setProperty('--site-header-h', `${now}px`);
+        // things that stick under the header (the readout, the phone's search bar) re-measure on resize
+        if (lastHeight.current && now !== lastHeight.current) window.dispatchEvent(new Event('resize'));
+        lastHeight.current = now;
+      };
+      measure();
+      window.addEventListener('resize', measure);
+      return () => window.removeEventListener('resize', measure);
+    }, [compact]);
+
     const view = resolve(route);
     const live = MJ.store.kind === 'firebase';
     const status = MJ.ui.useStoreStatus();
@@ -6847,7 +7669,8 @@ window.MJ = window.MJ || {};
       : status.ready ? '● Offline: showing this browser\'s saved copy; changes sync when reconnected'
       : '● Connecting…';
     return html`
-      <header class="site-header">
+      <div class="header-slot" ref=${slotRef}>
+      <header class=${'site-header' + (compact ? ' compact' : '')} ref=${headerRef}>
         <div class="header-inner">
           <a class="brand" href="#/builder" aria-label="Recipe database home">
             <${BrandMark} size=${64} />
@@ -6859,6 +7682,7 @@ window.MJ = window.MJ || {};
           <span class="theme-slot"><${UserMenu} /></span>
         </div>
       </header>
+      </div>
       ${showError && html`<div class="db-banner" role="alert">
         <${Icon} name="warn" />
         <span>Can't reach the recipe database (<code>${status.error}</code>). Recipes may not load or save.
