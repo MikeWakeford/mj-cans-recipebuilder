@@ -177,9 +177,9 @@ main { max-width: 1220px; margin: 0 auto; padding: 32px 20px 80px; }
 .btn-icon { padding: 7px; width: 34px; height: 34px; }
 
 /* Label text and its optional hint share the first row; the control spans the row below. */
-label.field { display: grid; grid-template-columns: auto 1fr; align-items: baseline; gap: 6px; font-size: 12.5px; font-weight: 600; color: var(--text-2); letter-spacing: .01em; align-content: start; }
-label.field > * { grid-column: 1 / -1; }
-label.field > span.hint { grid-column: auto; font-weight: 400; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+label.field, div.field { display: grid; grid-template-columns: auto 1fr; align-items: baseline; gap: 6px; font-size: 12.5px; font-weight: 600; color: var(--text-2); letter-spacing: .01em; align-content: start; }
+label.field > *, div.field > * { grid-column: 1 / -1; }
+label.field > span.hint, div.field > span.hint { grid-column: auto; font-weight: 400; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .input, .select, textarea.input {
   width: 100%; font: 400 14.5px/1.4 var(--font-body); color: var(--text); background: var(--surface);
   border: 1px solid var(--border-strong); border-radius: var(--radius-sm); padding: 10px 12px; min-height: 42px;
@@ -187,6 +187,7 @@ label.field > span.hint { grid-column: auto; font-weight: 400; color: var(--mute
 .input:focus, .select:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px var(--primary-soft); }
 textarea.input { min-height: 110px; resize: vertical; }
 .select { appearance: none; padding-right: 32px; background-image: linear-gradient(45deg, transparent 50%, var(--muted) 50%), linear-gradient(135deg, var(--muted) 50%, transparent 50%); background-position: calc(100% - 17px) 50%, calc(100% - 12px) 50%; background-size: 5px 5px; background-repeat: no-repeat; }
+.input-calc { display: flex; align-items: center; background: var(--surface-2); color: var(--muted); font-variant-numeric: tabular-nums; cursor: default; }
 .input-unit { position: relative; }
 .input-unit .input { padding-right: 46px; }
 .input-unit > em { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); font-style: normal; font-size: 12.5px; color: var(--muted); pointer-events: none; }
@@ -207,7 +208,7 @@ textarea.input { min-height: 110px; resize: vertical; }
 .input.invalid { border-color: var(--red); }
 .input.invalid:focus { box-shadow: 0 0 0 3px var(--red-soft); }
 .field-error { color: var(--red); font-size: 12.5px; font-weight: 500; }
-label.field > span.hint-auto { color: var(--green); }
+label.field > span.hint-auto, div.field > span.hint-auto { color: var(--green); }
 .btn.added { border-color: var(--primary); background: var(--primary-soft); }
 .chip-count { font-weight: 700; color: var(--primary-strong); margin-left: 2px; }
 .page-actions { display: flex; flex-direction: column; align-items: flex-end; gap: 8px; }
@@ -291,8 +292,12 @@ table.data tbody tr:hover { background: var(--surface-2); }
 .meter { display: inline-flex; gap: 3px; vertical-align: middle; }
 .meter i { width: 14px; height: 7px; border-radius: 3px; background: var(--surface-3); }
 .meter i.on { background: var(--primary); }
-.bar { height: 8px; background: var(--surface-3); border-radius: 2px; position: relative; overflow: hidden; }
-.bar > span { position: absolute; top: 0; bottom: 0; background: linear-gradient(90deg, var(--primary), var(--primary-strong)); border-radius: 2px; }
+/* Yeast attenuation: the low-high range as a slate band on a track, the typical (mid) value as a marker, scale 60-100% */
+.att-scale { margin-top: 10px; }
+.as-track { position: relative; height: 10px; background: var(--surface-3); }
+.as-range { position: absolute; top: 0; bottom: 0; background: var(--header); }
+.as-mid { position: absolute; top: 50%; width: 14px; height: 14px; margin: -7px 0 0 -7px; border-radius: 50%; background: var(--primary); box-shadow: 0 0 0 3px var(--surface); }
+.as-ticks { display: flex; justify-content: space-between; margin-top: 6px; font: 600 11px/1 var(--font-body); color: var(--muted); font-variant-numeric: tabular-nums; }
 
 /* ============ Ingredient cards ============ */
 .ing-card { display: flex; flex-direction: column; overflow: hidden; }
@@ -300,6 +305,20 @@ table.data tbody tr:hover { background: var(--surface-2); }
 .ing-top h3 { font-size: 1.35rem; text-transform: uppercase; letter-spacing: .04em; }
 .ing-top .meta { flex: 1; min-width: 0; }
 .ing-body { padding: 0 20px 18px; flex: 1; }
+/* Hop blend: one proportional strip, then a ledger (colour key, hop, grams, share) */
+.hop-mix { border-top: 1px solid var(--border); padding-top: 12px; }
+.hm-head { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 8px; }
+.hm-head .eyebrow { margin: 0; }
+.hm-strip { display: flex; gap: 2px; height: 10px; }
+.hm-strip i { min-width: 3px; }
+.hm-0 { background: var(--header); } .hm-1 { background: var(--green); } .hm-2 { background: #6aa386; } .hm-3 { background: #b4d0c1; }
+.hm-list { list-style: none; margin: 8px 0 0; padding: 0; }
+.hm-list li { display: flex; align-items: center; gap: 10px; padding: 6px 0; border-bottom: 1px dashed var(--border); font-size: 14.5px; }
+.hm-list li:last-child { border-bottom: 0; padding-bottom: 0; }
+.hm-dot { flex: none; width: 10px; height: 10px; }
+.hm-name { flex: 1; min-width: 0; font-weight: 700; }
+.hm-g { color: var(--muted); font-variant-numeric: tabular-nums; }
+.hm-pct { min-width: 3.2em; text-align: right; font-variant-numeric: tabular-nums; }
 .ing-foot { padding: 12px 20px; border-top: 1px solid var(--border); background: var(--surface-2); display: flex; gap: 8px; justify-content: space-between; align-items: center; flex-wrap: wrap; }
 .can-art {
   width: 58px; height: 76px; border-radius: 0 0 0 0; flex-shrink: 0; position: relative;
@@ -391,6 +410,10 @@ table.data tbody tr:hover { background: var(--surface-2); }
 .unit-toggle { display: inline-flex; border: 1px solid var(--border-strong); border-radius: 0; overflow: hidden; }
 .unit-toggle button { border: 0; background: var(--surface); color: var(--muted); padding: 0 9px; font: 600 12px var(--font-body); cursor: pointer; height: 40px; }
 .unit-toggle button.on { background: var(--primary); color: var(--on-primary); }
+.unit-toggle.sm button { height: 20px; padding: 0 8px; font-size: 11.5px; }
+.field-colour > .fc-head { display: flex; align-items: baseline; gap: 6px; }
+.field-colour > .fc-head .hint { font-weight: 400; color: var(--muted); }
+.field-colour > .fc-head .unit-toggle { margin: -3px 0; margin-left: auto; align-self: center; }
 
 /* Stats panel */
 .glass { width: 62px; flex-shrink: 0; }
@@ -926,7 +949,7 @@ table.data tbody tr:hover { background: var(--surface-2); }
 /* Fields */
 .input, .select, textarea.input { font-size: 15px; border-color: var(--border-strong); }
 .input:focus, .select:focus { border-color: var(--primary-hover); box-shadow: 0 0 0 3px var(--primary-soft); }
-label.field { font-size: 13px; font-weight: 700; color: var(--text-2); letter-spacing: 0; }
+label.field, div.field { font-size: 13px; font-weight: 700; color: var(--text-2); letter-spacing: 0; }
 .stepper:focus-within { border-color: var(--primary-hover); }
 
 /* Tabs and filter chips: bold capitals, a yellow bar under the open tab, a slate chip for the chosen filter */
@@ -1050,6 +1073,8 @@ h3, h4 { text-transform: uppercase; }
 .rc-fit > span:first-child { font: 700 11px/1 var(--font-body); letter-spacing: .6px; text-transform: uppercase; color: var(--muted); }
 .rc-fit b { font-weight: 700; color: var(--text); }
 .rc-fit.perfect b { color: var(--green); }
+.rc-fit .rc-pct { margin-left: auto; font: 700 12px/1 var(--font-body); font-variant-numeric: tabular-nums; color: var(--muted); }
+.rc-fit.perfect .rc-pct { color: var(--green); }
 .rc-dots { display: inline-flex; gap: 5px; }
 .rc-dots i { width: 11px; height: 11px; border-radius: 50%; box-sizing: border-box; border: 2px solid var(--border-strong); }
 .rc-dots i.d-good { background: var(--green); border-color: var(--green); }
@@ -2488,6 +2513,7 @@ MJ.data = {
   <script>
 // GENERATED by tools/extract_bjcp.py - do not edit by hand.
 // BJCP 2021 Beer Style Guidelines: style numbers, names, categories and ranges (SRM, not EBC).
+// Types of one style (21B Specialty IPA, 27 Historical Beer, 25B Saison) are separate rows with a `parent`; see tools/bjcp_variants.py.
 window.MJ = window.MJ || {};
 MJ.bjcp = { source: 'BJCP 2021 Beer Style Guidelines', styles: [
   {"id":"1A","name":"American Light Lager","category":"Standard American Beer","og":[1.028,1.04],"fg":[0.998,1.008],"abv":[2.8,4.2],"ibu":[8,12],"srm":[2,3]},
@@ -2553,7 +2579,14 @@ MJ.bjcp = { source: 'BJCP 2021 Beer Style Guidelines', styles: [
   {"id":"20B","name":"American Stout","category":"American Porter and Stout","og":[1.05,1.075],"fg":[1.01,1.022],"abv":[5,7],"ibu":[35,75],"srm":[30,40]},
   {"id":"20C","name":"Imperial Stout","category":"American Porter and Stout","og":[1.075,1.115],"fg":[1.018,1.03],"abv":[8,12],"ibu":[50,90],"srm":[30,40]},
   {"id":"21A","name":"American IPA","category":"IPA","og":[1.056,1.07],"fg":[1.008,1.014],"abv":[5.5,7.5],"ibu":[40,70],"srm":[6,14]},
-  {"id":"21B","name":"Specialty IPA","category":"IPA","og":[1.05,1.085],"fg":[1.01,1.018],"abv":[5.5,9],"ibu":[50,90],"srm":[25,40]},
+  {"id":"21B","name":"Specialty IPA","category":"IPA","code":"21B","group":true,"note":"Pick a Specialty IPA type (Belgian, Black, Brown, Red, Rye, White or Brut): each has its own ranges."},
+  {"id":"21B-Bel","code":"21B","name":"Specialty IPA: Belgian IPA","category":"IPA","parent":"21B","og":[1.058,1.08],"fg":[1.008,1.016],"abv":[6.2,9.5],"ibu":[50,100],"srm":[5,8]},
+  {"id":"21B-Blk","code":"21B","name":"Specialty IPA: Black IPA","category":"IPA","parent":"21B","og":[1.05,1.085],"fg":[1.01,1.018],"abv":[5.5,9.0],"ibu":[50,90],"srm":[25,40]},
+  {"id":"21B-Brn","code":"21B","name":"Specialty IPA: Brown IPA","category":"IPA","parent":"21B","og":[1.056,1.07],"fg":[1.008,1.016],"abv":[5.5,7.5],"ibu":[40,70],"srm":[18,35]},
+  {"id":"21B-Brt","code":"21B","name":"Specialty IPA: Brut IPA","category":"IPA","parent":"21B","og":[1.046,1.057],"fg":[0.99,1.004],"abv":[6.0,7.5],"ibu":[20,30],"srm":[2,4]},
+  {"id":"21B-Red","code":"21B","name":"Specialty IPA: Red IPA","category":"IPA","parent":"21B","og":[1.056,1.07],"fg":[1.008,1.016],"abv":[5.5,7.5],"ibu":[40,70],"srm":[11,17]},
+  {"id":"21B-Rye","code":"21B","name":"Specialty IPA: Rye IPA","category":"IPA","parent":"21B","og":[1.056,1.075],"fg":[1.008,1.014],"abv":[5.5,8.0],"ibu":[50,75],"srm":[6,14]},
+  {"id":"21B-Wht","code":"21B","name":"Specialty IPA: White IPA","category":"IPA","parent":"21B","og":[1.056,1.065],"fg":[1.01,1.016],"abv":[5.5,7.0],"ibu":[40,70],"srm":[5,6]},
   {"id":"21C","name":"Hazy IPA","category":"IPA","og":[1.06,1.085],"fg":[1.01,1.015],"abv":[6,9],"ibu":[25,60],"srm":[3,7]},
   {"id":"22A","name":"Double IPA","category":"Strong American Ale","og":[1.065,1.085],"fg":[1.008,1.018],"abv":[7.5,10],"ibu":[60,100],"srm":[6,14]},
   {"id":"22B","name":"American Strong Ale","category":"Strong American Ale","og":[1.062,1.09],"fg":[1.014,1.024],"abv":[6.3,10],"ibu":[50,100],"srm":[7,18]},
@@ -2571,33 +2604,51 @@ MJ.bjcp = { source: 'BJCP 2021 Beer Style Guidelines', styles: [
   {"id":"24C","name":"Bière de Garde","category":"Belgian Ale","og":[1.06,1.08],"fg":[1.008,1.016],"abv":[6,8.5],"ibu":[18,28],"srm":[6,19]},
   {"id":"25A","name":"Belgian Blond Ale","category":"Strong Belgian Ale","og":[1.062,1.075],"fg":[1.008,1.018],"abv":[6,7.5],"ibu":[15,30],"srm":[4,6]},
   {"id":"25B","name":"Saison","category":"Strong Belgian Ale","og":[1.048,1.065],"fg":[1.002,1.008],"abv":[5,7],"ibu":[20,35],"srm":[5,14]},
+  {"id":"25B-Dk","code":"25B","name":"Saison: Dark","category":"Strong Belgian Ale","parent":"25B","og":[1.048,1.065],"fg":[1.002,1.008],"abv":[5.0,7.0],"ibu":[20,35],"srm":[15,22]},
+  {"id":"25B-Sup","code":"25B","name":"Saison: Super strength","category":"Strong Belgian Ale","parent":"25B","abv":[7.0,9.5],"ibu":[20,35],"srm":[5,14]},
+  {"id":"25B-Tbl","code":"25B","name":"Saison: Table strength","category":"Strong Belgian Ale","parent":"25B","abv":[3.5,5.0],"ibu":[20,35],"srm":[5,14]},
   {"id":"25C","name":"Belgian Golden Strong Ale","category":"Strong Belgian Ale","og":[1.07,1.095],"fg":[1.005,1.016],"abv":[7.5,10.5],"ibu":[22,35],"srm":[3,6]},
   {"id":"26A","name":"Belgian Single","category":"Monastic Ale","og":[1.044,1.054],"fg":[1.004,1.01],"abv":[4.8,6],"ibu":[25,45],"srm":[3,5]},
   {"id":"26B","name":"Belgian Dubbel","category":"Monastic Ale","og":[1.062,1.075],"fg":[1.008,1.018],"abv":[6,7.6],"ibu":[15,25],"srm":[10,17]},
   {"id":"26C","name":"Belgian Tripel","category":"Monastic Ale","og":[1.075,1.085],"fg":[1.008,1.014],"abv":[7.5,9.5],"ibu":[20,40],"srm":[4.5,7]},
   {"id":"26D","name":"Belgian Dark Strong Ale","category":"Monastic Ale","og":[1.075,1.11],"fg":[1.01,1.024],"abv":[8,12],"ibu":[20,35],"srm":[12,22]},
-  {"id":"28A","name":"Brett Beer","category":"American Wild Ale"},
-  {"id":"28B","name":"Mixed-Fermentation Sour Beer","category":"American Wild Ale"},
-  {"id":"28C","name":"Wild Specialty Beer","category":"American Wild Ale"},
+  {"id":"27A","name":"Historical Beer","category":"Historical Beer","code":"27","group":true,"note":"Pick a historical style: each has its own ranges."},
+  {"id":"27A-Kel","code":"27","name":"Historical Beer: Kellerbier (Helles base)","category":"Historical Beer","parent":"27A","like":"4A","og":[1.044,1.048],"fg":[1.006,1.012],"abv":[4.7,5.4],"ibu":[16,22],"srm":[3,5]},
+  {"id":"27A-KelD","code":"27","name":"Historical Beer: Kellerbier (Dunkel base)","category":"Historical Beer","parent":"27A","like":"8A","og":[1.048,1.056],"fg":[1.01,1.016],"abv":[4.5,5.6],"ibu":[18,28],"srm":[17,28]},
+  {"id":"27A-KelM","code":"27","name":"Historical Beer: Kellerbier (Märzen base)","category":"Historical Beer","parent":"27A","like":"6A","og":[1.054,1.06],"fg":[1.01,1.014],"abv":[5.6,6.3],"ibu":[18,24],"srm":[8,17]},
+  {"id":"27A-KelP","code":"27","name":"Historical Beer: Kellerbier (Pils base)","category":"Historical Beer","parent":"27A","like":"5D","og":[1.044,1.05],"fg":[1.008,1.013],"abv":[4.4,5.2],"ibu":[22,40],"srm":[2,4]},
+  {"id":"27A-Ky","code":"27","name":"Historical Beer: Kentucky Common","category":"Historical Beer","parent":"27A","og":[1.044,1.055],"fg":[1.01,1.018],"abv":[4.0,5.5],"ibu":[15,30],"srm":[11,20]},
+  {"id":"27A-Lic","code":"27","name":"Historical Beer: Lichtenhainer","category":"Historical Beer","parent":"27A","og":[1.032,1.04],"fg":[1.004,1.008],"abv":[3.5,4.7],"ibu":[5,12],"srm":[3,6]},
+  {"id":"27A-Lon","code":"27","name":"Historical Beer: London Brown Ale","category":"Historical Beer","parent":"27A","og":[1.033,1.038],"fg":[1.012,1.015],"abv":[2.8,3.6],"ibu":[15,20],"srm":[22,35]},
+  {"id":"27A-Pgr","code":"27","name":"Historical Beer: Piwo Grodziskie","category":"Historical Beer","parent":"27A","og":[1.028,1.032],"fg":[1.006,1.012],"abv":[2.5,3.3],"ibu":[20,35],"srm":[3,6]},
+  {"id":"27A-Pre","code":"27","name":"Historical Beer: Pre-Prohibition Lager","category":"Historical Beer","parent":"27A","og":[1.044,1.06],"fg":[1.01,1.015],"abv":[4.5,6.0],"ibu":[25,40],"srm":[3,6]},
+  {"id":"27A-Prp","code":"27","name":"Historical Beer: Pre-Prohibition Porter","category":"Historical Beer","parent":"27A","og":[1.046,1.06],"fg":[1.01,1.016],"abv":[4.5,6.0],"ibu":[20,30],"srm":[20,30]},
+  {"id":"27A-Rog","code":"27","name":"Historical Beer: Roggenbier","category":"Historical Beer","parent":"27A","og":[1.046,1.056],"fg":[1.01,1.014],"abv":[4.5,6.0],"ibu":[10,20],"srm":[14,19]},
+  {"id":"27A-Sah","code":"27","name":"Historical Beer: Sahti","category":"Historical Beer","parent":"27A","og":[1.076,1.12],"fg":[1.016,1.038],"abv":[7.0,11.0],"ibu":[0,15],"srm":[4,22]},
+  {"id":"28A","name":"Brett Beer","category":"American Wild Ale","note":"BJCP gives no fixed ranges: judge it against the base beer, with Brettanomyces character on top."},
+  {"id":"28B","name":"Mixed-Fermentation Sour Beer","category":"American Wild Ale","note":"BJCP gives no fixed ranges: they follow the base beer, with a mixed souring fermentation."},
+  {"id":"28C","name":"Wild Specialty Beer","category":"American Wild Ale","note":"BJCP gives no fixed ranges: they follow the base beer, with a wild or mixed culture."},
   {"id":"28D","name":"Straight Sour Beer","category":"American Wild Ale","og":[1.048,1.065],"fg":[1.006,1.013],"abv":[4.5,7],"ibu":[3,8],"srm":[2,3]},
-  {"id":"29A","name":"Fruit Beer","category":"Fruit Beer"},
-  {"id":"29B","name":"Fruit and Spice Beer","category":"Fruit Beer"},
-  {"id":"29C","name":"Specialty Fruit Beer","category":"Fruit Beer"},
+  {"id":"29A","name":"Fruit Beer","category":"Fruit Beer","note":"BJCP gives no fixed ranges: they follow the base beer the fruit goes into."},
+  {"id":"29B","name":"Fruit and Spice Beer","category":"Fruit Beer","note":"BJCP gives no fixed ranges: they follow the base beer the fruit and spice go into."},
+  {"id":"29C","name":"Specialty Fruit Beer","category":"Fruit Beer","note":"BJCP gives no fixed ranges: they follow the base beer, with a distinctive fruit or fermentable."},
   {"id":"29D","name":"Grape Ale","category":"Fruit Beer","og":[1.059,1.075],"fg":[1.004,1.013],"abv":[6,8.5],"ibu":[10,30],"srm":[4,8]},
-  {"id":"30A","name":"Spice, Herb, or Vegetable Beer","category":"Spiced Beer"},
-  {"id":"30B","name":"Autumn Seasonal Beer","category":"Spiced Beer"},
-  {"id":"30C","name":"Winter Seasonal Beer","category":"Spiced Beer"},
-  {"id":"30D","name":"Specialty Spice Beer","category":"Spiced Beer"},
-  {"id":"31A","name":"Alternative Grain Beer","category":"Alternative Fermentables Beer"},
-  {"id":"31B","name":"Alternative Sugar Beer","category":"Alternative Fermentables Beer"},
-  {"id":"32A","name":"Classic Style Smoked Beer","category":"Smoked Beer"},
-  {"id":"32B","name":"Specialty Smoked Beer","category":"Smoked Beer"},
-  {"id":"34A","name":"Commercial Specialty Beer","category":"Specialty Beer"},
-  {"id":"34B","name":"Mixed-Style Beer","category":"Specialty Beer"},
-  {"id":"34C","name":"Experimental Beer","category":"Specialty Beer"},
+  {"id":"30A","name":"Spice, Herb, or Vegetable Beer","category":"Spiced Beer","note":"BJCP gives no fixed ranges: they follow the base beer the spice, herb or vegetable goes into."},
+  {"id":"30B","name":"Autumn Seasonal Beer","category":"Spiced Beer","note":"BJCP gives no fixed ranges: they follow the base beer. Seasonal beers are usually fuller in alcohol."},
+  {"id":"30C","name":"Winter Seasonal Beer","category":"Spiced Beer","note":"BJCP gives no fixed ranges: they follow the base beer. Winter beers are usually stronger and richer."},
+  {"id":"30D","name":"Specialty Spice Beer","category":"Spiced Beer","note":"BJCP gives no fixed ranges: they follow the base beer, with a spice character that defines the beer."},
+  {"id":"31A","name":"Alternative Grain Beer","category":"Alternative Fermentables Beer","note":"BJCP gives no fixed ranges: they follow the base style the grain replaces."},
+  {"id":"31B","name":"Alternative Sugar Beer","category":"Alternative Fermentables Beer","note":"BJCP gives no fixed ranges: they follow the base style the sugar goes into."},
+  {"id":"32A","name":"Classic Style Smoked Beer","category":"Smoked Beer","note":"BJCP gives no fixed ranges: they follow the base style it smokes (a classic style with smoked malt)."},
+  {"id":"32B","name":"Specialty Smoked Beer","category":"Smoked Beer","note":"BJCP gives no fixed ranges: they follow the base beer, with smoke added."},
+  {"id":"33A","name":"Wood-Aged Beer","category":"Wood-Aged Beer","note":"BJCP gives no fixed ranges: they follow the base beer that is wood-aged."},
+  {"id":"33B","name":"Specialty Wood-Aged Beer","category":"Wood-Aged Beer","note":"BJCP gives no fixed ranges: they follow the base beer, with wood and another flavour added."},
+  {"id":"34A","name":"Commercial Specialty Beer","category":"Specialty Beer","note":"BJCP gives no fixed ranges: judge it against the commercial beer you declare."},
+  {"id":"34B","name":"Mixed-Style Beer","category":"Specialty Beer","note":"BJCP gives no fixed ranges: judge it against the styles you are blending."},
+  {"id":"34C","name":"Experimental Beer","category":"Specialty Beer","note":"BJCP gives no fixed ranges: it is defined by what makes it unusual."},
   {"id":"X1","name":"Dorada Pampeana","category":"Argentine Styles","og":[1.042,1.054],"fg":[1.009,1.013],"abv":[4.3,5.5],"ibu":[15,22],"srm":[3,5]},
-  {"id":"X2","name":"IPA Argenta","category":"Argentine Styles","og":[1055,1065],"fg":[1008,1015],"abv":[5,6.5],"ibu":[35,60],"srm":[6,15]},
-  {"id":"X3","name":"Italian Grape Ale","category":"Italian Styles","og":[1.045,1.1],"fg":[1.005,1.015],"abv":[4.5,12],"ibu":[6,30],"srm":[14,25]},
+  {"id":"X2","name":"IPA Argenta","category":"Argentine Styles","og":[1.055,1.065],"fg":[1.008,1.015],"abv":[5,6.5],"ibu":[35,60],"srm":[6,15]},
+  {"id":"X3","name":"Italian Grape Ale","category":"Italian Styles","og":[1.045,1.1],"fg":[1.005,1.015],"abv":[4.5,12],"ibu":[6,30],"srm":[4,25]},
   {"id":"X4","name":"Catharina Sour","category":"Brazilian Styles","og":[1.039,1.048],"fg":[1.004,1.012],"abv":[4,5.5],"ibu":[2,8],"srm":[2,6]},
   {"id":"X5","name":"New Zealand Pilsner","category":"New Zealand Styles","og":[1.044,1.056],"fg":[1.009,1.014],"abv":[4.5,5.8],"ibu":[25,45],"srm":[2,6]}
 ] };
@@ -2713,6 +2764,8 @@ MJ.data.yeastStyles = {
   "31B": {"pick": ["M36", "M15", "M42"], "also": [], "source": "derived", "why": "Alternative sugar beer: M36 and M42 for a clean finish, M15 where body is wanted.", "any": true},
   "32A": {"pick": ["M76", "M84", "M54", "M24"], "also": [], "source": "derived", "why": "Classic smoked beer is Rauchbier: the Rauchbier row.", "hints": {"M24": "Lallemand NovaLager: a clean, neutral lager yeast that also ferments warm (10 to 25 °C). High attenuation, little sulphur or diacetyl, and it lets hops show."}},
   "32B": {"pick": ["M15", "M36", "M44"], "also": ["M76", "M84", "M54", "M24"], "source": "derived", "why": "Specialty smoked beer: ale yeasts for smoked porters and the like, lager yeasts accepted for smoked lagers.", "any": true},
+  "33A": {"pick": ["M36", "M44", "M42"], "also": [], "source": "derived", "why": "Wood-aged beer: the yeast follows the base beer; these are versatile, neutral choices.", "any": true},
+  "33B": {"pick": ["M36", "M44", "M42"], "also": [], "source": "derived", "why": "Specialty wood-aged beer: the yeast follows the base beer; these are versatile, neutral choices.", "any": true},
   "34A": {"pick": ["M36", "M44", "M42"], "also": [], "source": "derived", "why": "Open style: any yeast can be right; these are versatile, neutral choices.", "any": true},
   "34B": {"pick": ["M36", "M44", "M42"], "also": [], "source": "derived", "why": "Open style: any yeast can be right; these are versatile, neutral choices.", "any": true},
   "34C": {"pick": ["M36", "M44", "M42"], "also": [], "source": "derived", "why": "Open style: any yeast can be right; these are versatile, neutral choices.", "any": true},
@@ -3257,17 +3310,44 @@ window.MJ = window.MJ || {};
   }
 
   // ---------- commercial clone comparison ----------
-  // Each published spec is scored 100% while the recipe is within `good` of it, falling in a straight
-  // line to 0% at `zero`. Both thresholds are max(abs, rel × target), so a dark beer's EBC is judged
-  // more loosely than a pale one's. The overall match is the plain average of the specs that were entered.
+  // A spec is "on target" while the recipe is within `good` of it: a little leeway, since matching a commercial beer to the digit is hard
+  // (gravities within 2 points, ABV within 0.5%, IBU within 5, colour within 2 SRM). A spec that matches exactly (as displayed) is
+  // "spot on". Inside the leeway a spec scores 100% falling to 85% at its edge; beyond it the score falls in a straight line from 85% to 0%
+  // at `zero`. `zero` is max(abs, rel × target), so a dark beer's EBC is judged more loosely than a pale one's. The overall match is the
+  // plain average of the specs entered, worded "Spot on" when every spec is exact and "Close match" when every spec is on target.
   const CLONE_METRICS = [
     { key: 'og',  label: 'OG',  digits: 3, good: { abs: 0.002 },           zero: { abs: 0.020 },           get: (s) => s.og },
     { key: 'fg',  label: 'FG',  digits: 3, good: { abs: 0.002 },           zero: { abs: 0.012 },           get: (s) => s.fg },
-    { key: 'abv', label: 'ABV', digits: 1, good: { abs: 0.2 },             zero: { abs: 2 },               get: (s) => s.abv, unit: '%' },
-    { key: 'ibu', label: 'IBU', digits: 0, good: { abs: 2, rel: 0.06 },    zero: { abs: 20, rel: 0.6 },    get: (s) => s.ibu },
-    { key: 'ebc', label: 'EBC', digits: 0, good: { abs: 2, rel: 0.06 },    zero: { abs: 20, rel: 0.5 },    get: (s) => s.ebc },
+    { key: 'abv', label: 'ABV', digits: 1, good: { abs: 0.5 },             zero: { abs: 2 },               get: (s) => s.abv, unit: '%' },
+    { key: 'ibu', label: 'IBU', digits: 0, good: { abs: 5 },               zero: { abs: 20, rel: 0.6 },    get: (s) => s.ibu },
+    { key: 'ebc', label: 'EBC', digits: 0, good: { abs: 2 * 1.97 },        zero: { abs: 20, rel: 0.5 },    get: (s) => s.ebc },   // ±2 SRM
   ];
-  const CLONE_LABELS = [[0.9, 'Spot on', 'good'], [0.75, 'Very close', 'good'], [0.55, 'Getting close', 'near'], [0.35, 'Some way off', 'far'], [0, 'Far off', 'far']];
+  // Wording for a match that is not spot on or close: by the overall score.
+  const CLONE_LABELS = [[0.7, 'Nearly there', 'near'], [0.5, 'Getting close', 'near'], [0.3, 'Some way off', 'far'], [0, 'Far off', 'far']];
+  const EDGE = 0.85;   // the score of a spec sitting right at the edge of its leeway
+
+  // One scoring model for styles and clones. `away` is how far a number is from where it counts as 100% (the clone's target, or the nearest
+  // edge of the style's range; 0 inside the range); `edge` is the leeway (a clone's tolerance, a style's margin) where the score has
+  // fallen to EDGE; `zero` is where it reaches 0.
+  const stepScore = (away, edge, zero) => (away <= edge + 1e-9 ? 1 - (1 - EDGE) * Math.min(1, away / edge) : EDGE * (1 - Math.min(1, (away - edge) / (zero - edge))));
+
+  // A style stays strict (inside the BJCP range is the only "in range"), but a number just outside it is a near miss, not a miss: these margins,
+  // in the units the range is judged in (colour in SRM), are where a style spec scores EDGE. The zero line is the range's width.
+  const STYLE_MARGINS = { og: 0.001, fg: 0.001, abv: 0.2, ibu: 2, ebc: 1 };
+
+  // The overall verdict from the specs that count: items are { score, good (on target / in range), close (good, or a style number within its margin), exact }.
+  // Clones: "Spot on" (every spec exact), "Close match" (every spec on target). Styles: "In style" (every spec in range), "Close to style" (every spec
+  // in range or within its margin). Otherwise the wording follows the average score. 100% is kept for the perfect cases.
+  function summarise(items, isClone) {
+    if (!items.length) return { score: null, percent: null, label: null, tone: null };
+    const score = items.reduce((a, i) => a + i.score, 0) / items.length;
+    const allGood = items.every((i) => i.good), allClose = items.every((i) => i.close);
+    const perfect = isClone ? items.every((i) => i.exact) : allGood;
+    const band = perfect ? [1, isClone ? 'Spot on' : 'In style', 'good']
+      : isClone ? (allGood ? [EDGE, 'Close match', 'good'] : null) : (allClose ? [EDGE, 'Close to style', 'good'] : null);
+    const w = band || CLONE_LABELS.find(([min]) => score >= min);
+    return { score, percent: Math.min(perfect ? 100 : 99, Math.round(score * 100)), label: w[1], tone: w[2] };
+  }
 
   function cloneMatch(result, clone) {
     if (!clone || !result) return null;
@@ -3282,30 +3362,43 @@ window.MJ = window.MJ || {};
       const known = Number.isFinite(actual);
       const good = limit(target, m.good), zero = limit(target, m.zero);
       const diff = known ? actual - target : null;
-      const score = known ? Math.max(0, Math.min(1, 1 - (Math.abs(diff) - good) / (zero - good))) : null;
+      const away = known ? Math.abs(diff) : 0;
+      const within = known && away <= good + 1e-9;
+      const t = known ? Math.max(0, Math.min(1, (away - good) / (zero - good))) : 1;        // how far from the edge of the leeway to the zero line
+      const score = !known ? null : stepScore(away, good, zero);
+      const exact = known && Number(actual.toFixed(m.digits)) === Number(target.toFixed(m.digits));
       rows.push({
-        key: m.key, label: m.label, digits: m.digits, unit: m.unit || '', target, derived: !!rc.derived[m.key], actual: known ? actual : null, diff, score,
-        status: !known ? 'pending' : Math.abs(diff) <= good ? 'good' : score >= 0.5 ? 'near' : 'far',
+        key: m.key, label: m.label, digits: m.digits, unit: m.unit || '', target, derived: !!rc.derived[m.key], actual: known ? actual : null, diff, score, exact,
+        // A spec the beer did not publish (worked out from the others) is shown against its target but not scored, so one miss is not counted three times.
+        counted: !rc.derived[m.key],
+        status: !known ? 'pending' : within ? 'good' : t <= 0.5 ? 'near' : 'far',
       });
     });
-    const scored = rows.filter((r) => r.score != null);
-    const score = scored.length ? scored.reduce((a, r) => a + r.score, 0) / scored.length : null;
-    const band = score == null ? null : CLONE_LABELS.find(([min]) => score >= min);
+    const scored = rows.filter((r) => r.counted && r.score != null);
+    const sum = summarise(scored.map((r) => ({ score: r.score, good: r.status === 'good', close: r.status === 'good', exact: r.exact })), true);
     return {
-      rows, score, percent: score == null ? null : Math.round(score * 100),
-      label: band ? band[1] : null, tone: band ? band[2] : null,
-      scored: scored.length, total: rows.length,
+      rows, score: sum.score, percent: sum.percent, label: sum.label, tone: sum.tone,
+      scored: scored.length, total: rows.filter((r) => r.counted).length,
     };
   }
 
   // ---------- BJCP style lookup ----------
-  // Imported recipes can carry a variant id such as "21B-Bel"; it falls back to the base style ("21B").
+  // A style with types has a row per type ("21B-Wht" White IPA, "27A-Ky" Kentucky Common ...) under a heading row ("21B") that has
+  // no ranges of its own. An id with no row of its own (an old "21B-Xyz", an example "29A-Ex") falls back to that heading or base
+  // style, so it never silently borrows another type's numbers.
   const bjcpById = Object.fromEntries(((MJ.bjcp && MJ.bjcp.styles) || []).map((s) => [s.id, s]));
   function bjcpStyle(id) {
     if (!id) return null;
     return bjcpById[id] || bjcpById[String(id).split('-')[0]] || null;
   }
-  const hasRanges = (style) => !!(style && style.og);
+  const RANGE_KEYS = ['og', 'fg', 'abv', 'ibu', 'srm'];
+  // Some styles carry only some ranges (BJCP gives table and super strength Saison no OG/FG), so any one is enough.
+  const hasRanges = (style) => !!style && RANGE_KEYS.some((k) => Array.isArray(style[k]));
+  // How a style is named: its BJCP number and name ("21B Specialty IPA: White IPA"). Types share the number of their style.
+  const styleCode = (style) => (style ? style.code || style.id : '');
+  const styleLabel = (style) => (style ? `${styleCode(style)} ${style.name}` : '');
+  // The short form for tight spots (the phone sheet, badges): the number, plus the type for a style with types ("21B White IPA").
+  const styleShort = (style) => (!style ? '' : style.parent ? `${styleCode(style)} ${style.name.replace(/^[^:]+:\s*/, '')}` : styleCode(style));
 
   // ---------- stat bars: where each number sits against a style range or a clone target ----------
   // Every bar has a track (the scale), an optional band (the style range, or the tolerance around a clone
@@ -3343,6 +3436,7 @@ window.MJ = window.MJ || {};
       const raw = have ? m.get(result) : null;
       const value = Number.isFinite(raw) ? raw : null;
       let band = null, target = null, scale = m.scale.slice(), status = null, delta = null, mode = 'none';
+      let score = null, close = false, exact = false, counted = true;
 
       if (clone) {
         const spec = CLONE_METRICS.find((c) => c.key === m.key);
@@ -3355,7 +3449,8 @@ window.MJ = window.MJ || {};
           band = [t - good, t + good];
           scale = [Math.max(m.floor, t - half), t + half];
           const row = cloneRows[m.key];
-          if (value != null && row) { status = row.status; delta = row.diff; }
+          counted = !rc.derived[m.key];
+          if (value != null && row) { status = row.status; delta = row.diff; score = row.score; close = row.status === 'good'; exact = row.exact; }
         }
       } else if (hasRanges(style)) {
         const r = m.key === 'ebc' ? style.srm && style.srm.map((x) => conv.srmToEbc(x)) : style[m.key];
@@ -3367,8 +3462,14 @@ window.MJ = window.MJ || {};
           if (value != null && m.key === 'ebc') {
             // Colour is judged in SRM, the unit shown first and the one BJCP writes its ranges in; `delta` stays in EBC like the rest of this bar's numbers.
             ({ status, delta } = rangeStatus(round(conv.ebcToSrm(value)), round(style.srm[0]), round(style.srm[1])));
+            const away = Math.abs(delta), margin = STYLE_MARGINS.ebc;
+            score = stepScore(away, margin, Math.max(style.srm[1] - style.srm[0], 2 * margin)); close = away <= margin + 1e-9;
             delta *= conv.srmToEbc(1);
-          } else if (value != null) ({ status, delta } = rangeStatus(round(value), round(r[0]), round(r[1])));
+          } else if (value != null) {
+            ({ status, delta } = rangeStatus(round(value), round(r[0]), round(r[1])));
+            const away = Math.abs(delta), margin = STYLE_MARGINS[m.key];
+            score = stepScore(away, margin, Math.max(r[1] - r[0], 2 * margin)); close = away <= margin + 1e-9;
+          }
         }
       }
       if (m.key === 'ebc') scale = SPECTRUM_SCALE.slice();
@@ -3376,6 +3477,8 @@ window.MJ = window.MJ || {};
       const at = (x) => Math.max(0, Math.min(100, ((x - scale[0]) / span) * 100));
       return {
         key: m.key, label: m.label, digits: m.digits, unit: m.unit || '', mode, value, band, target, scale, status, delta,
+        // For the overall fit: this spec's score (1 = on target / in range), whether it is on target or within its margin, and whether it counts.
+        score, close, exact, counted: mode !== 'none' && counted,
         derived: !!(rc && rc.derived[m.key] && mode === 'clone'),
         pos: value == null ? null : at(value), clamped: value != null && (value < scale[0] || value > scale[1]),
         bandPos: band ? [at(band[0]), at(band[1])] : null, targetPos: target == null ? null : at(target),
@@ -3393,17 +3496,22 @@ window.MJ = window.MJ || {};
   }
 
   // Style fit: how many of OG, FG, ABV, IBU and EBC are inside the BJCP style's range (or, for a clone, within tolerance of its
-  // targets). The same count the readout shows. Returns null when there is nothing to compare against (no style chosen, no clone
-  // specs, or a recipe that has no gravity yet). `rows` lists each compared number with its status, best first.
+  // targets), and the overall verdict and percentage from the shared scoring above. The same figures the readout shows. Specs a clone did
+  // not publish (worked out from the others) are not counted. Returns null when there is nothing to compare against (no style chosen,
+  // no clone specs, or a recipe that has no gravity yet). `rows` lists each compared number with its status, best first.
   function styleFit(result, { style = null, clone = null } = {}) {
     if (!result || !result.valid || !(result.og > 1)) return null;
-    const banded = statBars(result, { style, clone }).filter((b) => b.mode !== 'none');
+    const banded = statBars(result, { style, clone }).filter((b) => b.mode !== 'none' && b.counted);
     if (!banded.length) return null;
     const rank = { good: 0, near: 1, far: 2 };
     const scored = banded.filter((b) => b.value != null && b.status);
-    const rows = scored.map((b) => ({ key: b.key, label: b.key === 'ebc' ? 'SRM' : b.label, status: b.status })).sort((a, b) => rank[a.status] - rank[b.status]);
+    const rows = scored.map((b) => ({ key: b.key, label: b.key === 'ebc' ? 'SRM' : b.label, status: b.status, score: b.score })).sort((a, b) => rank[a.status] - rank[b.status]);
     const good = rows.filter((r) => r.status === 'good').length;
-    return { good, total: banded.length, scored: scored.length, near: rows.filter((r) => r.status === 'near').length, far: rows.filter((r) => r.status === 'far').length, rows, clone: !!clone };
+    const sum = summarise(scored.map((b) => ({ score: b.score, good: b.status === 'good', close: b.close, exact: b.exact })), !!clone);
+    return {
+      good, total: banded.length, scored: scored.length, near: rows.filter((r) => r.status === 'near').length, far: rows.filter((r) => r.status === 'far').length, rows, clone: !!clone,
+      score: sum.score, percent: sum.percent, label: sum.label, tone: sum.tone,
+    };
   }
 
   function fmtRange(lo, hi) {
@@ -3412,7 +3520,7 @@ window.MJ = window.MJ || {};
   }
 
   MJ.calc = {
-    isIsohop, isohopIbu, isohopMgPerL, isohopUtil, SPIRIT_NOTE: "Added at bottling, so it raises the ABV but not the gravity, colour or calories. Enter the spirit's strength (% ABV) and the amount (ml or L): the readout shows the post-fermentation ABV.", isSpirit, compute, conv, tempSuggestion, pitchAdvice, additionSpec, setSharedAdditions, hopBreakdown, fmtRange, cloneMatch, resolveClone, statBars, styleFit, bjcpStyle, rangeStatus,
+    isIsohop, isohopIbu, isohopMgPerL, isohopUtil, SPIRIT_NOTE: "Added at bottling, so it raises the ABV but not the gravity, colour or calories. Enter the spirit's strength (% ABV) and the amount (ml or L): the readout shows the post-fermentation ABV.", isSpirit, compute, conv, tempSuggestion, pitchAdvice, additionSpec, setSharedAdditions, hopBreakdown, fmtRange, cloneMatch, resolveClone, statBars, styleFit, bjcpStyle, hasRanges, styleCode, styleLabel, styleShort, rangeStatus,
     lookup: { cansByStyle, enhByCode, addByName, sharedByName, hopByName, yeastByCode },
     SRM_HEX,
   };
@@ -3444,19 +3552,15 @@ window.MJ = window.MJ || {};
     ebc: { label: 'SRM', f: (b) => (b.value / 1.97).toFixed(1) },
   };
 
-  // Where the recipe stands against the style range or clone targets: how many numbers are in range, and how far the rest are
-  // outside (as a share of each range's width, so a big miss on a narrow range counts for more).
+  // Where the recipe stands against the style range or clone targets: how many numbers are in range, and the overall fit score the readout
+  // shows (MJ.calc.styleFit), so a suggestion is judged by the same measure as everything else. A clone's calculated specs are not counted.
   function measure(res, opts) {
-    const bars = MJ.calc.statBars(res, opts).filter((b) => b.mode !== 'none' && b.value != null && b.status);
+    const bars = MJ.calc.statBars(res, opts).filter((b) => b.mode !== 'none' && b.counted && b.value != null && b.status);
     const byKey = {};
-    let good = 0, dist = 0;
-    bars.forEach((b) => {
-      byKey[b.key] = b;
-      if (b.status === 'good') { good++; return; }
-      const [lo, hi] = b.band;
-      dist += (b.value < lo ? lo - b.value : b.value - hi) / ((hi - lo) || 1);
-    });
-    return { good, total: bars.length, dist, byKey, warns: res.warnings.filter((w) => w.level === 'warn').length };
+    let good = 0;
+    bars.forEach((b) => { byKey[b.key] = b; if (b.status === 'good') good++; });
+    const fit = MJ.calc.styleFit(res, opts);
+    return { good, total: bars.length, score: fit && fit.score != null ? fit.score : 0, byKey, warns: res.warnings.filter((w) => w.level === 'warn').length };
   }
 
   // The one-change variants worth trying for this recipe.
@@ -3545,8 +3649,8 @@ window.MJ = window.MJ || {};
       if (m.total !== m0.total || m.warns > m0.warns) return;
       // never swap a number that is in range for one that is not
       if (Object.keys(m0.byKey).some((k) => m0.byKey[k].status === 'good' && !(m.byKey[k] && m.byKey[k].status === 'good'))) return;
-      const gain = (m.good - m0.good) * 10 + (m0.dist - m.dist);
-      if (gain <= 0.05) return;
+      const gain = (m.score - m0.score) * 100;     // percentage points of overall fit
+      if (gain <= 0.3) return;
       if (!best[c.kind] || gain > best[c.kind].gain) best[c.kind] = { ...c, gain, m };
     });
 
@@ -3554,7 +3658,7 @@ window.MJ = window.MJ || {};
       // the numbers that were off, or that changed status, before and after
       const effect = Object.keys(c.m.byKey).filter((k) => m0.byKey[k] && SHOWN[k].f(m0.byKey[k]) !== SHOWN[k].f(c.m.byKey[k]))
         .map((k) => `${SHOWN[k].label} ${SHOWN[k].f(m0.byKey[k])} → ${SHOWN[k].f(c.m.byKey[k])}`);
-      return { id: `${c.kind}-${i}`, kind: c.kind, text: c.text, effect, fit: { from: m0.good, to: c.m.good, total: m0.total }, recipe: c.recipe };
+      return { id: `${c.kind}-${i}`, kind: c.kind, text: c.text, effect, fit: { from: m0.good, to: c.m.good, total: m0.total }, pct: { from: Math.round(m0.score * 100), to: Math.round(c.m.score * 100) }, recipe: c.recipe };
     });
   }
 
@@ -3571,15 +3675,17 @@ window.MJ = window.MJ || {};
 //   MJ.yeastFit.note(styleId, code, dismissedNotes) -> "M47 Belgian Abbey does not suit 14B Scottish Heavy. Suggested: ..." | null   (null once dismissed)
 //
 // "pick" is one of the yeasts suggested for the style (the booklet's three choices, and M24 Versa Lager where it suits), "also" a yeast the booklet says suits it without ranking it,
-// "any" an open style where no yeast is wrong. Imported recipes can carry a variant id such as "21B-Bel": it falls back to "21B".
+// "any" an open style where no yeast is wrong. A type of a style (21B-Wht White IPA, 25B-Dk dark Saison) uses its own entry if it has one,
+// otherwise that of the style it is based on (Kellerbier: its base lager) or belongs to (21B). The booklet lists the yeasts per style, not per type.
 window.MJ = window.MJ || {};
 
 (function () {
   const data = () => (MJ.data && MJ.data.yeastStyles) || {};
+  const entryOf = (st) => (st ? data()[st.id] || (st.like && data()[st.like]) || (st.parent && data()[st.parent]) || null : null);
   const styleOf = (id) => {
     if (!id) return null;
     const st = MJ.calc && MJ.calc.bjcpStyle ? MJ.calc.bjcpStyle(id) : null;
-    return st && data()[st.id] ? st : null;
+    return entryOf(st) ? st : null;
   };
   const spec = (code) => (MJ.calc && MJ.calc.lookup.yeastByCode[code]) || null;
   const nameOf = (code) => { const y = spec(code); return y ? `${y.code} ${y.name}` : code; };
@@ -3591,14 +3697,14 @@ window.MJ = window.MJ || {};
   function forStyle(styleId) {
     const st = styleOf(styleId);
     if (!st) return null;
-    const e = data()[st.id];
+    const e = entryOf(st);
     return { style: st, pick: inOrder(e.pick).map(spec).filter(Boolean), also: e.also.map(spec).filter(Boolean), culture: !!e.culture, any: !!e.any, source: e.source, why: e.why || '', hints: e.hints || {} };
   }
 
   function check(styleId, code) {
     const st = styleOf(styleId);
     if (!st) return null;
-    const e = data()[st.id];
+    const e = entryOf(st);
     if (e.any) return 'any';
     return e.pick.includes(code) ? 'pick' : e.also.includes(code) ? 'also' : 'no';
   }
@@ -3611,7 +3717,7 @@ window.MJ = window.MJ || {};
     if (check(styleId, code) !== 'no') return null;
     if (dismissed && dismissed.includes(key(styleId, code))) return null;
     const st = styleOf(styleId);
-    return `${nameOf(code)} does not suit ${st.id} ${st.name}. Suggested: ${list(inOrder(data()[st.id].pick))}.`;
+    return `${nameOf(code)} does not suit ${MJ.calc.styleLabel(st)}. Suggested: ${list(inOrder(entryOf(st).pick))}.`;
   }
 
   MJ.yeastFit = { forStyle, check, note, key, list };
@@ -4545,23 +4651,23 @@ window.MJ = window.MJ || {};
     const totalPts = s.canPts + s.enhPts + s.addPts;
     const ok = s.valid && totalPts > 0;
     const bars = MJ.calc.statBars(s, { style, clone }).map(present);
-    const banded = bars.filter((b) => b.mode !== 'none');
+    const banded = bars.filter((b) => b.mode !== 'none' && b.counted !== false);     // the numbers that count (a clone's calculated specs are shown, not scored)
     const scored = banded.filter((b) => b.value != null && b.status);
     const rank = { good: 0, near: 1, far: 2 };
     const sorted = scored.slice().sort((a, b) => rank[a.status] - rank[b.status]);
     const off = scored.filter((b) => b.status !== 'good' && b.delta);
     const good = scored.filter((b) => b.status === 'good').length;
-    const match = clone ? MJ.calc.cloneMatch(s, clone) : null;
+    const match = MJ.calc.styleFit(s, { style, clone });     // the verdict and percentage, for a style or a clone alike
     const cloneName = clone && (clone.name || '').trim();
     const parts = [['cans', 'Cans', s.canPts], ['enhancers', 'Enhancers', s.enhPts], ['additions', 'Additions', s.addPts]].filter((p) => p[2] > 0);
     return {
       s, ok, bars, banded, scored, sorted, off, good, total: banded.length, match, clone, style, fermTemp, parts, totalPts,
       title: clone ? 'Clone match' : 'Style fit',
-      name: clone ? (cloneName || 'Commercial beer') : style ? `${style.id} ${style.name}` : 'No style selected',
+      name: clone ? (cloneName || 'Commercial beer') : style ? MJ.calc.styleLabel(style) : 'No style selected',
       word: clone ? 'on target' : 'in range',
       hint: clone ? (banded.length ? '' : 'Enter the specs of the beer you are cloning to see how close your recipe gets.')
         : !styleId ? 'Pick a BJCP style to see where your recipe sits in its range.'
-        : !banded.length ? 'No BJCP range data for this style.' : '',
+        : !banded.length ? (style && style.note) || 'No BJCP range data for this style.' : '',
       warnCount: s.warnings.filter((w) => w.level === 'warn').length,
     };
   }
@@ -4643,7 +4749,7 @@ window.MJ = window.MJ || {};
     const worst = m.off.some((b) => b.status === 'far') ? 'far' : m.off.length ? 'near' : 'good';
     const lines = m.off.slice(0, 2).map((b) => `${NAMES[b.key]} is ${Math.abs(b.delta).toFixed(DELTA_DIGITS[b.key])}${UNITS[b.key]} ${b.delta > 0 ? 'above' : 'below'} the ${m.clone ? 'target' : 'range'}`);
     if (m.off.length > 2) lines.push(`and ${m.off.length - 2} more`);
-    const verdict = m.match && m.match.label ? `${m.match.label} · ${m.match.percent}% match` : '';
+    const verdict = m.match && m.match.label && m.scored.length ? `${m.match.label} · ${m.match.percent}%` : '';
     return html`<div class="ro-panel ro-fit-panel">
       <${Donut} segs=${ring}><b>${m.banded.length ? `${m.good}/${m.total}` : '—'}</b><//>
       <div class="ro-fit-text">
@@ -4752,7 +4858,7 @@ window.MJ = window.MJ || {};
         <div class="ro-tip-main">
           <b>${t.text}</b>
           <span>${t.effect.join(' · ')}</span>
-          <small>${t.fit.from === t.fit.to ? `${t.fit.to} of ${t.fit.total} ${m.word}, but closer` : `${t.fit.from} → ${t.fit.to} of ${t.fit.total} ${m.word}`}</small>
+          <small>${t.fit.from === t.fit.to ? `${t.fit.to} of ${t.fit.total} ${m.word}, but closer` : `${t.fit.from} → ${t.fit.to} of ${t.fit.total} ${m.word}`}${t.pct && t.pct.to > t.pct.from ? ` · +${t.pct.to - t.pct.from}%` : ''}</small>
         </div>
         <button type="button" class="ro-tip-go" aria-label=${`Apply: ${t.text}`} onClick=${() => m.onApplyTip(t)}>Apply</button>
       </div>`)}</div></section>`;
@@ -4879,7 +4985,7 @@ window.MJ = window.MJ || {};
           <div class="ro-sheet-head">
             <div class="ro-glass"><${Glass} hex=${m.s.hex} empty=${!m.ok} /></div>
             <div class="ro-fit-text"><div class="ro-sheet-title">Live readout</div>
-              <div class="ro-fit-sub"><${Dots} m=${m} /> ${m.banded.length && m.scored.length ? `${m.good} of ${m.total} ${m.word}` : m.hint || 'Add ingredients'}${m.style && !m.clone ? ` · ${m.style.id}` : ''}</div></div>
+              <div class="ro-fit-sub"><${Dots} m=${m} /> ${m.banded.length && m.scored.length ? `${m.good} of ${m.total} ${m.word}` : m.hint || 'Add ingredients'}${m.style && !m.clone && !m.style.group ? ` · ${MJ.calc.styleShort(m.style)}` : ''}</div></div>
             <button type="button" class="ro-close" ref=${closeBtn} aria-label="Close the readout" onClick=${() => setOpen(false)}><${Icon} name="x" size=${18} /></button>
           </div>
           <div class="ro-sheet-body">
@@ -5611,10 +5717,16 @@ window.MJ = window.MJ || {};
           <div class="chips" style="margin-top:8px">${h.flavour.split(',').map((f) => html`<span class="badge badge-green">${f.trim()}</span>`)}</div>
         </div>
       </div>
-      <div class="ing-body stack">
-        ${h.components.map((c) => html`<div>
-          <div class="row spread"><b>${c.hop}</b><span class="num">${c.g} g <small>(${Math.round((c.g / total) * 100)}%)</small></span></div>
-          <div class="bar"><span style=${`left:0;width:${(c.g / total) * 100}%`}></span></div></div>`)}
+      <div class="ing-body">
+        <div class="hop-mix">
+          <div class="hm-head"><span class="eyebrow">Blend mix</span></div>
+          <div class="hm-strip" role="img" aria-label=${h.components.map((c) => `${c.hop} ${Math.round((c.g / total) * 100)}%`).join(', ')}>
+            ${h.components.map((c, i) => html`<i key=${c.hop} class=${'hm-' + Math.min(i, 3)} style=${`flex:${c.g} 1 0`}></i>`)}
+          </div>
+          <ul class="hm-list">
+            ${h.components.map((c, i) => html`<li key=${c.hop}><i class=${'hm-dot hm-' + Math.min(i, 3)} aria-hidden="true"></i><span class="hm-name">${c.hop}</span><span class="hm-g">${c.g} g</span><b class="hm-pct">${Math.round((c.g / total) * 100)}%</b></li>`)}
+          </ul>
+        </div>
       </div>
       <div class="ing-foot"><small>Dry hop · negligible IBU</small><${AddButton} kind="hops" value=${h.name} label=${`${h.name} hops`} /></div>
     </article>`;
@@ -5644,7 +5756,10 @@ window.MJ = window.MJ || {};
           <dt>Suitable styles</dt><dd>${y.styles}</dd>
           <dt>Ferm. temp</dt><dd>${y.fermTemp}</dd>
           <dt>Attenuation</dt><dd>${y.attenuation} <small>· low ${y.attLow} / mid ${y.attMid} / high ${y.attHigh}</small>
-            <div class="bar" style="margin-top:6px" title="Scale 60–100%"><span style=${`left:${((y.attLow - 60) / 40) * 100}%;width:${((y.attHigh - y.attLow) / 40) * 100}%`}></span></div></dd>
+            <div class="att-scale" role="img" aria-label=${`Attenuation ${y.attLow}% to ${y.attHigh}%, typically ${y.attMid}%, on a scale of 60 to 100%`}>
+              <div class="as-track"><i class="as-range" style=${`left:${((y.attLow - 60) / 40) * 100}%;width:${((y.attHigh - y.attLow) / 40) * 100}%`}></i><i class="as-mid" style=${`left:${((y.attMid - 60) / 40) * 100}%`}></i></div>
+              <div class="as-ticks" aria-hidden="true"><span>60%</span><span>80%</span><span>100%</span></div>
+            </div></dd>
           <dt>Flocculation</dt><dd><${Meter} value=${y.flocculation} /></dd>
           <dt>Compaction</dt><dd><${Meter} value=${y.compaction} /></dd>
         </dl>
@@ -5956,7 +6071,7 @@ window.MJ = window.MJ || {};
         <${SearchInput} value=${query} onInput=${setQuery} placeholder="Search name, style, e.g. IPA" />
       </div>
       ${fit && html`<section class="yp-group yp-suggest" aria-label=${`Yeasts suggested for ${fit.style.name}`}>
-        <h4 class="yp-heading">Suggested for ${fit.style.id} ${fit.style.name}<small>${fit.any ? 'Any yeast can suit this style (the base beer decides). These are versatile choices.' : `From the Mangrove Jack's yeast range booklet${Object.keys(fit.hints).length ? ', plus M24 Versa Lager (Lallemand NovaLager)' : ''}.`}${fit.culture ? ' This style also needs a souring or wild culture (not part of the range); the yeast ferments the base beer.' : ''}</small></h4>
+        <h4 class="yp-heading">Suggested for ${MJ.calc.styleLabel(fit.style)}<small>${fit.any ? 'Any yeast can suit this style (the base beer decides). These are versatile choices.' : `From the Mangrove Jack's yeast range booklet${Object.keys(fit.hints).length ? ', plus M24 Versa Lager (Lallemand NovaLager)' : ''}.`}${fit.culture ? ' This style also needs a souring or wild culture (not part of the range); the yeast ferments the base beer.' : ''}</small></h4>
         <div class="yeast-grid">${fit.pick.map((y, i) => card(y, i))}</div>
       </section>`}
       <p class="yp-count muted" aria-live="polite">${shown.length} of ${yeasts.length} yeasts${query.trim() ? ` match “${query.trim()}”` : ''}</p>
@@ -6064,6 +6179,9 @@ window.MJ = window.MJ || {};
     const phone = useIsPhone();
     const [closed, setClosed] = useState({});          // sections collapsed on a phone
     const [moreOpen, setMoreOpen] = useState(false);   // the phone Save bar's "More" menu
+    // The commercial beer's colour can be typed in EBC or SRM (EBC = SRM x 1.97). It is always stored as EBC; this is only how it is shown and entered.
+    const [colourUnit, setColourUnit] = useState(() => { try { return localStorage.getItem('mj-cans.clonecolour.v1') === 'srm' ? 'srm' : 'ebc'; } catch (e) { return 'ebc'; } });
+    const pickColourUnit = (u) => { setColourUnit(u); try { localStorage.setItem('mj-cans.clonecolour.v1', u); } catch (e) { /* not remembered */ } };
     const collapseInit = useRef(false);
     // On a phone, opening a saved recipe starts with every section that already has something in it collapsed to its summary.
     useEffect(() => {
@@ -6169,7 +6287,7 @@ window.MJ = window.MJ || {};
     const bothTemps = recipe.fermTemp && Number.isFinite(recipe.fermTemp.min) && Number.isFinite(recipe.fermTemp.max);
     const hasNotes = (recipe.notes || '').trim(), hasSteps = (recipe.instructions || '').trim();
     const SECTION_INFO = {
-      details: { summary: [recipe.name.trim() || 'No name yet', recipe.isClone ? 'Clone' : (recipe.bjcp || 'No style'), `${fmt.qty(Number(recipe.volumeL) || 0)} L`].join(' · ') },
+      details: { summary: [recipe.name.trim() || 'No name yet', recipe.isClone ? 'Clone' : (MJ.calc.styleShort(MJ.calc.bjcpStyle(recipe.bjcp)) || recipe.bjcp || 'No style'), `${fmt.qty(Number(recipe.volumeL) || 0)} L`].join(' · ') },
       cans: { summary: qtyList(recipe.cans, (c) => `${c.style} can`) },
       enhancers: { summary: qtyList(recipe.enhancers, (e) => (lookup.enhByCode[e.type] || {}).name || e.type) },
       hops: { summary: qtyList(recipe.hops, (h) => h.blend) },
@@ -6289,10 +6407,11 @@ window.MJ = window.MJ || {};
     };
     // BJCP 2021 styles. Imported recipes can carry a variant id (e.g. "21B-Bel") that isn't in the list, so it's added.
     const styleOptions = [{ value: '__clone', label: 'Commercial clone', hint: 'compare with a commercial beer' }, { value: '__none', label: 'No style (clear)', hint: 'no range comparison' }]
-      .concat(MJ.bjcp.styles.map((st) => ({ value: st.id, label: `${st.id} ${st.name}`, hint: st.category })));
+      // The heading rows of styles with types (21B, 27A) are not styles to pick: their types are listed instead, each with its own numbers.
+      .concat(MJ.bjcp.styles.filter((st) => !st.group).map((st) => ({ value: st.id, label: MJ.calc.styleLabel(st), hint: st.category })));
     if (recipe.bjcp && !styleOptions.some((o) => o.value === recipe.bjcp)) {
       const base = MJ.calc.bjcpStyle(recipe.bjcp);
-      styleOptions.splice(2, 0, { value: recipe.bjcp, label: base ? `${base.id} ${base.name}` : `${recipe.bjcp} ${recipe.category || ''}`.trim(), hint: recipe.category || '' });
+      styleOptions.splice(2, 0, { value: recipe.bjcp, label: base ? MJ.calc.styleLabel(base) : `${recipe.bjcp} ${recipe.category || ''}`.trim(), hint: recipe.category || '' });
     }
     // "Commercial clone" is a style like the others: choosing it turns clone mode on, choosing any other style turns it off.
     const pickStyle = (id, option) => {
@@ -6302,14 +6421,15 @@ window.MJ = window.MJ || {};
       update({ bjcp: id, isClone: false, category: st ? st.category : (id && option ? option.hint : recipe.category) });
     };
     function leaveClone() { return { isClone: false, category: recipe.category === 'Commercial clone' ? '' : recipe.category }; }
-    const clone = { ...emptyClone(), ...recipe.clone };
+    const clone = { ...emptyClone(), ...recipe.clone, attenuation: 75 }; // attenuation is not entered: always the 75% fallback
     const setClone = (patch) => setRecipe((r) => ({ ...r, clone: { ...emptyClone(), ...r.clone, ...patch } }));
     // OG, FG and ABV fill in for each other (ABV = (OG - FG) x 131.25); yeast attenuation covers the gaps. Calculated
     // values show as the grey placeholder of the box they belong in.
     const rc = MJ.calc.resolveClone(clone);
     const calcText = (key, digits) => (rc.derived[key] && rc[key] != null ? rc[key].toFixed(digits) : '');
-    const attHint = rc.usedAttenuation ? 'filling in the blanks'
-      : rc.impliedAttenuation != null ? `OG and FG imply ${Math.round(rc.impliedAttenuation)}%` : 'used if OG or FG is missing';
+    // Apparent attenuation is a result, not an input: (OG - FG) / (OG - 1) once two of OG, FG and ABV are known. With
+    // fewer, the app assumes 75% to fill in the blanks and says so.
+    const cloneAtt = !rc.usedAttenuation && rc.og && rc.fg && rc.og > 1 ? ((rc.og - rc.fg) / (rc.og - 1)) * 100 : null;
     const cloneNote = rc.issue ? { warn: true, text: "These specs can't all be right (the ABV is too high for that gravity, or FG is above OG), so the missing value can't be worked out." }
       : rc.mismatch != null ? { warn: true, text: `The ABV you entered (${clone.abv}%) doesn't match OG and FG, which give ${rc.mismatch.toFixed(1)}%. All three are used as entered.` }
       : { warn: false, text: hasSpecs(clone) ? 'The readout at the top shows how close your recipe is to each spec as you build it.' : 'Once you add specs, the readout at the top shows how close your recipe is to each one as you build it.' };
@@ -6402,12 +6522,18 @@ window.MJ = window.MJ || {};
                 <${NumberInput} value=${clone.fg} allowEmpty min=${1} max=${1.2} step=${0.001} decimals=${3} placeholder=${calcText('fg', 3) || '1.010'} onChange=${(v) => setClone({ fg: v })} /></label>
               <label class="field">ABV <span class="hint">${calcText('abv', 1) ? 'calculated' : ''}</span>
                 <div class="input-unit"><${NumberInput} value=${clone.abv} allowEmpty max=${20} step=${0.1} decimals=${1} placeholder=${calcText('abv', 1) || '5.2'} onChange=${(v) => setClone({ abv: v })} /><em>%</em></div></label>
-              <label class="field">Yeast attenuation <span class="hint">${attHint}</span>
-                <div class="input-unit"><${NumberInput} value=${clone.attenuation} min=${30} max=${99} step=${1} decimals=${1} onChange=${(v) => setClone({ attenuation: v })} /><em>%</em></div></label>
+              <div class="field" role="group" aria-label="Apparent attenuation, calculated">
+                <span>Attenuation <span class="hint">${cloneAtt != null ? 'calculated' : rc.usedAttenuation ? 'assumed' : 'from OG and FG'}</span></span>
+                <output class="input input-calc" title="Apparent attenuation = (OG − FG) ÷ (OG − 1). Worked out from the specs; when only one of OG, FG and ABV is known, 75% is assumed to fill in the others.">${cloneAtt != null ? `${cloneAtt.toFixed(1)} %` : rc.usedAttenuation ? `${MJ.calc.resolveClone({ ...clone, attenuation: null }).attenuation.toFixed(0)} %` : '—'}</output></div>
               <label class="field">IBU
                 <${NumberInput} value=${clone.ibu} allowEmpty max=${200} step=${1} decimals=${1} placeholder="40" onChange=${(v) => setClone({ ibu: v })} /></label>
-              <label class="field">Colour <span class="hint">EBC · SRM × 1.97</span>
-                <${NumberInput} value=${clone.ebc} allowEmpty max=${500} step=${1} decimals=${1} placeholder="20" onChange=${(v) => setClone({ ebc: v })} /></label>
+              <div class="field field-colour" role="group" aria-label="Colour">
+                <span class="fc-head"><span>Colour</span><span class="hint">${colourUnit === 'srm' ? `= ${clone.ebc != null ? fmt.n0(clone.ebc) : '…'} EBC` : `= ${clone.ebc != null ? (Math.round((clone.ebc / 1.97) * 10) / 10).toFixed(1) : '…'} SRM`}</span>
+                  <span class="unit-toggle sm" role="group" aria-label="Colour unit">${[['ebc', 'EBC'], ['srm', 'SRM']].map(([u, label]) => html`<button type="button" class=${colourUnit === u ? 'on' : ''} aria-pressed=${colourUnit === u} onClick=${() => pickColourUnit(u)}>${label}</button>`)}</span></span>
+                ${colourUnit === 'srm'
+                  ? html`<${NumberInput} key="srm" aria-label="Colour in SRM" value=${clone.ebc == null ? null : Math.round((clone.ebc / 1.97) * 10) / 10} allowEmpty max=${250} step=${0.5} decimals=${1} placeholder="10" onChange=${(v) => setClone({ ebc: v == null ? null : Math.round(v * 1.97 * 1000) / 1000 })} />`
+                  : html`<${NumberInput} key="ebc" aria-label="Colour in EBC" value=${clone.ebc} allowEmpty max=${500} step=${1} decimals=${1} placeholder="20" onChange=${(v) => setClone({ ebc: v })} />`}
+              </div>
             </div>
             <p class=${'muted tip' + (cloneNote.warn ? ' warn' : '')}>${cloneNote.text}</p>
           </${Section}>`}
@@ -6586,15 +6712,17 @@ window.MJ = window.MJ || {};
   function FitLine({ fit }) {
     if (!fit) return html`<div class="rc-fit none"><span>Style fit</span><small class="muted">No style chosen</small></div>`;
     const word = fit.clone ? 'on target' : 'in range';
-    const tip = fit.rows.map((x) => `${x.label}: ${x.status === 'good' ? word : x.status === 'near' ? 'a little out' : 'well out'}`).join(' \u00b7 ');
+    const tip = (fit.label && fit.percent != null ? `${fit.label} \u00b7 ${fit.percent}%. ` : '') + fit.rows.map((x) => `${x.label}: ${x.status === 'good' ? word : x.status === 'near' ? 'a little out' : 'well out'}`).join(' \u00b7 ');
     return html`<div class=${'rc-fit' + (fit.good === fit.total ? ' perfect' : '')} title=${tip}>
       <span>Style fit</span>
       <span class="rc-dots" aria-hidden="true">${(fit.rows.length ? fit.rows : Array.from({ length: fit.total }, () => ({ status: 'none' }))).map((x) => html`<i class=${'d-' + x.status}></i>`)}</span>
-      <b>${fit.good} of ${fit.total} ${word}</b>
+      <b>${fit.good} of ${fit.total} ${word}</b>${fit.percent != null && fit.scored > 0 && html`<span class="rc-pct">${fit.percent}%</span>`}
     </div>`;
   }
 
   // The fit for a recipe: against its BJCP style, or against its clone's targets.
+  // A recipe's style as shown on cards and headings: its BJCP number, plus the type for a style with types ("21B White IPA").
+  const styleTag = (r) => { const st = MJ.calc.bjcpStyle(r.bjcp); return st ? MJ.calc.styleShort(st) : r.bjcp; };
   const fitOf = (r, s) => MJ.calc.styleFit(s, { style: MJ.calc.bjcpStyle(r.bjcp), clone: r.isClone ? { ...r.clone } : null });
 
   function RecipeCard({ r, rev }) {
@@ -6608,7 +6736,7 @@ window.MJ = window.MJ || {};
         <div style="min-width:0">
           <h3>${r.name}</h3>
           <div class="chips" style="margin:6px 0 4px">
-            ${r.bjcp && !r.isClone && html`<span class="badge" title="BJCP style number">${r.bjcp}</span>`}
+            ${r.bjcp && !r.isClone && html`<span class="badge" title="BJCP style number">${styleTag(r)}</span>`}
             ${catOf(r) && html`<span class=${'badge ' + (r.isClone ? 'badge-blue' : 'badge-gold')} title=${r.isClone ? `Clone of ${(r.clone && r.clone.name) || 'a commercial beer'}` : undefined}>${catOf(r)}</span>`}
             <span class="badge">${r.volumeL} L</span>
           </div>
@@ -6639,7 +6767,7 @@ window.MJ = window.MJ || {};
         <div style="min-width:0">
           <h3><a class="tc-link" href=${`#/recipes/${r.id}`}>${r.name}</a></h3>
           <div class="chips" style="margin:6px 0 4px">
-            <span class="badge" title="BJCP style number">${r.bjcp}</span>
+            <span class="badge" title="BJCP style number">${styleTag(r)}</span>
             <span class="badge badge-copper">Template</span>
             ${t.miniMash && html`<span class="badge" title="The example needs a mini-mash">Mini-mash</span>`}
           </div>
@@ -6676,11 +6804,13 @@ window.MJ = window.MJ || {};
     abv: { label: 'ABV (high → low)', fn: (a, b) => (b.s.abv || 0) - (a.s.abv || 0) },
     ibu: { label: 'IBU (high → low)', fn: (a, b) => b.s.ibu - a.s.ibu },
     ebc: { label: 'Colour (dark → light)', fn: (a, b) => b.s.ebc - a.s.ebc },
-    // Best fit first: 5 of 5, then 4 of 5 and so on. Judged by the share in range (so a clone with all 3 of its specs on target
-    // counts as a full fit), then by how many, then fewest "well out", then name. Recipes with no style to compare with go last.
+    // Best fit first: by the overall fit percentage (the same figure the readout and the cards show, so a near miss ranks above a long way out
+    // and a clone with all its published specs on target counts as a full fit), then by how many are in range, then fewest "well out", then name.
+    // Recipes with no style to compare with go last.
     fit: { label: 'Style fit (best first)', fn: (a, b) => {
       if (!a.fit || !b.fit) return !a.fit && !b.fit ? a.r.name.localeCompare(b.r.name) : !a.fit ? 1 : -1;
-      return (b.fit.good / b.fit.total) - (a.fit.good / a.fit.total) || b.fit.good - a.fit.good || a.fit.far - b.fit.far || a.r.name.localeCompare(b.r.name);
+      const pa = a.fit.score == null ? -1 : a.fit.score, pb = b.fit.score == null ? -1 : b.fit.score;
+      return (pb - pa) || b.fit.good - a.fit.good || a.fit.far - b.fit.far || a.r.name.localeCompare(b.r.name);
     } },
   };
 
@@ -6703,7 +6833,7 @@ window.MJ = window.MJ || {};
         .filter((r) => !can || (r.cans || []).some((c) => c.style === can))
         .filter((r) => !yeast || (r.yeasts || []).some((y) => y.code === yeast))
         .filter((r) => !approvedOnly || !!r.approved)
-        .filter((r) => !s || [r.name, r.bjcp, catOf(r), r.notes, summary(r), r.isClone && r.clone ? `${r.clone.name || ''} clone` : '',
+        .filter((r) => !s || [r.name, r.bjcp, styleTag(r), catOf(r), r.notes, summary(r), r.isClone && r.clone ? `${r.clone.name || ''} clone` : '',
           r.isTemplate ? ['template', r.exampleName, ...Object.values(r.template || {}).filter((v) => typeof v === 'string')].join(' ') : ''].join(' ').toLowerCase().includes(s))
         .map((r) => { const s = compute(r); return { r, s, fit: fitOf(r, s) }; })
         .sort(SORTS[sort].fn);
@@ -6828,7 +6958,7 @@ window.MJ = window.MJ || {};
       <div class="ps-head">
         <${Glass} hex=${s.hex} empty=${!ok} />
         <div class="ps-title">
-          <small>${clone ? 'Commercial clone' : `${r.bjcp ? `${r.bjcp} · ` : ''}${r.category || 'Recipe'}`}</small>
+          <small>${clone ? 'Commercial clone' : `${r.bjcp ? `${styleTag(r)} · ` : ''}${r.category || 'Recipe'}`}</small>
           <h1>${r.name}</h1>
           <span class="ps-vol"><b>${fmt.qty(Number(r.volumeL))}</b> litre batch</span>
         </div>
@@ -7011,7 +7141,7 @@ window.MJ = window.MJ || {};
         <div class="dh-main">
         <div class="dh-glass"><${Glass} hex=${s.hex} empty=${!(s.og > 1)} /></div>
         <div class="dh-title">
-          <div class="eyebrow" style="color:var(--primary)">${tpl ? `Template · ${r.bjcp} · ${r.category}` : clone ? 'Commercial clone' : `${r.bjcp ? `${r.bjcp} · ` : ''}${r.category || 'Uncategorised'}`}</div>
+          <div class="eyebrow" style="color:var(--primary)">${tpl ? `Template · ${styleTag(r)} · ${r.category}` : clone ? 'Commercial clone' : `${r.bjcp ? `${styleTag(r)} · ` : ''}${r.category || 'Uncategorised'}`}</div>
           <h1>${r.name}</h1>
           ${tpl && html`<div class="hero-clone"><span>Worked example: <b>${r.exampleName}</b></span></div>`}
           ${clone && html`<div class="hero-clone"><span>Clone of <b>${clone.name || 'a commercial beer'}</b></span></div>`}
@@ -7464,20 +7594,30 @@ new EBC = curve( uncurve(old EBC) × V₁ ÷ V₂ )`}<//>
           <${Eq}>${`in range : low ≤ value ≤ high
 near     : outside the range by no more than half the range's width
 far      : further out than that
-Style fit = how many of OG, FG, ABV, IBU and EBC are in range`}<//>
-          <p>The comparison uses the numbers as displayed (OG and FG to three decimals, ABV and SRM to one, IBU to a whole number), so a value shown as 1.010 is in a 1.010–1.014 range. Colour is compared in SRM, the unit BJCP writes its ranges in; EBC = SRM × 1.97. A green dot is in range, amber near, red far.</p>` },
-        { id: 'clone', title: 'Commercial clone match', key: 'score = 1 − (|difference| − good) ÷ (zero − good), averaged', body: html`
-          <${Eq}>${`score (each spec) = 1 − (|recipe − target| − good) ÷ (zero − good)     held between 0 and 1
-match %           = average of the specs entered × 100
+Style fit = how many of OG, FG, ABV, IBU and EBC are in range
 
-spec   good (full marks)      zero (no marks)
-OG     0.002                  0.020
-FG     0.002                  0.012
-ABV    0.2                    2
-IBU    larger of 2 or 6%      larger of 20 or 60% of the target
-EBC    larger of 2 or 6%      larger of 20 or 50% of the target`}<//>
-          <p>Within "good" of the target a spec scores 100%; at "zero" or further it scores 0%. The wording follows the percentage: 90% and over Spot on, 75% Very close, 55% Getting close, 35% Some way off, below that Far off.</p>
-          <p>Missing clone specs are worked out from each other: ABV = (OG − FG) × 131.25. With only one of them known, the yeast attenuation (75% if not given) supplies the rest.</p>` },
+score (each spec) = 1 inside the range
+                    1 → 0.85 across the margin just outside it
+                    0.85 → 0 from the margin out to one range-width away
+margins           = OG 0.001, FG 0.001, ABV 0.2 %, IBU 2, SRM 1
+match %           = average of the specs × 100`}<//>
+          <p>A number just outside the range (within its margin) is a near miss: it stays amber and is not "in range", but it only costs a little. The verdict is <b>In style</b> when every spec is in range, <b>Close to style</b> when every spec is in range or within its margin, and otherwise follows the percentage (70% and over Nearly there, 50% Getting close, 30% Some way off, below that Far off). 100% is kept for In style. The same percentage is on the recipe cards, orders the "Style fit (best first)" sort, and is what the Ways to improve cards measure.</p>
+          <p>The comparison uses the numbers as displayed (OG and FG to three decimals, ABV and SRM to one, IBU to a whole number), so a value shown as 1.010 is in a 1.010–1.014 range. Colour is compared in SRM, the unit BJCP writes its ranges in; EBC = SRM × 1.97. A green dot is in range, amber near, red far.</p>
+          <p>Some BJCP styles have no single set of numbers, only one per type, so each type is its own style in the picker with its own ranges: 21B Specialty IPA (Belgian, Black, Brown, Red, Rye, White and Brut IPA), 27 Historical Beer (each style; Kellerbier takes the ranges of the lager it is based on) and Saison by strength (table, standard, super) and colour (pale, dark). BJCP gives table and super strength Saison no OG or FG, so those are not scored. Styles with no fixed ranges (fruit, spice, smoked, wood-aged, wild and experimental beers) are not scored either, and the readout says the ranges follow the base beer.</p>` },
+        { id: 'clone', title: 'Commercial clone match', key: 'on target = within the leeway; spot on = exact; score averaged', body: html`
+          <${Eq}>${`spec   on target (the leeway)    zero (no marks)
+OG     ± 0.002 (2 points)       0.020
+FG     ± 0.002 (2 points)       0.012
+ABV    ± 0.5 %                  2
+IBU    ± 5                      larger of 20 or 60% of the target
+SRM    ± 2  (± 3.94 EBC)        larger of 20 or 50% of the target, in EBC
+
+inside the leeway:  score = 1 − 0.15 × |recipe − target| ÷ leeway        (100% when exact, 85% at the edge)
+beyond it:          score = 0.85 × (1 − (|recipe − target| − leeway) ÷ (zero − leeway))     held at 0 or above
+match %             = average of the specs entered × 100`}<//>
+          <p>Only the specs the beer actually published are scored. FG and ABV that the app works out from the others are still drawn against their calculated target, but are not counted, so one OG miss is not counted three times.</p>
+          <p>Matching a commercial beer to the digit is hard, so each spec has a little leeway and counts as "on target" while it stays inside it. The wording is "Spot on" when every spec matches exactly (as displayed), "Close match" when every spec is on target, and otherwise follows the percentage: 70% and over Nearly there, 50% Getting close, 30% Some way off, below that Far off. A spec outside its leeway is amber until it is halfway to "zero", then red.</p>
+          <p>Missing clone specs are worked out from each other: ABV = (OG − FG) × 131.25. With only one of them known, an assumed 75% attenuation supplies the rest. Attenuation itself is never entered: it is calculated, (OG − FG) ÷ (OG − 1), once two of OG, FG and ABV are known.</p>` },
       ] },
     ];
   }
