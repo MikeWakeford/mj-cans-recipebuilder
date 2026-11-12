@@ -1141,13 +1141,14 @@ h3, h4 { text-transform: uppercase; }
   .dh-actions { padding: 12px 16px; }
 }
 
-/* Approved: a solid green badge pinned to the top right corner of the recipe's tile, and a green edge along its top */
-.badge-approved { display: inline-flex; align-items: center; gap: 4px; background: var(--green); color: #fff; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; }
+/* Approved: noticeable, not a focal point. A small soft-green tag in the top right corner of the recipe's tile (the same tint as other
+   green badges, no solid fill, no capitals) and a thin green edge along its top. */
+.badge-approved { display: inline-flex; align-items: center; gap: 4px; background: var(--green-soft); color: var(--green); font-weight: 600; font-size: 11px; padding: 4px 7px; }
 .badge-approved svg { flex: none; }
 .recipe-card { position: relative; }
 .recipe-card .rc-approved { position: absolute; top: 14px; right: 12px; z-index: 1; }
-.recipe-card.approved h3 { padding-right: 92px; }
-.recipe-card.approved, .recipe-card.approved:hover { box-shadow: inset 0 4px 0 var(--green); }
+.recipe-card.approved h3 { padding-right: 84px; }
+.recipe-card.approved, .recipe-card.approved:hover { box-shadow: inset 0 3px 0 var(--green); }
 
 /* Builder: the recipe's name is the page title, so a long one must wrap */
 .page-head h1 { overflow-wrap: anywhere; }
@@ -6822,7 +6823,7 @@ window.MJ = window.MJ || {};
     const [cat, setCat] = useState('');
     const [can, setCan] = useState('');
     const [yeast, setYeast] = useState('');
-    const [sort, setSort] = useState('updated');
+    const [sort, setSort] = useState('bjcp');
     const [approvedOnly, setApprovedOnly] = useState(false);
     const [filtersOpen, setFiltersOpen] = useState(false);   // the phone's "Filters" panel
 
@@ -6853,9 +6854,9 @@ window.MJ = window.MJ || {};
     // "86 recipes · 16 clones · 15 templates", or "4 of 86 recipes · …" while a filter is hiding some.
     const part = (n, total, one, many) => (total ? `${n === total ? '' : `${n} of `}${total} ${total === 1 ? one : many}` : '');
     const countText = [part(normals.length, totals.r, 'recipe', 'recipes'), part(clones.length, totals.c, 'clone', 'clones'), part(templates.length, totals.t, 'template', 'templates')].filter(Boolean).join(' · ');
-    const panelFilters = [cat, can, yeast].filter(Boolean).length + (sort !== 'updated' ? 1 : 0);
+    const panelFilters = [cat, can, yeast].filter(Boolean).length + (sort !== 'bjcp' ? 1 : 0);
     const anyFilter = !!(q.trim() || cat || can || yeast || approvedOnly);
-    const clearAll = () => { setQ(''); setCat(''); setCan(''); setYeast(''); setApprovedOnly(false); setSort('updated'); };
+    const clearAll = () => { setQ(''); setCat(''); setCan(''); setYeast(''); setApprovedOnly(false); setSort('bjcp'); };
     const grid = (list) => html`<div class="grid grid-3">${list.map(({ r }) => html`<${RecipeCard} key=${r.id} r=${r} rev=${sharedAdditions} />`)}</div>`;
 
     return html`<div>
