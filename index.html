@@ -319,6 +319,9 @@ table.data tbody tr:hover { background: var(--surface-2); }
 .hm-name { flex: 1; min-width: 0; font-weight: 700; }
 .hm-g { color: var(--muted); font-variant-numeric: tabular-nums; }
 .hm-pct { min-width: 3.2em; text-align: right; font-variant-numeric: tabular-nums; }
+.ing-foot-l { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.ing-used { font: 700 13px var(--font-body); color: var(--primary-strong); text-decoration: none; }
+.ing-used:hover { text-decoration: underline; }
 .ing-foot { padding: 12px 20px; border-top: 1px solid var(--border); background: var(--surface-2); display: flex; gap: 8px; justify-content: space-between; align-items: center; flex-wrap: wrap; }
 .can-art {
   width: 58px; height: 76px; border-radius: 0 0 0 0; flex-shrink: 0; position: relative;
@@ -1315,6 +1318,85 @@ h3, h4 { text-transform: uppercase; }
 .ro-sugar.over .ro-sugar-bar .sg-fill { background: var(--ro-near); }
 .ro-sugar-bar .sg-mark { position: absolute; top: -4px; bottom: -4px; width: 2px; margin-left: -1px; background: #fff; }
 .ro-sugar .ro-note { margin-top: 8px; }
+
+/* ============ Ingredient usage dashboard (#/recipes/usage) ============ */
+/* One hue for magnitude (the brand green), the slate for what you have focused on, hairline axes, thin bars with a rounded tip. */
+.page-head-actions { display: flex; gap: 10px; flex-wrap: wrap; }
+.uv-filters { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin-bottom: 12px; }
+.uv-find { flex: 1 1 240px; max-width: 360px; min-width: 0; }
+.uv-style { flex: 0 1 260px; min-width: 190px; }
+.uv-filters .select { width: auto; flex: 0 0 auto; min-width: 170px; }
+.uv-meta { margin: 0 0 14px; }
+.uv-focus { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin: 0 0 14px; padding: 10px 12px; background: var(--green-soft); border-left: 4px solid var(--green); }
+.uv-chip { display: inline-flex; align-items: center; gap: 6px; min-height: 32px; padding: 0 8px 0 10px; background: #fff; border: 1px solid var(--border-strong); font: 700 13px var(--font-body); color: var(--text); cursor: pointer; }
+.uv-chip small { color: var(--muted); font-weight: 600; }
+.uv-chip:hover { border-color: var(--header); }
+.uv-tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; margin-bottom: 16px; }
+.uv-tile { display: flex; flex-direction: column; gap: 3px; min-width: 0; padding: 14px 16px; background: #fff; border: 1px solid var(--border); }
+.uv-tile-label { font: 700 11.5px var(--font-body); letter-spacing: .1em; text-transform: uppercase; color: var(--muted); }
+.uv-tile b { font: 700 28px/1.15 var(--font-body); color: var(--text); overflow-wrap: anywhere; }
+.uv-tile small { color: var(--muted); }
+/* two balanced columns (top to bottom) so cards of different heights do not leave gaps */
+.uv-grid-cards { columns: 2 420px; column-gap: 16px; margin-bottom: 0; }
+.uv-grid-cards > .uv-card { break-inside: avoid; margin-bottom: 16px; }
+.uv-card { padding: 16px 18px 14px; min-width: 0; }
+.uv-card-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 10px 14px; flex-wrap: wrap; margin-bottom: 12px; }
+.uv-card h3 { font-size: 1.2rem; text-transform: uppercase; }
+.uv-heat, .uv-unused, .uv-recipes { margin-bottom: 16px; }
+.uv-rows { display: flex; flex-direction: column; }
+.uv-row { display: grid; grid-template-columns: minmax(90px, 38%) 1fr auto; align-items: center; gap: 10px; width: 100%; min-height: 30px; padding: 3px 4px; background: none; border: 0; text-align: left; font: inherit; color: inherit; cursor: pointer; }
+.uv-row:hover, .uv-row:focus-visible { background: var(--surface-2); }
+.uv-row.static { cursor: default; }
+.uv-name { font-size: 13.5px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.uv-track { position: relative; display: block; height: 12px; border-left: 1px solid var(--border-strong); }
+.uv-bar { position: absolute; left: 0; top: 1px; height: 10px; background: var(--green); border-radius: 0 4px 4px 0; }
+.uv-row.sel .uv-bar { background: var(--header); }
+.uv-row.sel .uv-name { font-weight: 700; }
+.uv-row.off .uv-name, .uv-row.off .uv-val { color: var(--muted); }
+.uv-val { display: flex; align-items: baseline; justify-content: flex-end; gap: 6px; min-width: 76px; font-variant-numeric: tabular-nums; }
+.uv-val small { min-width: 34px; text-align: right; color: var(--muted); }
+.uv-more { margin: 8px 0 0; padding: 0; background: none; border: 0; color: var(--primary-strong); font: 700 13px var(--font-body); text-decoration: underline; cursor: pointer; }
+.uv-table-wrap { overflow-x: auto; }
+.uv-table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+.uv-table th, .uv-table td { padding: 6px 8px; border-bottom: 1px solid var(--border); text-align: right; font-variant-numeric: tabular-nums; }
+.uv-table thead th { font: 700 11.5px var(--font-body); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+.uv-table th:first-child { text-align: left; font-weight: 600; }
+.uv-table tr.off { color: var(--muted); }
+.uv-axes { display: flex; align-items: flex-end; gap: 8px; flex-wrap: wrap; }
+.uv-axes label { display: flex; flex-direction: column; gap: 3px; font: 700 11px var(--font-body); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+.uv-axes .select { min-width: 150px; text-transform: none; letter-spacing: 0; font-weight: 400; }
+.uv-axes .btn { min-height: 40px; padding: 0 12px; }
+.uv-grid { border-collapse: separate; border-spacing: 2px; }
+.uv-grid th { font: 600 12.5px var(--font-body); color: var(--text-2); }
+.uv-grid tbody th { text-align: left; white-space: nowrap; padding-right: 10px; }
+.uv-grid tbody th.off { color: var(--muted); font-weight: 400; }
+.uv-ch { vertical-align: bottom; padding-bottom: 4px; }
+.uv-ch span { display: block; writing-mode: vertical-rl; transform: rotate(180deg); white-space: nowrap; max-height: 120px; overflow: hidden; text-overflow: ellipsis; margin: 0 auto; }
+.uv-cell { display: block; width: 36px; height: 30px; padding: 0; border: 0; background: var(--surface-2); font: 700 12.5px var(--font-body); color: var(--text); font-variant-numeric: tabular-nums; cursor: pointer; }
+.uv-cell.dark { color: #fff; }
+.uv-cell.zero { cursor: default; }
+.uv-cell:not(.zero):hover, .uv-cell:not(.zero):focus-visible { outline: 2px solid var(--header); outline-offset: 0; }
+.uv-scale { display: flex; align-items: center; gap: 8px; margin-top: 10px; }
+.uv-scale i { width: 140px; height: 8px; background: linear-gradient(90deg, rgba(44, 106, 77, .14), rgba(44, 106, 77, 1)); }
+.uv-note { margin: 6px 0 0; }
+.uv-unused-list { margin: 0; }
+.uv-pill { display: inline-flex; gap: 6px; margin: 0 6px 6px 0; padding: 4px 8px; background: var(--surface-3); font-size: 13px; }
+.uv-pill small { color: var(--muted); }
+.uv-recipes summary { display: flex; align-items: center; cursor: pointer; list-style: none; }
+.uv-recipes summary::-webkit-details-marker { display: none; }
+.uv-rlist { columns: 2 280px; margin: 12px 0 0; padding: 0; list-style: none; }
+.uv-rlist li { break-inside: avoid; padding: 3px 0; font-size: 14px; }
+.uv-rlist a { color: var(--text); text-decoration: none; }
+.uv-rlist a:hover { text-decoration: underline; }
+.uv-rlist small { color: var(--muted); font-weight: 700; }
+.uv-tip { position: fixed; z-index: 200; transform: translate(-50%, calc(-100% - 12px)); max-width: 250px; display: flex; flex-direction: column; gap: 2px; padding: 8px 10px; background: var(--header); color: #fff; font-size: 12.5px; pointer-events: none; }
+.uv-tip b { font-size: 14px; }
+@media (max-width: 700px) {
+  .uv-row { grid-template-columns: 1fr auto; row-gap: 2px; }
+  .uv-row .uv-track { grid-column: 1 / -1; grid-row: 2; }
+  .uv-card { padding: 14px 12px 12px; }
+  .uv-find, .uv-style { flex: 1 1 100%; max-width: none; }
+}
 
 </style>
 </head>
@@ -2860,6 +2942,157 @@ MJ.additionsCollection = 'mjAdditions';
 
 </script>
   <script>
+// Ingredient usage: how often each can, enhancer, hop blend, yeast and addition is used across a set of recipes.
+// Pure functions with no screen code, so the numbers can be tested on their own. The page that draws them is js/pages/usage.js.
+//
+//   MJ.usageData.analyse(recipes, selection, opts)  ->  { n, groups: { cans: { rows, n, used, unused }, ... } }
+//   MJ.usageData.pairs(recipes, dimA, dimB, selection) -> { rows, cols, cell(a, b), max, truncated }
+//   MJ.usageData.kits(recipes, selection)           ->  [{ label, recipes }]   the most common can + enhancer + yeast bases
+//   MJ.usageData.matching(recipes, selection)       ->  the recipes that use what is selected
+//
+// A selection is a list of { g, id } ("this can", "that yeast"). Within one group the choices are alternatives (IPA or Stout can);
+// across groups they all have to hold (an IPA can AND the M44 yeast).
+window.MJ = window.MJ || {};
+
+(function () {
+  const D = MJ.data;
+
+  const GROUPS = [
+    { key: 'cans', label: 'Cans', noun: 'can', unit: 'cans' },
+    { key: 'enhancers', label: 'Enhancers', noun: 'enhancer', unit: 'sachets' },
+    { key: 'hops', label: 'Hop blends', noun: 'hop blend', unit: 'sachets' },
+    { key: 'yeasts', label: 'Yeasts', noun: 'yeast', unit: 'sachets' },
+    { key: 'additions', label: 'Additions', noun: 'addition', unit: null },   // measured in different units (kg, g, ml), so only recipe counts make sense
+  ];
+  const GROUP = Object.fromEntries(GROUPS.map((g) => [g.key, g]));
+  // What the heat map can put on an axis: the five groups, plus the recipe's style group (its BJCP category, or "Commercial clone").
+  const DIMENSIONS = GROUPS.map((g) => ({ key: g.key, label: g.label })).concat([{ key: 'style', label: 'Style group' }]);
+
+  const norm = (s) => String(s == null ? '' : s).trim().toLowerCase();
+  const num = (v) => { const n = typeof v === 'number' ? v : parseFloat(v); return Number.isFinite(n) ? n : 0; };
+
+  const catOf = (r) => (r.isClone ? 'Commercial clone' : r.category || 'No style');
+
+  // The ingredient lines of one recipe in one group, merged when a recipe lists the same ingredient twice.
+  // -> [{ id, label, qty }]   (qty is null for additions)
+  function lines(r, g) {
+    const out = new Map();
+    const add = (id, label, qty) => {
+      if (!id) return;
+      const cur = out.get(id);
+      if (cur) { if (qty != null) cur.qty += qty; } else out.set(id, { id, label, qty });
+    };
+    if (g === 'cans') (r.cans || []).forEach((c) => add(c.style, c.style, num(c.qty) || 1));
+    else if (g === 'enhancers') (r.enhancers || []).forEach((e) => add(e.type, (D.enhancers.find((x) => x.code === e.type) || {}).name || e.type, num(e.qty) || 1));
+    else if (g === 'hops') (r.hops || []).forEach((h) => add(h.blend, h.blend, num(h.qty) || 1));
+    else if (g === 'yeasts') (r.yeasts || []).forEach((y) => add(y.code, (D.yeasts.find((x) => x.code === y.code) || {}).label || y.code, num(y.qty) || 1));
+    else if (g === 'additions') (r.additions || []).forEach((a) => add(norm(a.name), String(a.name || '').trim(), null));
+    else if (g === 'style') add(catOf(r), catOf(r), null);
+    return [...out.values()];
+  }
+
+  // Every ingredient that could be used (so unused ones can be shown too). Additions are an open list, so only the
+  // built-in and shared ones are included here; a recipe's own custom additions appear as they are used.
+  function catalog(g, extraAdditionNames) {
+    if (g === 'cans') return D.cans.map((c) => ({ id: c.style, label: c.style }));
+    if (g === 'enhancers') return D.enhancers.map((e) => ({ id: e.code, label: e.name }));
+    if (g === 'hops') return D.hops.map((h) => ({ id: h.name, label: h.name }));
+    if (g === 'yeasts') return D.yeasts.map((y) => ({ id: y.code, label: y.label }));
+    if (g === 'additions') {
+      const seen = new Map();
+      [...D.additions.map((a) => a.name), ...(extraAdditionNames || [])].forEach((n) => { const id = norm(n); if (id && !seen.has(id)) seen.set(id, { id, label: String(n).trim() }); });
+      return [...seen.values()];
+    }
+    return [];
+  }
+
+  // Does this recipe satisfy the selection? (alternatives within a group, all groups together)
+  const bySelection = (selection) => {
+    const groups = {};
+    (selection || []).forEach((s) => { (groups[s.g] = groups[s.g] || new Set()).add(s.id); });
+    return groups;
+  };
+  const ok = (r, groups, skip) => Object.keys(groups).every((g) => g === skip || lines(r, g).some((l) => groups[g].has(l.id)));
+  const matching = (recipes, selection) => { const s = bySelection(selection); return recipes.filter((r) => ok(r, s, null)); };
+
+  // The usage of every ingredient in every group. Each group is counted over the recipes that match the selection in the OTHER groups,
+  // so picking one can still lets you compare it with the other cans.
+  function analyse(recipes, selection, opts) {
+    const o = opts || {};
+    const sel = bySelection(selection);
+    const groups = {};
+    GROUPS.forEach(({ key }) => {
+      const base = recipes.filter((r) => ok(r, sel, key));
+      const rows = new Map();
+      catalog(key, o.additionNames).forEach((c) => rows.set(c.id, { id: c.id, label: c.label, recipes: 0, qty: 0, hasQty: GROUP[key].unit != null }));
+      base.forEach((r) => lines(r, key).forEach((l) => {
+        const row = rows.get(l.id) || (rows.set(l.id, { id: l.id, label: l.label, recipes: 0, qty: 0, hasQty: GROUP[key].unit != null }), rows.get(l.id));
+        row.recipes += 1;
+        if (l.qty != null) row.qty += l.qty;
+      }));
+      const list = [...rows.values()].map((row) => ({ ...row, share: base.length ? row.recipes / base.length : 0, selected: !!(sel[key] && sel[key].has(row.id)) }));
+      groups[key] = { rows: list, n: base.length, used: list.filter((r) => r.recipes > 0).length, unused: list.filter((r) => r.recipes === 0).length };
+    });
+    return { n: matching(recipes, selection).length, groups };
+  }
+
+  // How the rows are ordered. "used": most used first; "least": least used first; "az": by name. Ties by name.
+  function order(rows, how, metric) {
+    const v = (r) => (metric === 'qty' && r.hasQty ? r.qty : r.recipes);
+    const byName = (a, b) => a.label.localeCompare(b.label, undefined, { numeric: true });
+    const sorted = rows.slice();
+    if (how === 'az') return sorted.sort(byName);
+    if (how === 'least') return sorted.sort((a, b) => v(a) - v(b) || byName(a, b));
+    return sorted.sort((a, b) => v(b) - v(a) || byName(a, b));
+  }
+
+  // A grid of how many recipes use a pair of ingredients (or an ingredient in a style group). Axes list the most used first, at most `cap`.
+  function pairs(recipes, dimA, dimB, selection, opts) {
+    const cap = (opts && opts.cap) || 16;
+    const rs = matching(recipes, selection);
+    const cells = new Map();
+    const totA = new Map(), totB = new Map(), label = new Map();
+    rs.forEach((r) => {
+      const as = lines(r, dimA), bs = lines(r, dimB);
+      as.forEach((a) => { totA.set(a.id, (totA.get(a.id) || 0) + 1); label.set(dimA + '|' + a.id, a.label); });
+      bs.forEach((b) => { totB.set(b.id, (totB.get(b.id) || 0) + 1); label.set(dimB + '|' + b.id, b.label); });
+      as.forEach((a) => bs.forEach((b) => { const k = a.id + '\u0000' + b.id; cells.set(k, (cells.get(k) || 0) + 1); }));
+    });
+    // axes: the catalogue where it is small (so unused ones show as empty rows), otherwise only what is used
+    const axis = (dim, tot) => {
+      const ids = new Map();
+      const cat = dim === 'additions' || dim === 'style' ? [] : catalog(dim);
+      cat.forEach((c) => ids.set(c.id, c.label));
+      tot.forEach((_, id) => { if (!ids.has(id)) ids.set(id, label.get(dim + '|' + id) || id); });
+      const all = [...ids.entries()].map(([id, lab]) => ({ id, label: lab, n: tot.get(id) || 0 }));
+      all.sort((a, b) => b.n - a.n || a.label.localeCompare(b.label, undefined, { numeric: true }));
+      return { items: all.slice(0, cap), truncated: Math.max(0, all.length - cap) };
+    };
+    const A = axis(dimA, totA), B = axis(dimB, totB);
+    let max = 0;
+    A.items.forEach((a) => B.items.forEach((b) => { max = Math.max(max, cells.get(a.id + '\u0000' + b.id) || 0); }));
+    return { rows: A.items, cols: B.items, cell: (a, b) => cells.get(a + '\u0000' + b) || 0, max, truncated: A.truncated + B.truncated, n: rs.length };
+  }
+
+  // The most common bases: the cans, enhancers and yeasts a recipe uses, as one combination ("IPA + E4 + M44").
+  function kits(recipes, selection, top) {
+    const counts = new Map();
+    matching(recipes, selection).forEach((r) => {
+      const part = (g) => lines(r, g).map((l) => l.id).sort((a, b) => a.localeCompare(b, undefined, { numeric: true })).join(' + ');
+      const label = [part('cans'), part('enhancers'), part('yeasts')].filter(Boolean).join(' · ');
+      if (!label) return;
+      const cur = counts.get(label) || { label, recipes: 0 };
+      cur.recipes += 1;
+      counts.set(label, cur);
+    });
+    return [...counts.values()].sort((a, b) => b.recipes - a.recipes || a.label.localeCompare(b.label)).slice(0, top || 8);
+  }
+
+  MJ.usageData = { GROUPS, GROUP, DIMENSIONS, lines, catalog, analyse, order, pairs, kits, matching, catOf };
+})();
+
+</script>
+  <script>
 // Recipe estimation engine. Mirrors the MJ_Cans_Master_Reference spreadsheet formulas
 // (Recipes cols N–T, Formulation Reference, Info sheet) and generalises them to
 // multiple cans / enhancer sachets / additions / yeasts. Pure functions only.
@@ -3963,6 +4196,7 @@ window.MJ = window.MJ || {};
     info: 'M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm-1 5h2v2h-2zm0 4h2v6h-2z',
     check: 'm9 16.2-3.5-3.5L4 14.2l5 5 11-11-1.4-1.4z',
     back: 'M20 11H7.8l5.6-5.6L12 4l-8 8 8 8 1.4-1.4L7.8 13H20z',
+    chart: 'M4 20V4h2v14h14v2zm4-4v-5h3v5zm5 0V7h3v9zm5 0v-3h3v3z',
     beaker: 'M9 2h6v2h-1v5.3l5.6 9.6A2 2 0 0 1 17.9 22H6.1a2 2 0 0 1-1.7-3.1L10 9.3V4H9z',
     bulb: 'M12 2a7 7 0 0 0-4 12.7V17a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-2.3A7 7 0 0 0 12 2zM9 20h6v2H9z',
   };
@@ -5641,8 +5875,14 @@ window.MJ = window.MJ || {};
       <b>${n[k] == null ? '—' : n[k]}${typeof n[k] === 'number' ? unit : ''}</b><small class="muted">${label}</small></div>`)}</div>`;
   }
 
+  // How many recipes use this ingredient, linking to the usage dashboard focused on it (Recipes > View ingredient usage).
+  function UsedIn({ g, id, used }) {
+    if (used == null) return null;
+    return html`<a class="ing-used" href=${`#/recipes/usage?sel=${g}:${encodeURIComponent(id)}`} title="See how it is used in the ingredient usage dashboard">${used ? `Used in ${used} ${used === 1 ? 'recipe' : 'recipes'}` : 'Not used in any recipe'} →</a>`;
+  }
+
   // ---------- Cans ----------
-  function CanCard({ c }) {
+  function CanCard({ c, used }) {
     return html`<article class="card ing-card">
       <div class="ing-top">
         <${CanPicture} style=${c.style} width=${64} />
@@ -5673,12 +5913,12 @@ window.MJ = window.MJ || {};
           <${Nutrition} n=${c.nutrition} rows=${[['carbs', 'Carbs', 'g'], ['sugars', 'Sugars', 'g'], ['protein', 'Protein', 'g'], ['fat', 'Fat', 'g'], ['satFat', 'Sat. fat', 'g'], ['salt', 'Salt', 'g'], ['sodiumMg', 'Sodium', 'mg']]} />
           <small>Serving ${c.nutrition.servingSize} · ${c.nutrition.servingsPerPack} servings/pack · ${c.nutrition.riNote}</small></div>`}
       </div>
-      <div class="ing-foot"><small>Can style</small><${AddButton} kind="cans" value=${c.style} label=${`${c.style} can`} /></div>
+      <div class="ing-foot"><div class="ing-foot-l"><small>Can style</small><${UsedIn} g="cans" id=${c.style} used=${used} /></div><${AddButton} kind="cans" value=${c.style} label=${`${c.style} can`} /></div>
     </article>`;
   }
 
   // ---------- Enhancers ----------
-  function EnhancerCard({ e }) {
+  function EnhancerCard({ e, used }) {
     return html`<article class="card ing-card">
       <div class="ing-top">
         <${EnhancerPicture} code=${e.code} width=${64} />
@@ -5702,12 +5942,12 @@ window.MJ = window.MJ || {};
         </dl>
         <${Nutrition} n=${e.nutrition} rows=${[['energyKcal', 'kcal', ''], ['carbs', 'Carbs', 'g'], ['sugars', 'Sugars', 'g'], ['protein', 'Protein', 'g'], ['fat', 'Fat', 'g'], ['salt', 'Salt', 'g']]} />
       </div>
-      <div class="ing-foot"><small>Per 100 g</small><${AddButton} kind="enhancers" value=${e.code} label=${e.name} /></div>
+      <div class="ing-foot"><div class="ing-foot-l"><small>Per 100 g</small><${UsedIn} g="enhancers" id=${e.code} used=${used} /></div><${AddButton} kind="enhancers" value=${e.code} label=${e.name} /></div>
     </article>`;
   }
 
   // ---------- Hops ----------
-  function HopCard({ h }) {
+  function HopCard({ h, used }) {
     const total = h.components.reduce((s, c) => s + c.g, 0);
     return html`<article class="card ing-card">
       <div class="ing-top">
@@ -5729,12 +5969,12 @@ window.MJ = window.MJ || {};
           </ul>
         </div>
       </div>
-      <div class="ing-foot"><small>Dry hop · negligible IBU</small><${AddButton} kind="hops" value=${h.name} label=${`${h.name} hops`} /></div>
+      <div class="ing-foot"><div class="ing-foot-l"><small>Dry hop · negligible IBU</small><${UsedIn} g="hops" id=${h.name} used=${used} /></div><${AddButton} kind="hops" value=${h.name} label=${`${h.name} hops`} /></div>
     </article>`;
   }
 
   // ---------- Yeasts ----------
-  function YeastCard({ y }) {
+  function YeastCard({ y, used }) {
     const fam = FAMILY[y.family];
     // The top of the card is the colour of the sachet (read from its artwork), with text that reads well on it.
     const pack = (MJ.yeastColours || {})[y.code];
@@ -5765,7 +6005,7 @@ window.MJ = window.MJ || {};
           <dt>Compaction</dt><dd><${Meter} value=${y.compaction} /></dd>
         </dl>
       </div>
-      <div class="ing-foot"><small>10 g sachet</small><${AddButton} kind="yeasts" value=${y.code} label=${`${y.code} ${y.name}`} /></div>
+      <div class="ing-foot"><div class="ing-foot-l"><small>10 g sachet</small><${UsedIn} g="yeasts" id=${y.code} used=${used} /></div><${AddButton} kind="yeasts" value=${y.code} label=${`${y.code} ${y.name}`} /></div>
     </article>`;
   }
 
@@ -5799,6 +6039,10 @@ window.MJ = window.MJ || {};
     const [tab, setTab] = useState(query.tab || 'cans');
     const [q, setQ] = useState('');
     const sharedAdditions = MJ.ui.useAdditions();
+    // how many recipes (and clones, not templates) use each product, for the "Used in N recipes" links
+    const recipes = MJ.ui.useRecipes();
+    const usage = useMemo(() => MJ.usageData.analyse(recipes.filter((r) => !r.isTemplate), []).groups, [recipes]);
+    const usedOf = (g, id) => { const row = usage[g].rows.find((r) => r.id === id); return row ? row.recipes : 0; };
     const addStatus = MJ.ui.useStoreStatus(MJ.additions);
     // The built-in additions first (using the database copy where there is one), then the ones people have added.
     const allAdditions = useMemo(() => {
@@ -5857,21 +6101,21 @@ window.MJ = window.MJ || {};
       <${Tabs} tabs=${tabs} active=${tab} onChange=${(t) => { setTab(t); MJ.router.replaceQuery({ tab: t }); }} />
 
       ${tab === 'cans' && html`
-        ${empty || html`<div class="grid grid-2">${list.map((c) => html`<${CanCard} key=${c.sku} c=${c} />`)}</div>`}`}
+        ${empty || html`<div class="grid grid-2">${list.map((c) => html`<${CanCard} key=${c.sku} c=${c} used=${usedOf('cans', c.style)} />`)}</div>`}`}
 
       ${tab === 'enhancers' && html`
-        ${empty || html`<div class="grid grid-2">${list.map((e) => html`<${EnhancerCard} key=${e.sku} e=${e} />`)}</div>`}
+        ${empty || html`<div class="grid grid-2">${list.map((e) => html`<${EnhancerCard} key=${e.sku} e=${e} used=${usedOf('enhancers', e.code)} />`)}</div>`}
         <div class="grid grid-2" style="margin-top:16px">
           <div class="card"><div class="card-head"><h3>Microbiological spec (per gram, all variants)</h3></div>
             <table class="data"><tbody>${D.enhancerNotes.micro.map((m) => html`<tr><td>${m.parameter}</td><td class="num"><b>${m.limit}</b></td></tr>`)}</tbody></table></div>
         </div>`}
 
       ${tab === 'hops' && html`
-        ${empty || html`<div class="grid grid-3">${list.map((h) => html`<${HopCard} key=${h.sku} h=${h} />`)}</div>`}`}
+        ${empty || html`<div class="grid grid-3">${list.map((h) => html`<${HopCard} key=${h.sku} h=${h} used=${usedOf('hops', h.name)} />`)}</div>`}`}
 
       ${tab === 'yeasts' && html`
         <div class="chips" style="margin-bottom:16px">${Object.entries(FAMILY).map(([k, f]) => html`<span class=${'badge fam-' + k} style="color:var(--text)">${f.label} yeasts</span>`)}</div>
-        ${empty || html`<div class="grid grid-2">${list.map((y) => html`<${YeastCard} key=${y.code} y=${y} />`)}</div>`}`}
+        ${empty || html`<div class="grid grid-2">${list.map((y) => html`<${YeastCard} key=${y.code} y=${y} used=${usedOf('yeasts', y.code)} />`)}</div>`}`}
 
       ${tab === 'additions' && html`
         ${addStatus.error && html`<div class="note warn" style="margin-bottom:16px">The shared additions can't be loaded or saved right now (${addStatus.error}). The values from the master reference are being used.
@@ -6862,7 +7106,10 @@ window.MJ = window.MJ || {};
     return html`<div>
       <div class="page-head">
         <div><h1>Recipes</h1></div>
-        <a class="btn btn-primary" href="#/builder"><${Icon} name="plus" /> New recipe</a>
+        <div class="page-head-actions">
+          <a class="btn" href="#/recipes/usage"><${Icon} name="chart" /> View ingredient usage</a>
+          <a class="btn btn-primary" href="#/builder"><${Icon} name="plus" /> New recipe</a>
+        </div>
       </div>
       ${!ready ? html`<${MJ.ui.Loading} text="Loading recipes…" />`
         : recipes.length === 0
@@ -7210,6 +7457,253 @@ window.MJ = window.MJ || {};
   MJ.pages = MJ.pages || {};
   MJ.pages.Recipes = RecipesPage;
   MJ.pages.RecipeDetail = RecipeDetail;
+})();
+
+</script>
+  <script>
+// Ingredient usage dashboard (#/recipes/usage): how often each can, enhancer, hop blend, yeast and addition is used across the recipe library.
+// Reached from the "View ingredient usage" button on the Recipes page. The numbers come from js/usage-data.js; this file draws them.
+//
+//   - one filter row above everything: search, which recipes to include, how to count, how to sort
+//   - click any bar (or heat-map cell) to focus every chart on the recipes that use it; the chips above the charts undo it
+//   - every chart has a table view, and every value is also in the tooltip, the table and the screen-reader label
+window.MJ = window.MJ || {};
+
+(function () {
+  const { html, useState, useMemo, useEffect } = htmPreact;
+  const { Icon, SearchInput, Combobox, Loading, useRecipes, useAdditions } = MJ.ui;
+  const U = MJ.usageData;
+  const { GROUPS, GROUP } = U;
+
+  const n1 = (x) => String(Math.round(x * 10) / 10);
+  const pct = (x) => `${Math.round(x * 100)}%`;
+  const plural = (n, one, many) => `${n} ${n === 1 ? one : many || one + 's'}`;
+  const keyOf = (s) => `${s.g}:${s.id}`;
+
+  // ---------- the selection in the address, so a view can be shared or linked to ("#/recipes/usage?sel=cans:IPA~yeasts:M44") ----------
+  const parseSel = (text) => String(text || '').split('~').map((p) => { const i = p.indexOf(':'); return i > 0 ? { g: p.slice(0, i), id: decodeURIComponent(p.slice(i + 1)) } : null; })
+    .filter((s) => s && (GROUP[s.g] || s.g === 'style'));
+  const writeSel = (sel) => sel.map((s) => `${s.g}:${encodeURIComponent(s.id)}`).join('~');
+
+  // ---------- one tooltip for every mark: shows on hover and on keyboard focus ----------
+  function useTip() {
+    const [tip, setTip] = useState(null);
+    const show = (e, lines) => {
+      const r = e.currentTarget.getBoundingClientRect();
+      const fromPointer = typeof e.clientX === 'number' && (e.clientX || e.clientY);
+      setTip({ x: fromPointer ? e.clientX : r.left + Math.min(r.width, 160) / 2, y: fromPointer ? e.clientY : r.top, lines });
+    };
+    return { tip, show, hide: () => setTip(null) };
+  }
+  function Tip({ tip }) {
+    if (!tip) return null;
+    const x = Math.max(110, Math.min(window.innerWidth - 110, tip.x));
+    return html`<div class="uv-tip" role="tooltip" style=${`left:${x}px;top:${tip.y}px`}>
+      <b>${tip.lines[0]}</b>${tip.lines.slice(1).map((l) => html`<span>${l}</span>`)}</div>`;
+  }
+
+  // ---------- a ranked bar per ingredient ----------
+  function BarRow({ row, max, metric, g, onPick, tip, total }) {
+    const useQty = metric === 'qty' && row.hasQty;
+    const v = useQty ? row.qty : row.recipes;
+    const w = max > 0 ? (v / max) * 100 : 0;
+    const unit = GROUP[g].unit;
+    const lines = [row.label, `Used in ${plural(row.recipes, 'recipe')}${total ? ` (${pct(row.share)})` : ''}`];
+    if (row.hasQty && row.recipes) lines.push(`${n1(row.qty)} ${unit} in total`);
+    if (!row.recipes) lines[1] = 'Not used in these recipes';
+    return html`<button type="button" class=${'uv-row' + (row.selected ? ' sel' : '') + (row.recipes ? '' : ' off')} aria-pressed=${row.selected}
+      aria-label=${`${lines.join('. ')}. ${row.selected ? 'Focused: press to remove.' : 'Press to focus on these recipes.'}`}
+      onClick=${() => onPick(g, row.id)} onPointerMove=${(e) => tip.show(e, lines)} onPointerLeave=${tip.hide} onFocus=${(e) => tip.show(e, lines)} onBlur=${tip.hide}>
+      <span class="uv-name">${row.label}</span>
+      <span class="uv-track" aria-hidden="true">${v > 0 && html`<i class="uv-bar" style=${`width:max(3px, ${w}%)`}></i>`}</span>
+      <span class="uv-val"><b>${useQty ? n1(v) : row.recipes}</b><small>${useQty ? unit : total ? pct(row.share) : ''}</small></span>
+    </button>`;
+  }
+
+  function UsageCard({ g, data, how, metric, showUnused, q, onPick, tip }) {
+    const [table, setTable] = useState(false);
+    const [all, setAll] = useState(false);
+    const info = GROUP[g];
+    const s = q.trim().toLowerCase();
+    const max = Math.max(0, ...data.rows.map((r) => (metric === 'qty' && r.hasQty ? r.qty : r.recipes)));
+    let rows = U.order(data.rows, how, metric).filter((r) => (showUnused || r.recipes > 0) && (!s || r.label.toLowerCase().includes(s)));
+    const LIMIT = 10;
+    const cut = g === 'additions' && !all && !s && rows.length > LIMIT;
+    const shown = cut ? rows.slice(0, LIMIT) : rows;
+    const qtyOn = metric === 'qty' && info.unit;
+    return html`<section class="card uv-card" aria-label=${info.label}>
+      <header class="uv-card-head">
+        <div><h3>${info.label}</h3>
+          <small class="muted">${data.used} used${data.unused ? ` · ${data.unused} not used` : ''} · ${plural(data.n, 'recipe')}${g === 'additions' && metric === 'qty' ? ' · counted by recipes (mixed units)' : ''}</small></div>
+        <div class="unit-toggle sm" role="group" aria-label=${`${info.label} view`}>
+          <button type="button" class=${table ? '' : 'on'} aria-pressed=${!table} onClick=${() => setTable(false)}>Chart</button>
+          <button type="button" class=${table ? 'on' : ''} aria-pressed=${table} onClick=${() => setTable(true)}>Table</button></div>
+      </header>
+      ${!rows.length ? html`<div class="line-empty">${s ? `Nothing matches “${q.trim()}”.` : 'Nothing used yet.'}</div>`
+        : table ? html`<div class="uv-table-wrap"><table class="uv-table"><thead><tr><th scope="col">${info.noun[0].toUpperCase() + info.noun.slice(1)}</th><th scope="col">Recipes</th><th scope="col">Share</th>${info.unit && html`<th scope="col">${info.unit[0].toUpperCase() + info.unit.slice(1)}</th>`}</tr></thead>
+            <tbody>${shown.map((r) => html`<tr class=${r.recipes ? '' : 'off'}><th scope="row">${r.label}</th><td>${r.recipes}</td><td>${data.n ? pct(r.share) : '–'}</td>${info.unit && html`<td>${r.hasQty ? n1(r.qty) : ''}</td>`}</tr>`)}</tbody></table></div>`
+        : html`<div class="uv-rows" role="list">${shown.map((r) => html`<${BarRow} key=${r.id} row=${r} max=${max} metric=${metric} g=${g} onPick=${onPick} tip=${tip} total=${data.n} />`)}</div>`}
+      ${cut && html`<button type="button" class="uv-more" onClick=${() => setAll(true)}>Show all ${rows.length} additions</button>`}
+      ${all && g === 'additions' && html`<button type="button" class="uv-more" onClick=${() => setAll(false)}>Show fewer</button>`}
+    </section>`;
+  }
+
+  // ---------- the most common bases (can + enhancer + yeast) ----------
+  function KitsCard({ kits, n }) {
+    const max = Math.max(1, ...kits.map((k) => k.recipes));
+    return html`<section class="card uv-card" aria-label="Most common bases">
+      <header class="uv-card-head"><div><h3>Most common bases</h3><small class="muted">can · enhancer · yeast, as used together</small></div></header>
+      ${kits.length ? html`<div class="uv-rows" role="list">${kits.map((k) => html`<div class="uv-row static" role="listitem">
+        <span class="uv-name">${k.label}</span>
+        <span class="uv-track" aria-hidden="true"><i class="uv-bar" style=${`width:max(3px, ${(k.recipes / max) * 100}%)`}></i></span>
+        <span class="uv-val"><b>${k.recipes}</b><small>${n ? pct(k.recipes / n) : ''}</small></span></div>`)}</div>`
+        : html`<div class="line-empty">No recipes to compare.</div>`}
+    </section>`;
+  }
+
+  // ---------- the pairing grid: how many recipes use each pair ----------
+  const shortLabel = (dim, item) => (dim === 'yeasts' || dim === 'enhancers' ? item.label.split(/[\s–-]/)[0] : item.label);
+  function Heat({ recipes, selection, onPickPair, tip }) {
+    const [a, setA] = useState('cans');
+    const [b, setB] = useState('yeasts');
+    const grid = useMemo(() => U.pairs(recipes, a, b, selection), [recipes, a, b, selection]);
+    const shade = (n) => (n > 0 && grid.max > 0 ? 0.14 + 0.86 * (n / grid.max) : 0);
+    const dims = U.DIMENSIONS;
+    return html`<section class="card uv-card uv-heat" aria-label="Pairings">
+      <header class="uv-card-head">
+        <div><h3>Pairings</h3><small class="muted">How many recipes use each pair. Click a cell to focus on those recipes.</small></div>
+        <div class="uv-axes">
+          <label>Rows <select class="select" value=${a} onChange=${(e) => setA(e.target.value)}>${dims.map((d) => html`<option value=${d.key}>${d.label}</option>`)}</select></label>
+          <button type="button" class="btn btn-sm" aria-label="Swap rows and columns" title="Swap rows and columns" onClick=${() => { setA(b); setB(a); }}>⇄</button>
+          <label>Columns <select class="select" value=${b} onChange=${(e) => setB(e.target.value)}>${dims.map((d) => html`<option value=${d.key}>${d.label}</option>`)}</select></label>
+        </div>
+      </header>
+      ${grid.n === 0 || grid.max === 0 ? html`<div class="line-empty">${grid.n === 0 ? 'No recipes in this view.' : 'These two never appear together in these recipes.'}</div>`
+        : html`<div class="uv-table-wrap"><table class="uv-grid">
+            <caption class="sr-only">Number of recipes using each ${GROUP[a] ? GROUP[a].noun : 'style group'} with each ${GROUP[b] ? GROUP[b].noun : 'style group'}</caption>
+            <thead><tr><td></td>${grid.cols.map((c) => html`<th scope="col" class="uv-ch" title=${c.label}><span>${shortLabel(b, c)}</span></th>`)}</tr></thead>
+            <tbody>${grid.rows.map((r) => html`<tr><th scope="row" class=${r.n ? '' : 'off'}>${r.label}</th>${grid.cols.map((c) => {
+              const n = grid.cell(r.id, c.id), t = shade(n);
+              const lines = [`${r.label} + ${c.label}`, plural(n, 'recipe')];
+              return html`<td><button type="button" class=${'uv-cell' + (n ? '' : ' zero') + (t > 0.55 ? ' dark' : '')} style=${n ? `background:rgba(44,106,77,${t.toFixed(2)})` : ''}
+                aria-label=${`${lines.join(': ')}. Press to focus on these recipes.`} disabled=${!n}
+                onClick=${() => onPickPair(a, r.id, b, c.id)} onPointerMove=${(e) => tip.show(e, lines)} onPointerLeave=${tip.hide} onFocus=${(e) => tip.show(e, lines)} onBlur=${tip.hide}>${n || ''}</button></td>`;
+            })}</tr>`)}</tbody></table></div>
+          <div class="uv-scale" aria-hidden="true"><small>0</small><i></i><small>${grid.max} recipes</small></div>
+          ${grid.truncated > 0 && html`<p class="muted uv-note"><small>Showing the 16 most used on each side; ${grid.truncated} more not shown. Use the filters above to narrow the view.</small></p>`}`}
+    </section>`;
+  }
+
+  // ---------- the page ----------
+  const TYPE_CHIPS = [['recipes', 'Recipes'], ['clones', 'Clones'], ['templates', 'Templates']];
+
+  function UsagePage({ query }) {
+    const recipes = useRecipes();
+    const shared = useAdditions();
+    const { ready } = MJ.ui.useStoreStatus();
+    const [q, setQ] = useState('');
+    const [types, setTypes] = useState({ recipes: true, clones: true, templates: false });
+    const [approvedOnly, setApprovedOnly] = useState(false);
+    const [cat, setCat] = useState('');
+    const [metric, setMetric] = useState('recipes');
+    const [how, setHow] = useState('used');
+    const [showUnused, setShowUnused] = useState(true);
+    const [selection, setSelection] = useState(() => parseSel(query && query.sel));
+    const tip = useTip();
+
+    useEffect(() => { if (MJ.router && MJ.router.replaceQuery) MJ.router.replaceQuery(selection.length ? { sel: writeSel(selection) } : {}); }, [selection]);
+    useEffect(() => { document.title = 'Ingredient usage'; }, []);
+    // a link to another focus while this page is open (the address changes, the page stays)
+    const sel = query && query.sel;
+    useEffect(() => { const next = parseSel(sel); setSelection((cur) => (writeSel(cur) === writeSel(next) ? cur : next)); }, [sel]);
+
+    const kindOf = (r) => (r.isTemplate ? 'templates' : r.isClone ? 'clones' : 'recipes');
+    const inScope = useMemo(() => recipes.filter((r) => types[kindOf(r)] && (!approvedOnly || r.approved) && (!cat || U.catOf(r) === cat)), [recipes, types, approvedOnly, cat]);
+    const additionNames = useMemo(() => shared.map((a) => a.name), [shared]);
+    const ana = useMemo(() => U.analyse(inScope, selection, { additionNames }), [inScope, selection, additionNames]);
+    const kits = useMemo(() => U.kits(inScope, selection, 8), [inScope, selection]);
+    const matched = useMemo(() => U.matching(inScope, selection), [inScope, selection]);
+
+    const cats = [...new Set(recipes.filter((r) => types[kindOf(r)]).map(U.catOf))].sort();
+    const catOptions = [{ value: '', label: 'All styles' }].concat(cats.map((c) => ({ value: c, label: c })));
+
+    // a click focuses on one ingredient, and a second click lets it go
+    const pick = (g, id) => setSelection((cur) => (cur.some((s) => s.g === g && s.id === id) ? cur.filter((s) => !(s.g === g && s.id === id)) : cur.concat({ g, id })));
+    const pickPair = (ga, ia, gb, ib) => setSelection((cur) => {
+      const has = (g, id) => cur.some((s) => s.g === g && s.id === id);
+      const both = has(ga, ia) && has(gb, ib);
+      return both ? cur.filter((s) => !(s.g === ga && s.id === ia) && !(s.g === gb && s.id === ib)) : cur.concat([[ga, ia], [gb, ib]].filter(([g, id]) => !has(g, id)).map(([g, id]) => ({ g, id })));
+    });
+    const labelFor = (s) => { const grp = ana.groups[s.g]; const row = grp && grp.rows.find((r) => r.id === s.id); return row ? row.label : s.id; };
+    const groupLabel = (g) => (GROUP[g] ? GROUP[g].label : 'Style group');
+    const anyFilter = !!(q.trim() || cat || approvedOnly || selection.length || !types.recipes || !types.clones || types.templates || metric !== 'recipes' || how !== 'used' || !showUnused);
+    const clearAll = () => { setQ(''); setCat(''); setApprovedOnly(false); setSelection([]); setTypes({ recipes: true, clones: true, templates: false }); setMetric('recipes'); setHow('used'); setShowUnused(true); };
+
+    // headline numbers over the four product groups (additions are an open list, so they are left out of "in use / not used")
+    const product = ['cans', 'enhancers', 'hops', 'yeasts'].map((g) => ({ g, ...ana.groups[g] }));
+    const allProduct = product.flatMap((p) => p.rows.map((r) => ({ ...r, g: p.g })));
+    const inUse = allProduct.filter((r) => r.recipes > 0).length;
+    const unusedRows = allProduct.filter((r) => r.recipes === 0);
+    const top = allProduct.slice().sort((x, y) => y.recipes - x.recipes || x.label.localeCompare(y.label))[0];
+    const avg = ana.n ? matched.reduce((t, r) => t + GROUPS.reduce((m, g) => m + U.lines(r, g.key).length, 0), 0) / ana.n : 0;
+
+    const tile = (label, value, sub) => html`<div class="uv-tile"><span class="uv-tile-label">${label}</span><b>${value}</b>${sub && html`<small>${sub}</small>`}</div>`;
+
+    return html`<div class="uv-page">
+      <div class="page-head">
+        <div><h1>Ingredient usage</h1>
+          <p>How often each can, enhancer, hop blend, yeast and addition is used across the recipe library. Click any bar to focus every chart on the recipes that use it.</p></div>
+        <a class="btn" href="#/recipes"><${Icon} name="back" /> Recipes</a>
+      </div>
+      ${!ready ? html`<${Loading} text="Loading recipes…" />`
+        : recipes.length === 0 ? html`<div class="card empty-state"><h2>No recipes yet</h2><p>Usage appears here once recipes are saved.</p><a class="btn btn-primary" href="#/builder"><${Icon} name="plus" /> Build a recipe</a></div>`
+        : html`
+        <div class="uv-filters">
+          <div class="uv-find"><${SearchInput} value=${q} onInput=${setQ} placeholder="Find an ingredient…" /></div>
+          <div class="uv-style"><${Combobox} id="uv-style" options=${catOptions} value=${cat} placeholder="All styles" onChange=${(v) => setCat(v)} /></div>
+          <div class="unit-toggle" role="group" aria-label="Count by">
+            <button type="button" class=${metric === 'recipes' ? 'on' : ''} aria-pressed=${metric === 'recipes'} title="How many recipes use it" onClick=${() => setMetric('recipes')}>Recipes</button>
+            <button type="button" class=${metric === 'qty' ? 'on' : ''} aria-pressed=${metric === 'qty'} title="How many cans or sachets in total" onClick=${() => setMetric('qty')}>Quantity</button></div>
+          <select class="select" value=${how} onChange=${(e) => setHow(e.target.value)} aria-label="Sort"><option value="used">Most used first</option><option value="least">Least used first</option><option value="az">A to Z</option></select>
+        </div>
+        <div class="list-meta uv-meta">
+          <p class="lm-count muted"><small>${plural(ana.n, 'recipe')} in view${ana.n !== inScope.length ? ` of ${inScope.length}` : ''}</small></p>
+          <div class="lm-actions">
+            ${TYPE_CHIPS.map(([k, label]) => html`<button type="button" class=${'chip-toggle' + (types[k] ? ' on' : '')} aria-pressed=${types[k]} onClick=${() => setTypes({ ...types, [k]: !types[k] })}>${label} <span class="n">${recipes.filter((r) => kindOf(r) === k).length}</span></button>`)}
+            <button type="button" class=${'chip-toggle' + (approvedOnly ? ' on' : '')} aria-pressed=${approvedOnly} onClick=${() => setApprovedOnly(!approvedOnly)}><${Icon} name="check" size=${13} /> Approved only</button>
+            <button type="button" class=${'chip-toggle' + (showUnused ? ' on' : '')} aria-pressed=${showUnused} title="Include ingredients no recipe uses" onClick=${() => setShowUnused(!showUnused)}>Show unused</button>
+            ${anyFilter && html`<button type="button" class="lm-clear" onClick=${clearAll}>Reset</button>`}
+          </div>
+        </div>
+        ${selection.length > 0 && html`<div class="uv-focus" aria-label="Focused on"><span class="muted">Focused on</span>
+          ${selection.map((s) => html`<button type="button" class="uv-chip" onClick=${() => pick(s.g, s.id)} title="Remove this focus"><small>${groupLabel(s.g)}</small> ${labelFor(s)} <${Icon} name="x" size=${12} /></button>`)}
+          <button type="button" class="lm-clear" onClick=${() => setSelection([])}>Clear focus</button></div>`}
+        ${ana.n === 0 ? html`<div class="card"><div class="line-empty">No recipes match these filters.${selection.length ? ' Try removing a focus.' : ''}</div></div>` : html`
+        <div class="uv-tiles">
+          ${tile('Recipes in view', ana.n, inScope.length !== ana.n ? `of ${inScope.length} in the library scope` : 'in the library scope')}
+          ${tile('Ingredients in use', `${inUse} of ${allProduct.length}`, 'cans, enhancers, hop blends, yeasts')}
+          ${tile('Typical recipe', n1(avg), 'ingredient lines per recipe')}
+          ${tile('Most used', top && top.recipes ? top.label : '–', top && top.recipes ? `${plural(top.recipes, 'recipe')} · ${GROUP[top.g].noun}` : '')}
+        </div>
+        <div class="uv-grid-cards">
+          ${GROUPS.map((g) => html`<${UsageCard} key=${g.key} g=${g.key} data=${ana.groups[g.key]} how=${how} metric=${metric} showUnused=${showUnused} q=${q} onPick=${pick} tip=${tip} />`)}
+          <${KitsCard} kits=${kits} n=${ana.n} />
+        </div>
+        <${Heat} recipes=${inScope} selection=${selection} onPickPair=${pickPair} tip=${tip} />
+        ${unusedRows.length > 0 && html`<section class="card uv-card uv-unused"><header class="uv-card-head"><div><h3>Not used in these recipes</h3><small class="muted">${plural(unusedRows.length, 'ingredient')}: a gap in the library, or a product waiting for a recipe</small></div></header>
+          <p class="uv-unused-list">${unusedRows.map((r) => html`<span class="uv-pill"><small>${GROUP[r.g].noun}</small> ${r.label}</span>`)}</p></section>`}
+        <details class="card uv-card uv-recipes" open=${selection.length > 0}><summary><h3>Recipes in this view <span class="count">${matched.length}</span></h3></summary>
+          <ul class="uv-rlist">${matched.slice().sort((x, y) => (U.catOf(x) + x.name).localeCompare(U.catOf(y) + y.name)).map((r) => {
+            const st = MJ.calc.bjcpStyle(r.bjcp);
+            return html`<li><a href=${`#/recipes/${r.id}`}>${st ? html`<small>${MJ.calc.styleShort(st)}</small> ` : ''}${r.name}</a></li>`;
+          })}</ul></details>`}
+        `}
+      <${Tip} tip=${tip.tip} />
+    </div>`;
+  }
+
+  MJ.pages = MJ.pages || {};
+  MJ.pages.Usage = UsagePage;
 })();
 
 </script>
@@ -7732,7 +8226,9 @@ window.MJ = window.MJ || {};
     switch (top) {
       case 'ingredients': return { nav: 'ingredients', el: html`<${P.Ingredients} query=${query} />` };
       case 'builder': return { nav: 'builder', el: html`<${P.Builder} params=${{ id }} />`, mobileStats: true };
-      case 'recipes': return id
+      case 'recipes': return id === 'usage'
+        ? { nav: 'recipes', el: html`<${P.Usage} query=${query} />` }
+        : id
         ? { nav: 'recipes', el: html`<${P.RecipeDetail} params=${{ id }} />`, mobileStats: true }
         : { nav: 'recipes', el: html`<${P.Recipes} />` };
       case 'formulas': return { nav: 'formulas', el: html`<${P.Formulas} />` };
