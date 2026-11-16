@@ -7387,7 +7387,7 @@ window.MJ = window.MJ || {};
 
     return html`<div>
       <div class="screen-only">
-      <a class="back-link no-print" href="#/recipes" aria-label="Back to all recipes"><${Icon} name="back" size=${18} /> All recipes</a>
+      <a class="back-link no-print" href="#/recipes" data-restore aria-label="Back to all recipes"><${Icon} name="back" size=${18} /> All recipes</a>
       <div class="detail-hero">
         <div class="dh-main">
         <div class="dh-glass"><${Glass} hex=${s.hex} empty=${!(s.og > 1)} /></div>
@@ -7659,7 +7659,7 @@ window.MJ = window.MJ || {};
       <div class="page-head">
         <div><h1>Ingredient usage</h1>
           <p>How often each can, enhancer, hop blend, yeast and addition is used across the recipe library. Click any bar to focus every chart on the recipes that use it.</p></div>
-        <a class="btn" href="#/recipes"><${Icon} name="back" /> Recipes</a>
+        <a class="btn" href="#/recipes" data-restore><${Icon} name="back" /> Recipes</a>
       </div>
       ${!ready ? html`<${Loading} text="Loading recipes…" />`
         : recipes.length === 0 ? html`<div class="card empty-state"><h2>No recipes yet</h2><p>Usage appears here once recipes are saved.</p><a class="btn btn-primary" href="#/builder"><${Icon} name="plus" /> Build a recipe</a></div>`
@@ -8221,6 +8221,9 @@ window.MJ = window.MJ || {};
     // True while the page on screen was reached with Back or Forward. A list page uses it to open with the search and filters it was left
     // with (a fresh visit opens with the defaults); the scroll position is put back for it by the router below.
     restoring: false,
+    // Set by a link marked data-restore ("All recipes", on a recipe): the page it opens comes back as it was left (scroll and filters),
+    // like Back does, instead of as a fresh visit.
+    restoreNext: false,
     navigate(hash) { location.hash = hash; },
     replaceQuery(obj) {
       const { path } = parseHash();
@@ -8234,8 +8237,15 @@ window.MJ = window.MJ || {};
   // saved under the key of the page being left, and put back when that entry is returned to by Back or Forward. A new visit starts at the top.
   // The browser's own restoring is switched off: it runs before the page's content has loaded, so it lands on a short page.
   try { history.scrollRestoration = 'manual'; } catch (e) { /* older browsers */ }
-  const scrollOf = new Map();
+  const scrollOf = new Map();        // history entry key -> scroll position (for Back / Forward)
+  const scrollByPath = new Map();    // page address -> scroll position when last left (for links marked data-restore)
   let currentKey = null;
+  let currentPath = null;
+  // A link marked data-restore says "take me back to that page as I left it" (the flag is dropped if it leads nowhere)
+  document.addEventListener('click', (e) => {
+    const link = e.target && e.target.closest && e.target.closest('a[data-restore]');
+    if (link) { MJ.router.restoreNext = true; setTimeout(() => { MJ.router.restoreNext = false; }, 1000); }
+  }, true);
   function ensureKey() {
     try {
       if (!(history.state && history.state.mjk)) history.replaceState({ ...(history.state || {}), mjk: 'k' + Date.now().toString(36) + Math.random().toString(36).slice(2, 7) }, '');
@@ -8290,6 +8300,7 @@ window.MJ = window.MJ || {};
     useEffect(() => {
       let current = location.hash;
       ensureKey();
+      currentPath = parseHash().path;
       const onHash = async () => {
         if (MJ.router.guard && MJ.router.guard()) {
           // Put the old address back while asking; the page stays as it is.
@@ -8302,14 +8313,20 @@ window.MJ = window.MJ || {};
           return;
         }
         // remember where this page was scrolled to, then see whether the new entry is one we have been to (Back / Forward)
-        if (currentKey) scrollOf.set(currentKey, window.scrollY || 0);
+        const y = window.scrollY || 0;
+        if (currentKey) scrollOf.set(currentKey, y);
+        if (currentPath) scrollByPath.set(currentPath, y);
         const key = history.state && history.state.mjk;
+        const next = parseHash();
         const back = !!(key && scrollOf.has(key));
-        MJ.router.restoring = back;
+        const viaLink = !back && MJ.router.restoreNext && scrollByPath.has(next.path);
+        MJ.router.restoreNext = false;
+        MJ.router.restoring = back || viaLink;
         current = location.hash;
-        setRoute(parseHash());
+        currentPath = next.path;
+        setRoute(next);
         ensureKey();
-        if (back) restoreScroll(scrollOf.get(key)); else window.scrollTo(0, 0);
+        if (back || viaLink) restoreScroll(back ? scrollOf.get(key) : scrollByPath.get(next.path)); else window.scrollTo(0, 0);
       };
       window.addEventListener('hashchange', onHash);
       return () => window.removeEventListener('hashchange', onHash);
