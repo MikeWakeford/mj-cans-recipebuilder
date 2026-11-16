@@ -7063,13 +7063,16 @@ window.MJ = window.MJ || {};
     const recipes = useRecipes();
     const sharedAdditions = MJ.ui.useAdditions();
     const { ready } = MJ.ui.useStoreStatus();
-    const [q, setQ] = useState('');
-    const [cat, setCat] = useState('');
-    const [can, setCan] = useState('');
-    const [yeast, setYeast] = useState('');
-    const [sort, setSort] = useState('bjcp');
-    const [approvedOnly, setApprovedOnly] = useState(false);
-    const [filtersOpen, setFiltersOpen] = useState(false);   // the phone's "Filters" panel
+    // Coming back with Back (from a recipe, say) reopens the list as it was left: the same search and filters. A fresh visit starts clean.
+    const was = (MJ.router && MJ.router.restoring && MJ.recipesView) || {};
+    const [q, setQ] = useState(was.q || '');
+    const [cat, setCat] = useState(was.cat || '');
+    const [can, setCan] = useState(was.can || '');
+    const [yeast, setYeast] = useState(was.yeast || '');
+    const [sort, setSort] = useState(was.sort || 'bjcp');
+    const [approvedOnly, setApprovedOnly] = useState(!!was.approvedOnly);
+    const [filtersOpen, setFiltersOpen] = useState(!!was.filtersOpen);   // the phone's "Filters" panel
+    MJ.recipesView = { q, cat, can, yeast, sort, approvedOnly, filtersOpen };
 
     const rows = useMemo(() => {
       const s = q.trim().toLowerCase();
@@ -7601,15 +7604,18 @@ window.MJ = window.MJ || {};
     const recipes = useRecipes();
     const shared = useAdditions();
     const { ready } = MJ.ui.useStoreStatus();
-    const [q, setQ] = useState('');
-    const [types, setTypes] = useState({ recipes: true, clones: true, templates: false });
-    const [approvedOnly, setApprovedOnly] = useState(false);
-    const [cat, setCat] = useState('');
-    const [metric, setMetric] = useState('recipes');
-    const [how, setHow] = useState('used');
-    const [showUnused, setShowUnused] = useState(true);
+    // Back (from a recipe in the list, say) reopens the dashboard as it was left; a fresh visit starts clean.
+    const was = (MJ.router && MJ.router.restoring && MJ.usageView) || {};
+    const [q, setQ] = useState(was.q || '');
+    const [types, setTypes] = useState(was.types || { recipes: true, clones: true, templates: false });
+    const [approvedOnly, setApprovedOnly] = useState(!!was.approvedOnly);
+    const [cat, setCat] = useState(was.cat || '');
+    const [metric, setMetric] = useState(was.metric || 'recipes');
+    const [how, setHow] = useState(was.how || 'used');
+    const [showUnused, setShowUnused] = useState(was.showUnused !== false);
     const [selection, setSelection] = useState(() => parseSel(query && query.sel));
     const tip = useTip();
+    MJ.usageView = { q, types, approvedOnly, cat, metric, how, showUnused };
 
     useEffect(() => { if (MJ.router && MJ.router.replaceQuery) MJ.router.replaceQuery(selection.length ? { sel: writeSel(selection) } : {}); }, [selection]);
     useEffect(() => { document.title = 'Ingredient usage'; }, []);
@@ -8212,13 +8218,49 @@ window.MJ = window.MJ || {};
   MJ.router = {
     // A page can set guard() -> true to have navigation confirmed first (unsaved edits).
     guard: null,
+    // True while the page on screen was reached with Back or Forward. A list page uses it to open with the search and filters it was left
+    // with (a fresh visit opens with the defaults); the scroll position is put back for it by the router below.
+    restoring: false,
     navigate(hash) { location.hash = hash; },
     replaceQuery(obj) {
       const { path } = parseHash();
       const qs = new URLSearchParams(obj).toString();
-      history.replaceState(null, '', `#${path}${qs ? '?' + qs : ''}`);
+      history.replaceState(history.state, '', `#${path}${qs ? '?' + qs : ''}`);   // keeps this entry's key (see "scroll position" below)
     },
   };
+
+  // ---------- scroll position ----------
+  // Going Back should land where you were, not at the top. Each history entry gets a key (kept in history.state); the scroll position is
+  // saved under the key of the page being left, and put back when that entry is returned to by Back or Forward. A new visit starts at the top.
+  // The browser's own restoring is switched off: it runs before the page's content has loaded, so it lands on a short page.
+  try { history.scrollRestoration = 'manual'; } catch (e) { /* older browsers */ }
+  const scrollOf = new Map();
+  let currentKey = null;
+  function ensureKey() {
+    try {
+      if (!(history.state && history.state.mjk)) history.replaceState({ ...(history.state || {}), mjk: 'k' + Date.now().toString(36) + Math.random().toString(36).slice(2, 7) }, '');
+      currentKey = history.state && history.state.mjk;
+    } catch (e) { currentKey = null; }
+    return currentKey;
+  }
+  // The content (the recipe list, for one) arrives after the page is drawn, so keep trying until the page is long enough to scroll there,
+  // and stop as soon as the person scrolls for themselves.
+  function restoreScroll(y) {
+    let done = false;
+    const events = ['wheel', 'touchstart', 'keydown', 'mousedown'];
+    const stop = () => { done = true; events.forEach((ev) => window.removeEventListener(ev, stop)); };
+    events.forEach((ev) => window.addEventListener(ev, stop, { passive: true }));
+    const t0 = performance.now();
+    const step = () => {
+      if (done) return;
+      window.scrollTo(0, y);
+      const there = Math.abs((window.scrollY || 0) - y) <= 2;
+      const waited = performance.now() - t0;
+      if ((there && waited > 300) || waited > 2500) { stop(); return; }
+      setTimeout(step, 40);   // a timer, not requestAnimationFrame: those pause in a background tab
+    };
+    setTimeout(step, 0);
+  }
 
   function resolve({ parts, query }) {
     const [top, id] = parts;
@@ -8247,20 +8289,27 @@ window.MJ = window.MJ || {};
     const [route, setRoute] = useState(parseHash);
     useEffect(() => {
       let current = location.hash;
+      ensureKey();
       const onHash = async () => {
         if (MJ.router.guard && MJ.router.guard()) {
           // Put the old address back while asking; the page stays as it is.
           const target = location.hash;
-          history.replaceState(null, '', current || location.pathname + location.search);
+          history.replaceState(history.state, '', current || location.pathname + location.search);
           const ok = await MJ.confirm({ title: 'Leave without saving?', message: 'You have unsaved changes to this recipe. They will be lost.', ok: 'Discard changes', danger: true });
-          if (!ok) return;
+          if (!ok) { ensureKey(); return; }
           MJ.router.guard = null;
           location.hash = target;
           return;
         }
+        // remember where this page was scrolled to, then see whether the new entry is one we have been to (Back / Forward)
+        if (currentKey) scrollOf.set(currentKey, window.scrollY || 0);
+        const key = history.state && history.state.mjk;
+        const back = !!(key && scrollOf.has(key));
+        MJ.router.restoring = back;
         current = location.hash;
         setRoute(parseHash());
-        window.scrollTo(0, 0);
+        ensureKey();
+        if (back) restoreScroll(scrollOf.get(key)); else window.scrollTo(0, 0);
       };
       window.addEventListener('hashchange', onHash);
       return () => window.removeEventListener('hashchange', onHash);
