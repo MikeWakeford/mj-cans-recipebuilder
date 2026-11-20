@@ -47,6 +47,7 @@
   --on-primary: #262626;          /* text on the yellow */
   --green: #2c6a4d;
   --green-soft: #e3f0e8;
+  --green-pale: #74b393;          /* the line along the top of an approved tile */
   --copper: #b65a24;
   --copper-soft: #f9e8dc;
   --red: #c4351f;
@@ -430,15 +431,98 @@ table.data tbody tr:hover { background: var(--surface-2); }
 /* ============ Recipes ============ */
 .filters { display: grid; grid-template-columns: minmax(220px, 2fr) repeat(4, minmax(150px, 1fr)); gap: 10px; margin-bottom: 18px; }
 .recipe-card { display: flex; flex-direction: column; text-decoration: none; color: inherit; transition: transform .15s, box-shadow .15s; overflow: hidden; }
-.recipe-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-lg); }
+.recipe-card:hover { box-shadow: var(--shadow-lg); }
 .recipe-card .rc-top { display: flex; gap: 14px; padding: 18px 18px 12px; align-items: flex-start; }
 .recipe-card h3 { font-size: 1.2rem; text-transform: uppercase; letter-spacing: .03em; }
-.rc-stats { display: grid; grid-template-columns: repeat(5, 1fr); border-top: 1px solid var(--border); margin-top: auto; }
-.rc-stats div { padding: 10px 4px; text-align: center; border-right: 1px solid var(--border); }
-.rc-stats div:last-child { border-right: 0; }
-.rc-stats b { display: block; font: 400 15px/1.2 var(--font-display); font-variant-numeric: tabular-nums; }
-.rc-stats small { font-size: 10px; letter-spacing: .1em; text-transform: uppercase; font-weight: 600; }
-.rc-ings { padding: 0 18px 14px; font-size: 13px; color: var(--text-2); }
+/* The recipe tile has fixed places for everything, on one spacing grid (--rc-pad on the sides): the heading (the beer glass, then the style code and
+   category, then the name, with the batch volume under it), the numbers in two labelled groups, and a grey style-fit strip at the foot. An approved
+   recipe has a dark green line along the top. */
+.recipe-card { --rc-pad: 20px; container-type: inline-size; transition: border-color .12s, box-shadow .12s, transform .15s; }
+.recipe-card .rc-head { display: flex; align-items: flex-start; gap: 18px; flex: 1 1 auto; padding: 16px var(--rc-pad) 18px; }
+.rc-glass { flex: none; width: 60px; }
+.rc-glass .glass { display: block; width: 100%; height: auto; }   /* the shared .glass is 62px wide: this one is set by the tile */
+.rc-id { flex: 1; min-width: 0; }
+/* One line of small capitals: the style code, a dot, then the category ("18B · PALE AMERICAN ALE"). It flows like text (a long category wraps at a space, the code never splits
+   from it) and always takes the same height, so the eyebrow and the names line up from tile to tile. */
+.rc-eyebrow { min-height: 15px; margin-bottom: 7px; font: 700 11px/1.35 var(--font-body); letter-spacing: .1em; text-transform: uppercase; }
+.rc-code { color: var(--text); white-space: nowrap; }
+.rc-cat { color: var(--primary-strong); }
+.rc-cat.clone { color: var(--blue); }
+.rc-code + .rc-cat::before { content: '\00b7'; margin: 0 .55em; color: var(--muted); }
+.rc-title { line-height: 1.05; overflow-wrap: anywhere; }
+.recipe-card .rc-title h3 { display: block; margin: 0; font-size: 2rem; line-height: 1.05; letter-spacing: .02em; color: #030303; }   /* the recipe's name is the focal point of the tile */
+.rc-vol { display: block; margin-top: 7px; white-space: nowrap; font: 400 15px/1.2 var(--font-body); letter-spacing: 0; text-transform: none; font-variant-numeric: tabular-nums; color: var(--muted); }   /* under the name, lighter: regular weight, muted grey */
+.rc-stats { margin-top: auto; border-top: 1px solid var(--border); }
+/* The numbers are two slim rows stacked (strength; bitterness and colour), a heading on the left and the three values beside it, so the tile stays low.
+   On a light background the colour is in the text: the heading and the OG / FG / ABV ... labels are gold or green, the values are bold. */
+.rc-grp { --ink: var(--primary-strong); display: grid; grid-template-columns: 68px minmax(0, 1fr); align-items: center; gap: 10px; min-width: 0; min-height: 38px; padding: 7px var(--rc-pad); }
+.rc-grp.colour { --ink: var(--green); }
+.rc-grp + .rc-grp { border-top: 1px solid var(--border); }
+.rc-grp h4 { margin: 0; font: 700 10px/1.25 var(--font-body); letter-spacing: .05em; text-transform: uppercase; color: var(--ink); }
+.rc-cells { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
+.rc-cell { display: flex; align-items: baseline; gap: 5px; min-width: 0; }   /* the label sits right beside its own value; the labels share a width so the values line up between the two rows */
+.rc-cell small { min-width: 24px; font: 700 10px/1 var(--font-body); letter-spacing: .08em; text-transform: uppercase; color: var(--ink); }
+.rc-cell b { font: 700 16px/1.2 var(--font-body); font-variant-numeric: tabular-nums; color: var(--text); white-space: nowrap; }
+/* Masonry: every tile keeps its own height in its own column, so opening one never stretches its neighbours. */
+.mason { display: flex; align-items: flex-start; gap: 16px; }
+.mason-col { flex: 1 1 0; min-width: 0; display: flex; flex-direction: column; gap: 16px; }
+.recipe-card { cursor: pointer; }
+/* a little life: a soft fade-in as the list appears (staggered over the first dozen), and a gentle lift on hover. Neither runs for people who ask for reduced motion. */
+@media (prefers-reduced-motion: no-preference) {
+  .recipe-card { animation: rc-in .32s ease-out backwards; animation-delay: calc(var(--i, 0) * 28ms); }
+  .recipe-card:hover { transform: translateY(-2px); }
+}
+@keyframes rc-in { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+.rc-link { color: inherit; text-decoration: none; }
+.rc-link:focus-visible { outline: 2px solid var(--primary-hover); outline-offset: 3px; }
+.recipe-card:focus-within { border-color: var(--header); }
+/* The ingredients drop-down: a slim row between the numbers and the style fit, closed until pressed; it opens a list in place (type, name, amount). */
+.rc-ing { border-top: 1px solid var(--border); cursor: default; }
+.rc-ing-toggle { display: flex; align-items: center; gap: 8px; width: 100%; min-height: 40px; padding: 0 var(--rc-pad); background: none; border: 0; text-align: left; color: var(--text); cursor: pointer; }
+.rc-ing-toggle:hover { background: var(--surface-2); }
+.rc-ing-toggle:focus-visible { outline: 2px solid var(--primary-hover); outline-offset: -2px; }
+.rc-ing-label { font: 700 11px/1 var(--font-body); letter-spacing: .1em; text-transform: uppercase; }
+.rc-ing-n { min-width: 20px; padding: 3px 6px; background: var(--surface-3); color: var(--text-2); font: 700 11px/1.2 var(--font-body); text-align: center; letter-spacing: 0; }
+.rc-ing-toggle svg { margin-left: auto; flex: none; color: var(--muted); transition: transform .15s; }
+.rc-ing-toggle[aria-expanded="true"] svg { transform: rotate(180deg); }
+.rc-ing.none { display: flex; align-items: center; gap: 10px; min-height: 40px; padding: 0 var(--rc-pad); }
+.rc-ing.none small { font-size: 13px; }
+/* the list opens and closes smoothly: its height animates between 0 and its own height (it is always in the page, but hidden and out of the tab order while closed) */
+.rc-ing-reveal { display: grid; grid-template-rows: 0fr; visibility: hidden; transition: grid-template-rows .24s ease, visibility 0s linear .24s; }
+.rc-ing.open .rc-ing-reveal { grid-template-rows: 1fr; visibility: visible; transition: grid-template-rows .24s ease, visibility 0s; }
+.rc-ing-inner { min-height: 0; overflow: hidden; }
+.rc-ing-list { margin: 0; padding: 0 var(--rc-pad) 12px; }
+.rc-ing-list > div { display: grid; grid-template-columns: 74px minmax(0, 1fr); gap: 10px; align-items: baseline; padding: 6px 0; }
+.rc-ing-list > div + div { border-top: 1px solid var(--surface-3); }
+.rc-ing-list dt { font: 700 10px/1.2 var(--font-body); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+.rc-ing-list dd { display: flex; justify-content: space-between; gap: 12px; margin: 0; font-size: 14px; line-height: 1.3; }
+.rc-ing-list dd span { min-width: 0; overflow-wrap: anywhere; }
+.rc-ing-list dd b { flex: none; font-weight: 700; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.recipe-card > .rc-fit { background: var(--surface-2); padding: 11px var(--rc-pad); }
+.recipe-card .rc-dots i { width: 12px; height: 12px; }
+.rc-fit.tone-good .rc-pct { color: var(--green); }
+.rc-fit.tone-near .rc-pct { color: var(--primary-strong); }
+.rc-fit.tone-far .rc-pct { color: var(--red); }
+.recipe-card .rc-fit .rc-pct { font-size: 13px; }
+/* A narrow tile (about 340px or less: three across on a small laptop) tightens up: smaller margins and name; under 320px the "Style fit" word goes too (the dots and the count say it). */
+@container (max-width: 340px) {
+  .rc-head, .rc-grp, .rc-ing, .rc-fit { --rc-pad: 16px; }
+  .recipe-card .rc-head { gap: 14px; }
+  .rc-glass { width: 56px; }
+  .recipe-card .rc-title h3 { font-size: 1.75rem; }
+  .rc-cells { gap: 6px; }
+  .rc-cell { gap: 3px; }
+  .rc-cell small { min-width: 0; }
+  .rc-cell b { font-size: 15px; }
+}
+@container (max-width: 320px) {
+  .recipe-card > .rc-fit > span:first-child { display: none; }   /* only when the strip would otherwise wrap */
+}
+@media (max-width: 420px) {
+  .recipe-card { --rc-pad: 16px; }
+  .recipe-card .rc-head { gap: 14px; }
+  .recipe-card .rc-title h3 { font-size: 1.75rem; }
+}
 .empty-state { text-align: center; padding: 70px 20px; }
 .empty-state .glass { width: 90px; margin: 0 auto 18px; }
 .empty-state h2 { margin-bottom: 8px; }
@@ -540,7 +624,6 @@ table.data tbody tr:hover { background: var(--surface-2); }
   .line .line-qty { grid-column: 1 / 2; }
   .line.has-thumb { grid-template-columns: auto 1fr auto; }
   .line.has-thumb .line-qty { grid-column: 2 / 3; }
-  .rc-stats { grid-template-columns: repeat(5, 1fr); }
   .kv { grid-template-columns: 1fr; gap: 2px 0; }
   .kv dd { margin-bottom: 8px; }
   .detail-hero { padding: 18px; }
@@ -970,7 +1053,7 @@ label.field, div.field { font-size: 13px; font-weight: 700; color: var(--text-2)
 /* Picture tiles, yeast cards, list rows: hover and "in the recipe" use the yellow */
 .can-tile:hover, .yeast-card:hover, .ap-row:hover { border-color: var(--primary-hover); transform: none; box-shadow: none; }
 .can-tile.added, .yeast-card.added, .ap-row.added { background: var(--primary-soft); border-color: var(--primary-hover); }
-.recipe-card:hover { transform: none; box-shadow: none; border-color: var(--header); }
+.recipe-card:hover { border-color: var(--header); box-shadow: 0 8px 22px rgba(38, 50, 58, .12); }
 .add-pick { border-color: var(--border-strong); background: #fff; }
 .add-pick:hover { border-color: var(--primary-hover); background: var(--primary-soft); }
 .ap-icon { border-radius: 0; background: var(--primary); color: var(--on-primary); }
@@ -1144,14 +1227,11 @@ h3, h4 { text-transform: uppercase; }
   .dh-actions { padding: 12px 16px; }
 }
 
-/* Approved: noticeable, not a focal point. A small soft-green tag in the top right corner of the recipe's tile (the same tint as other
-   green badges, no solid fill, no capitals) and a thin green edge along its top. */
-.badge-approved { display: inline-flex; align-items: center; gap: 4px; background: var(--green-soft); color: var(--green); font-weight: 600; font-size: 11px; padding: 4px 7px; }
-.badge-approved svg { flex: none; }
+/* Approved: the dark green line along the top of the tile, and nothing else (the words are for screen readers and the tooltip). */
 .recipe-card { position: relative; }
-.recipe-card .rc-approved { position: absolute; top: 14px; right: 12px; z-index: 1; }
-.recipe-card.approved h3 { padding-right: 84px; }
-.recipe-card.approved, .recipe-card.approved:hover { box-shadow: inset 0 3px 0 var(--green); }
+/* the pale green edge runs the full width of the tile, corner to corner (a 1px border plus a 4px bar inside it: 5px) */
+.recipe-card.approved, .recipe-card.approved:hover { border-top-color: var(--green-pale); }
+.recipe-card.approved::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px; background: var(--green-pale); z-index: 2; pointer-events: none; }
 
 /* Builder: the recipe's name is the page title, so a long one must wrap */
 .page-head h1 { overflow-wrap: anywhere; }
@@ -4196,6 +4276,7 @@ window.MJ = window.MJ || {};
     info: 'M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm-1 5h2v2h-2zm0 4h2v6h-2z',
     check: 'm9 16.2-3.5-3.5L4 14.2l5 5 11-11-1.4-1.4z',
     back: 'M20 11H7.8l5.6-5.6L12 4l-8 8 8 8 1.4-1.4L7.8 13H20z',
+    chevron: 'M6.5 9 12 14.5 17.5 9z',
     chart: 'M4 20V4h2v14h14v2zm4-4v-5h3v5zm5 0V7h3v9zm5 0v-3h3v3z',
     beaker: 'M9 2h6v2h-1v5.3l5.6 9.6A2 2 0 0 1 17.9 22H6.1a2 2 0 0 1-1.7-3.1L10 9.3V4H9z',
     bulb: 'M12 2a7 7 0 0 0-4 12.7V17a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-2.3A7 7 0 0 0 12 2zM9 20h6v2H9z',
@@ -6914,7 +6995,7 @@ window.MJ = window.MJ || {};
 window.MJ = window.MJ || {};
 
 (function () {
-  const { html, useState, useMemo, useEffect, useRef } = htmPreact;
+  const { html, useState, useMemo, useEffect, useLayoutEffect, useRef } = htmPreact;
   const { Icon, Glass, SearchInput, Combobox, CanPicture, EnhancerPicture, HopPicture, YeastPicture, fmt, useRecipes } = MJ.ui;
   const D = MJ.data;
   const K = D.constants;
@@ -6957,8 +7038,8 @@ window.MJ = window.MJ || {};
   function FitLine({ fit }) {
     if (!fit) return html`<div class="rc-fit none"><span>Style fit</span><small class="muted">No style chosen</small></div>`;
     const word = fit.clone ? 'on target' : 'in range';
-    const tip = (fit.label && fit.percent != null ? `${fit.label} \u00b7 ${fit.percent}%. ` : '') + fit.rows.map((x) => `${x.label}: ${x.status === 'good' ? word : x.status === 'near' ? 'a little out' : 'well out'}`).join(' \u00b7 ');
-    return html`<div class=${'rc-fit' + (fit.good === fit.total ? ' perfect' : '')} title=${tip}>
+    const tip = (fit.label && fit.percent != null ? `${fit.label} · ${fit.percent}%. ` : '') + fit.rows.map((x) => `${x.label}: ${x.status === 'good' ? word : x.status === 'near' ? 'a little out' : 'well out'}`).join(' · ');
+    return html`<div class=${'rc-fit' + (fit.good === fit.total ? ' perfect' : '') + (fit.tone ? ' tone-' + fit.tone : '')} title=${tip}>
       <span>Style fit</span>
       <span class="rc-dots" aria-hidden="true">${(fit.rows.length ? fit.rows : Array.from({ length: fit.total }, () => ({ status: 'none' }))).map((x) => html`<i class=${'d-' + x.status}></i>`)}</span>
       <b>${fit.good} of ${fit.total} ${word}</b>${fit.percent != null && fit.scored > 0 && html`<span class="rc-pct">${fit.percent}%</span>`}
@@ -6970,34 +7051,95 @@ window.MJ = window.MJ || {};
   const styleTag = (r) => { const st = MJ.calc.bjcpStyle(r.bjcp); return st ? MJ.calc.styleShort(st) : r.bjcp; };
   const fitOf = (r, s) => MJ.calc.styleFit(s, { style: MJ.calc.bjcpStyle(r.bjcp), clone: r.isClone ? { ...r.clone } : null });
 
-  function RecipeCard({ r, rev }) {
+  // The library layout: tiles keep their own height, each in its own column ("masonry"), instead of sharing a row height. Tile number i goes in column
+  // i mod n, so the order reads left to right and never reshuffles; opening a tile only moves the tiles below it in the same column. The number of
+  // columns follows the width (the tiles are at least 300px wide), as the old grid did.
+  const TILE_MIN = 300, TILE_GAP = 16;
+  const columnsFor = (w) => Math.max(1, Math.floor((w + TILE_GAP) / (TILE_MIN + TILE_GAP)));
+  function Masonry({ children }) {
+    const ref = useRef(null);
+    const [cols, setCols] = useState(() => columnsFor(Math.min(window.innerWidth || 1100, 1200) - 40));
+    useLayoutEffect(() => {
+      const el = ref.current;
+      if (!el) return undefined;
+      const measure = () => { const n = columnsFor(el.clientWidth); setCols((c) => (c === n ? c : n)); };
+      measure();
+      if (window.ResizeObserver) { const ro = new ResizeObserver(measure); ro.observe(el); return () => ro.disconnect(); }
+      window.addEventListener('resize', measure);
+      return () => window.removeEventListener('resize', measure);
+    }, []);
+    const columns = Array.from({ length: cols }, () => []);
+    (children || []).forEach((c, k) => columns[k % cols].push(c));
+    return html`<div class="mason" ref=${ref}>${columns.map((col, k) => html`<div class="mason-col" key=${k}>${col}</div>`)}</div>`;
+  }
+
+  // The ingredients of a recipe, line by line, for the drop-down on its tile: [{ kind, name, qty }] (cans, enhancers, hops, yeasts, additions).
+  function ingredientLines(r) {
+    const out = [];
+    (r.cans || []).forEach((c) => out.push({ kind: 'Can', name: c.style, qty: plural(c.qty, 'can') }));
+    (r.enhancers || []).forEach((e) => { const spec = lookup.enhByCode[e.type]; out.push({ kind: 'Enhancer', name: spec ? spec.name : e.type, qty: plural(e.qty, 'sachet') }); });
+    (r.hops || []).forEach((h) => out.push({ kind: 'Hops', name: `${h.blend} blend`, qty: plural(h.qty, 'sachet') }));
+    (r.yeasts || []).forEach((y) => { const spec = lookup.yeastByCode[y.code]; out.push({ kind: 'Yeast', name: spec ? `${spec.code} ${spec.name}` : y.code, qty: plural(y.qty, 'sachet') }); });
+    (r.additions || []).forEach((a) => {
+      let qty;
+      if (MJ.calc.isIsohop(a)) qty = `${fmt.qty(Math.round((Number(a.ml) || 0) * 1000) / 1000)} ml`;
+      else if (MJ.calc.isSpirit(a)) qty = mlText(Number(a.ml) || 0);
+      else qty = a.unit === 'g' || a.kg < 1 ? `${Math.round(a.kg * 1000)} g` : `${fmt.qty(a.kg)} kg`;
+      out.push({ kind: 'Addition', name: a.name, qty });
+    });
+    return out;
+  }
+
+  // "Ingredients  4  ⌄": a slim row on the tile that opens the list. Closed until pressed. It sits outside the tile's own click-to-open (see RecipeCard).
+  function TileIngredients({ r }) {
+    const [open, setOpen] = useState(false);
+    const lines = useMemo(() => ingredientLines(r), [r]);
+    const id = `rc-ing-${r.id}`;
+    if (!lines.length) return html`<div class="rc-ing none"><span class="rc-ing-label">Ingredients</span><small class="muted">None added yet</small></div>`;
+    return html`<div class=${'rc-ing' + (open ? ' open' : '')}>
+      <button type="button" class="rc-ing-toggle" aria-expanded=${open} aria-controls=${id} onClick=${() => setOpen(!open)}>
+        <span class="rc-ing-label">Ingredients</span>${' '}<span class="rc-ing-n">${lines.length}</span><${Icon} name="chevron" size=${20} />
+      </button>
+      <div class="rc-ing-reveal" aria-hidden=${!open}><div class="rc-ing-inner"><dl class="rc-ing-list" id=${id}>${lines.map((l, k) => html`<div key=${k}><dt>${l.kind}</dt><dd><span>${l.name}</span><b>${l.qty}</b></dd></div>`)}</dl></div></div>
+    </div>`;
+  }
+
+  // The numbers on a recipe or template card, as two slim rows stacked: strength (OG, FG, ABV; gold) and bitterness and colour (IBU, SRM, EBC; green).
+  // Each row is a small heading on the left and the three values beside it, label then bold value. Colour leads with SRM here as it does in the readout.
+  function CardStats({ s, ok }) {
+    const row = (tone, title, cells) => html`<div class=${'rc-grp ' + tone} role="group" aria-label=${title}><h4>${title}</h4>
+      <div class="rc-cells">${cells.map(([k, v]) => html`<div class="rc-cell" key=${k}><small>${k}</small><b>${v}</b></div>`)}</div></div>`;
+    return html`<div class="rc-stats">
+      ${row('strength', 'Strength', [['OG', ok ? fmt.sg(s.og) : '—'], ['FG', ok && s.fg ? fmt.sg(s.fg) : '—'], ['ABV', ok && s.abv != null ? fmt.pct(s.abv) : '—']])}
+      ${row('colour', 'Bitterness & colour', [['IBU', ok ? fmt.n0(s.ibu) : '—'], ['SRM', ok ? fmt.n1(s.srm) : '—'], ['EBC', ok ? fmt.n1(s.ebc) : '—']])}
+    </div>`;
+  }
+
+  function RecipeCard({ r, rev, i = 0 }) {
     const s = useMemo(() => compute(r), [r, rev]);
     const ok = s.valid && s.og > 1;
     const fit = useMemo(() => fitOf(r, s), [r, s]);
-    return html`<a class=${'card recipe-card' + (r.approved ? ' approved' : '')} href=${`#/recipes/${r.id}`}>
-      ${r.approved && html`<span class="badge badge-approved rc-approved" title=${approvalText(r) || 'This recipe has been approved'}><${Icon} name="check" size=${12} /> Approved</span>`}
-      <div class="rc-top">
-        <div style="width:44px;flex-shrink:0"><${Glass} hex=${s.hex} empty=${!ok} /></div>
-        <div style="min-width:0">
-          <h3>${r.name}</h3>
-          <div class="chips" style="margin:6px 0 4px">
-            ${r.bjcp && !r.isClone && html`<span class="badge" title="BJCP style number">${styleTag(r)}</span>`}
-            ${catOf(r) && html`<span class=${'badge ' + (r.isClone ? 'badge-blue' : 'badge-gold')} title=${r.isClone ? `Clone of ${(r.clone && r.clone.name) || 'a commercial beer'}` : undefined}>${catOf(r)}</span>`}
-            <span class="badge">${r.volumeL} L</span>
+    const vol = fmt.qty(Number(r.volumeL) || 0);
+    // Heading: the glass on the left; beside it the style code and category, the name, and the batch volume under the name. Then the numbers, then the style fit.
+    // An approved recipe is marked by the dark green line along the top of its tile (CSS), with the words for screen readers and in the tooltip.
+    // The whole tile opens the recipe (like the template tiles); the name is the real link, for keyboard and screen readers. The ingredients drop-down is not part of it.
+    const open = (e) => { if (!e.target.closest('a, button, .rc-ing') && !e.ctrlKey && !e.metaKey && !e.shiftKey) MJ.router.navigate(`#/recipes/${r.id}`); };
+    return html`<article class=${'card recipe-card' + (r.approved ? ' approved' : '')} style=${i < 12 ? `--i:${i}` : undefined} onClick=${open} title=${r.approved ? (approvalText(r) || 'Approved') : undefined}>
+      ${r.approved && html`<span class="sr-only">Approved. </span>`}
+      <div class="rc-head">
+        <div class="rc-glass"><${Glass} hex=${s.hex} empty=${!ok} /></div>
+        <div class="rc-id">
+          <div class="rc-eyebrow">
+            ${r.bjcp && !r.isClone && html`<span class="rc-code" title="BJCP style number">${styleTag(r)}</span>`}
+            ${catOf(r) && html`<span class=${'rc-cat' + (r.isClone ? ' clone' : '')} title=${r.isClone ? `Clone of ${(r.clone && r.clone.name) || 'a commercial beer'}` : catOf(r)}>${catOf(r)}</span>`}
           </div>
-          <small class="muted">Updated ${fmt.date(r.updatedAt)}</small>
+          <div class="rc-title"><h3><a class="rc-link" href=${`#/recipes/${r.id}`}>${r.name}</a></h3><span class="rc-vol" title="Batch volume">${vol} litres</span></div>
         </div>
       </div>
-      <div class="rc-ings">${summary(r) || html`<span class="muted">No ingredients</span>`}</div>
+      <${CardStats} s=${s} ok=${ok} />
+      <${TileIngredients} r=${r} />
       <${FitLine} fit=${fit} />
-      <div class="rc-stats">
-        <div><b>${ok ? fmt.sg(s.og) : '—'}</b><small class="muted">OG</small></div>
-        <div><b>${ok && s.fg ? fmt.sg(s.fg) : '—'}</b><small class="muted">FG</small></div>
-        <div><b>${ok && s.abv != null ? fmt.pct(s.abv) : '—'}</b><small class="muted">ABV</small></div>
-        <div><b>${ok ? fmt.n0(s.ibu) : '—'}</b><small class="muted">IBU</small></div>
-        <div title=${ok ? `${fmt.n1(s.ebc)} EBC` : undefined}><b>${ok ? fmt.n1(s.srm) : '—'}</b><small class="muted">SRM</small></div>
-      </div>
-    </a>`;
+    </article>`;
   }
 
   function TemplateCard({ r, rev }) {
@@ -7021,13 +7163,7 @@ window.MJ = window.MJ || {};
       <dl class="tc-guide"><dt>Base</dt><dd>${t.base}</dd><dt>Yeast</dt><dd>${t.yeast}</dd><dt>Adds</dt><dd>${t.additions}</dd></dl>
       <div class="tc-example"><small>Worked example</small><b>${r.exampleName}</b><span>${summary(r)}</span></div>
       <${FitLine} fit=${fit} />
-      <div class="rc-stats">
-        <div><b>${ok ? fmt.sg(s.og) : '—'}</b><small class="muted">OG</small></div>
-        <div><b>${ok && s.fg ? fmt.sg(s.fg) : '—'}</b><small class="muted">FG</small></div>
-        <div><b>${ok && s.abv != null ? fmt.pct(s.abv) : '—'}</b><small class="muted">ABV</small></div>
-        <div><b>${ok ? fmt.n0(s.ibu) : '—'}</b><small class="muted">IBU</small></div>
-        <div title=${ok ? `${fmt.n1(s.ebc)} EBC` : undefined}><b>${ok ? fmt.n1(s.srm) : '—'}</b><small class="muted">SRM</small></div>
-      </div>
+      <${CardStats} s=${s} ok=${ok} />
       <div class="tc-foot"><button class="btn btn-sm btn-primary" onClick=${() => startFromExample(r)}><${Icon} name="plus" size=${14} /> Start from example</button></div>
     </article>`;
   }
@@ -7043,7 +7179,8 @@ window.MJ = window.MJ || {};
 
   const SORTS = {
     approved: { label: 'Approved first', fn: (a, b) => (b.r.approved ? 1 : 0) - (a.r.approved ? 1 : 0) || (b.r.updatedAt || '').localeCompare(a.r.updatedAt || '') },
-    bjcp: { label: 'BJCP style number', fn: (a, b) => bjcpKey(a.r).localeCompare(bjcpKey(b.r)) || a.r.name.localeCompare(b.r.name) },
+    // recipes with no style number go last (a plain string compare puts the "~" key before the digits, so it is checked first)
+    bjcp: { label: 'BJCP style number', fn: (a, b) => { const x = bjcpKey(a.r), y = bjcpKey(b.r); return (x === y ? 0 : x === '~' ? 1 : y === '~' ? -1 : x.localeCompare(y)) || a.r.name.localeCompare(b.r.name); } },
     updated: { label: 'Recently updated', fn: (a, b) => (b.r.updatedAt || '').localeCompare(a.r.updatedAt || '') },
     name: { label: 'Name A–Z', fn: (a, b) => a.r.name.localeCompare(b.r.name) },
     abv: { label: 'ABV (high → low)', fn: (a, b) => (b.s.abv || 0) - (a.s.abv || 0) },
@@ -7104,7 +7241,7 @@ window.MJ = window.MJ || {};
     const panelFilters = [cat, can, yeast].filter(Boolean).length + (sort !== 'bjcp' ? 1 : 0);
     const anyFilter = !!(q.trim() || cat || can || yeast || approvedOnly);
     const clearAll = () => { setQ(''); setCat(''); setCan(''); setYeast(''); setApprovedOnly(false); setSort('bjcp'); };
-    const grid = (list) => html`<div class="grid grid-3">${list.map(({ r }) => html`<${RecipeCard} key=${r.id} r=${r} rev=${sharedAdditions} />`)}</div>`;
+    const grid = (list) => html`<${Masonry}>${list.map(({ r }, k) => html`<${RecipeCard} key=${r.id} r=${r} rev=${sharedAdditions} i=${k} />`)}<//>`;
 
     return html`<div>
       <div class="page-head">
